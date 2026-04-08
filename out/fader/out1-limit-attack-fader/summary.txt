@@ -1,0 +1,5 @@
+tag=out1-limit-attack-fader
+ + frames= + 59 + 
+ + writes= + 30 + 
+ + responses= + 29 + 
+ + lastInteresting= + sniff{dir=PC_TO_DSP, cmd=0x30, len=15, hex=00 01 0C 30 04 0F 00 E6 03 09 00 00 00 00 00} + 

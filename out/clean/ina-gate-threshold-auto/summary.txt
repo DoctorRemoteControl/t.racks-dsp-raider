@@ -1,0 +1,6 @@
+tag=ina-gate-threshold-auto
+ + frames= + 150 + 
+ + writes= + 75 + 
+ + responses= + 75 + 
+ + lastInteresting= + sniff{dir=PC_TO_DSP, cmd=0x3E, len=13, hex=00 01 0A 3E 00 00 00 63 00 63 00 B4 00} + 
+ + readBlockResponses= + 0 + 

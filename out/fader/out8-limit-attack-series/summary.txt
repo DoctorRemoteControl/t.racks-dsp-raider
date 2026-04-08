@@ -1,0 +1,5 @@
+tag=out8-limit-attack-series
+ + frames= + 108 + 
+ + writes= + 54 + 
+ + responses= + 54 + 
+ + lastInteresting= + sniff{dir=PC_TO_DSP, cmd=0x3F, len=13, hex=00 01 0A 3F 0B 00 00 F3 01 00 00 00 00} + 

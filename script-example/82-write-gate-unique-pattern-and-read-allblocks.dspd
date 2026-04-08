@@ -1,0 +1,40 @@
+# Writes a unique gate pattern for InA..InD and then reads all blocks.
+# Goal: every gate raw value appears only once in the dump so read mapping can be localized safely.
+
+let base = "out/read-decode/gate-unique-pattern";
+
+connect();
+resetSession();
+ensureSession();
+handshake();
+
+# InA: attack=111, release=222, hold=333, threshold=44
+write("00 01 0A 3E 00 6F 00 DE 00 4D 01 2C 00");
+sleep(120);
+
+# InB: attack=555, release=666, hold=777, threshold=88
+write("00 01 0A 3E 01 2B 02 9A 02 09 03 58 00");
+sleep(120);
+
+# InC: attack=999, release=1111, hold=1222, threshold=132
+write("00 01 0A 3E 02 E7 03 57 04 C6 04 84 00");
+sleep(120);
+
+# InD: attack=1444, release=1666, hold=1777, threshold=176
+write("00 01 0A 3E 03 A4 05 82 06 F1 06 B0 00");
+sleep(250);
+
+saveText("${base}/pattern-summary.txt",
+    "InA attack=111 release=222 hold=333 threshold=44\n"
+    + "InB attack=555 release=666 hold=777 threshold=88\n"
+    + "InC attack=999 release=1111 hold=1222 threshold=132\n"
+    + "InD attack=1444 release=1666 hold=1777 threshold=176\n"
+);
+
+for (let i in 0..28) {
+    let resp = readBlock(i);
+    saveText("${base}/block-${i}.hex.txt", resp.payloadHex);
+    saveText("${base}/block-${i}.ascii.txt", resp.payloadAscii);
+}
+
+print("gate-unique-pattern-write-and-read-done");

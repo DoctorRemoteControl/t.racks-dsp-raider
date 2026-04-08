@@ -1,0 +1,6 @@
+tag=active-meter-traffic
+ + frames= + 20 + 
+ + writes= + 20 + 
+ + responses= + 0 + 
+ + lastWrite= + sniff{dir=PC_TO_DSP, cmd=0x40, len=4, hex=00 01 01 40} + 
+ + lastResponse= + null + 

@@ -1,0 +1,297 @@
+{
+  "page": "Limit",
+  "title": "Limit",
+  "visibleScope": "partial_crop",
+  "groups": [
+    {
+      "groupId": "output_channels",
+      "label": "Output Limiter Controls",
+      "channels": ["Out1", "Out2", "Out3", "Out4", "Out5", "Out6", "Out7", "Out8"]
+    }
+  ],
+  "controlPatterns": [
+    {
+      "slot": "threshold",
+      "type": "fader",
+      "function": "limiter_threshold",
+      "unit": "dB"
+    },
+    {
+      "slot": "attack",
+      "type": "fader",
+      "function": "limiter_attack",
+      "unit": "ms"
+    },
+    {
+      "slot": "release",
+      "type": "fader",
+      "function": "limiter_release",
+      "unit": "ms"
+    }
+  ],
+  "controls": [
+    {
+      "id": "output.Out1.limit.threshold",
+      "type": "fader",
+      "channel": "Out1",
+      "label": "Threshold",
+      "function": "limiter_threshold",
+      "value": "+20.0",
+      "unit": "dB",
+      "editable": true
+    },
+    {
+      "id": "output.Out1.limit.attack",
+      "type": "fader",
+      "channel": "Out1",
+      "label": "Attack",
+      "function": "limiter_attack",
+      "value": "50",
+      "unit": "ms",
+      "editable": true
+    },
+    {
+      "id": "output.Out1.limit.release",
+      "type": "fader",
+      "channel": "Out1",
+      "label": "Release",
+      "function": "limiter_release",
+      "value": "500",
+      "unit": "ms",
+      "editable": true
+    },
+
+    {
+      "id": "output.Out2.limit.threshold",
+      "type": "fader",
+      "channel": "Out2",
+      "label": "Threshold",
+      "function": "limiter_threshold",
+      "value": "+20.0",
+      "unit": "dB",
+      "editable": true
+    },
+    {
+      "id": "output.Out2.limit.attack",
+      "type": "fader",
+      "channel": "Out2",
+      "label": "Attack",
+      "function": "limiter_attack",
+      "value": "50",
+      "unit": "ms",
+      "editable": true
+    },
+    {
+      "id": "output.Out2.limit.release",
+      "type": "fader",
+      "channel": "Out2",
+      "label": "Release",
+      "function": "limiter_release",
+      "value": "500",
+      "unit": "ms",
+      "editable": true
+    },
+
+    {
+      "id": "output.Out3.limit.threshold",
+      "type": "fader",
+      "channel": "Out3",
+      "label": "Threshold",
+      "function": "limiter_threshold",
+      "value": "+20.0",
+      "unit": "dB",
+      "editable": true
+    },
+    {
+      "id": "output.Out3.limit.attack",
+      "type": "fader",
+      "channel": "Out3",
+      "label": "Attack",
+      "function": "limiter_attack",
+      "value": "50",
+      "unit": "ms",
+      "editable": true
+    },
+    {
+      "id": "output.Out3.limit.release",
+      "type": "fader",
+      "channel": "Out3",
+      "label": "Release",
+      "function": "limiter_release",
+      "value": "500",
+      "unit": "ms",
+      "editable": true
+    },
+
+    {
+      "id": "output.Out4.limit.threshold",
+      "type": "fader",
+      "channel": "Out4",
+      "label": "Threshold",
+      "function": "limiter_threshold",
+      "value": "+20.0",
+      "unit": "dB",
+      "editable": true
+    },
+    {
+      "id": "output.Out4.limit.attack",
+      "type": "fader",
+      "channel": "Out4",
+      "label": "Attack",
+      "function": "limiter_attack",
+      "value": "50",
+      "unit": "ms",
+      "editable": true
+    },
+    {
+      "id": "output.Out4.limit.release",
+      "type": "fader",
+      "channel": "Out4",
+      "label": "Release",
+      "function": "limiter_release",
+      "value": "500",
+      "unit": "ms",
+      "editable": true
+    },
+
+    {
+      "id": "output.Out5.limit.threshold",
+      "type": "fader",
+      "channel": "Out5",
+      "label": "Threshold",
+      "function": "limiter_threshold",
+      "value": "+20.0",
+      "unit": "dB",
+      "editable": true
+    },
+    {
+      "id": "output.Out5.limit.attack",
+      "type": "fader",
+      "channel": "Out5",
+      "label": "Attack",
+      "function": "limiter_attack",
+      "value": "50",
+      "unit": "ms",
+      "editable": true
+    },
+    {
+      "id": "output.Out5.limit.release",
+      "type": "fader",
+      "channel": "Out5",
+      "label": "Release",
+      "function": "limiter_release",
+      "value": "500",
+      "unit": "ms",
+      "editable": true
+    },
+
+    {
+      "id": "output.Out6.limit.threshold",
+      "type": "fader",
+      "channel": "Out6",
+      "label": "Threshold",
+      "function": "limiter_threshold",
+      "value": "+20.0",
+      "unit": "dB",
+      "editable": true
+    },
+    {
+      "id": "output.Out6.limit.attack",
+      "type": "fader",
+      "channel": "Out6",
+      "label": "Attack",
+      "function": "limiter_attack",
+      "value": "50",
+      "unit": "ms",
+      "editable": true
+    },
+    {
+      "id": "output.Out6.limit.release",
+      "type": "fader",
+      "channel": "Out6",
+      "label": "Release",
+      "function": "limiter_release",
+      "value": "500",
+      "unit": "ms",
+      "editable": true
+    },
+
+    {
+      "id": "output.Out7.limit.threshold",
+      "type": "fader",
+      "channel": "Out7",
+      "label": "Threshold",
+      "function": "limiter_threshold",
+      "value": "+20.0",
+      "unit": "dB",
+      "editable": true
+    },
+    {
+      "id": "output.Out7.limit.attack",
+      "type": "fader",
+      "channel": "Out7",
+      "label": "Attack",
+      "function": "limiter_attack",
+      "value": "50",
+      "unit": "ms",
+      "editable": true
+    },
+    {
+      "id": "output.Out7.limit.release",
+      "type": "fader",
+      "channel": "Out7",
+      "label": "Release",
+      "function": "limiter_release",
+      "value": "500",
+      "unit": "ms",
+      "editable": true
+    },
+
+    {
+      "id": "output.Out8.limit.threshold",
+      "type": "fader",
+      "channel": "Out8",
+      "label": "Threshold",
+      "function": "limiter_threshold",
+      "value": "+20.0",
+      "unit": "dB",
+      "editable": true
+    },
+    {
+      "id": "output.Out8.limit.attack",
+      "type": "fader",
+      "channel": "Out8",
+      "label": "Attack",
+      "function": "limiter_attack",
+      "value": "50",
+      "unit": "ms",
+      "editable": true
+    },
+    {
+      "id": "output.Out8.limit.release",
+      "type": "fader",
+      "channel": "Out8",
+      "label": "Release",
+      "function": "limiter_release",
+      "value": "500",
+      "unit": "ms",
+      "editable": true
+    }
+  ],
+  "summary": {
+    "visibleChannelCount": 8,
+    "controlsPerChannel": 3,
+    "visibleChannels": ["Out1", "Out2", "Out3", "Out4", "Out5", "Out6", "Out7", "Out8"],
+    "visibleControlTypes": ["threshold", "attack", "release"]
+  },
+  "uncertainty": [
+    {
+      "scope": "whole_page",
+      "reason": "The screenshot is cropped; tabs, input sections, and bottom/global controls are not visible here."
+    },
+    {
+      "scope": "interaction_model",
+      "reason": "The image shows fader-like controls and value boxes, but exact click/drag behavior cannot be proven from the screenshot alone."
+    }
+  ]
+}

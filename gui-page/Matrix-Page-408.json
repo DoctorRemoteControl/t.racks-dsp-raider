@@ -1,0 +1,739 @@
+{
+  "page": "Matrix",
+  "title": "Matrix",
+  "visibleScope": "partial_crop",
+  "groups": [
+    {
+      "groupId": "output_matrix",
+      "label": "Output Matrix Routing",
+      "outputs": ["Out1", "Out2", "Out3", "Out4", "Out5", "Out6", "Out7", "Out8"],
+      "inputs": ["InA", "InB", "InC", "InD"]
+    }
+  ],
+  "controlPatterns": [
+    {
+      "slot": "route_enable",
+      "type": "button",
+      "function": "matrix_route_toggle"
+    },
+    {
+      "slot": "route_gain",
+      "type": "selector",
+      "function": "matrix_route_gain",
+      "unit": "dB"
+    }
+  ],
+  "controls": [
+    {
+      "id": "matrix.Out1.InA.enable",
+      "type": "button",
+      "output": "Out1",
+      "input": "InA",
+      "label": "InA",
+      "function": "matrix_route_toggle",
+      "selected": true,
+      "editable": true
+    },
+    {
+      "id": "matrix.Out1.InA.gain",
+      "type": "selector",
+      "output": "Out1",
+      "input": "InA",
+      "label": "+0.0dB",
+      "function": "matrix_route_gain",
+      "value": "+0.0",
+      "unit": "dB",
+      "editable": true
+    },
+    {
+      "id": "matrix.Out1.InB.enable",
+      "type": "button",
+      "output": "Out1",
+      "input": "InB",
+      "label": "InB",
+      "function": "matrix_route_toggle",
+      "selected": false,
+      "editable": true
+    },
+    {
+      "id": "matrix.Out1.InB.gain",
+      "type": "selector",
+      "output": "Out1",
+      "input": "InB",
+      "label": "+0.0dB",
+      "function": "matrix_route_gain",
+      "value": "+0.0",
+      "unit": "dB",
+      "editable": true
+    },
+    {
+      "id": "matrix.Out1.InC.enable",
+      "type": "button",
+      "output": "Out1",
+      "input": "InC",
+      "label": "InC",
+      "function": "matrix_route_toggle",
+      "selected": false,
+      "editable": true
+    },
+    {
+      "id": "matrix.Out1.InC.gain",
+      "type": "selector",
+      "output": "Out1",
+      "input": "InC",
+      "label": "+0.0dB",
+      "function": "matrix_route_gain",
+      "value": "+0.0",
+      "unit": "dB",
+      "editable": true
+    },
+    {
+      "id": "matrix.Out1.InD.enable",
+      "type": "button",
+      "output": "Out1",
+      "input": "InD",
+      "label": "InD",
+      "function": "matrix_route_toggle",
+      "selected": false,
+      "editable": true
+    },
+    {
+      "id": "matrix.Out1.InD.gain",
+      "type": "selector",
+      "output": "Out1",
+      "input": "InD",
+      "label": "+0.0dB",
+      "function": "matrix_route_gain",
+      "value": "+0.0",
+      "unit": "dB",
+      "editable": true
+    },
+
+    {
+      "id": "matrix.Out2.InA.enable",
+      "type": "button",
+      "output": "Out2",
+      "input": "InA",
+      "label": "InA",
+      "function": "matrix_route_toggle",
+      "selected": false,
+      "editable": true
+    },
+    {
+      "id": "matrix.Out2.InA.gain",
+      "type": "selector",
+      "output": "Out2",
+      "input": "InA",
+      "label": "+0.0dB",
+      "function": "matrix_route_gain",
+      "value": "+0.0",
+      "unit": "dB",
+      "editable": true
+    },
+    {
+      "id": "matrix.Out2.InB.enable",
+      "type": "button",
+      "output": "Out2",
+      "input": "InB",
+      "label": "InB",
+      "function": "matrix_route_toggle",
+      "selected": true,
+      "editable": true
+    },
+    {
+      "id": "matrix.Out2.InB.gain",
+      "type": "selector",
+      "output": "Out2",
+      "input": "InB",
+      "label": "+0.0dB",
+      "function": "matrix_route_gain",
+      "value": "+0.0",
+      "unit": "dB",
+      "editable": true
+    },
+    {
+      "id": "matrix.Out2.InC.enable",
+      "type": "button",
+      "output": "Out2",
+      "input": "InC",
+      "label": "InC",
+      "function": "matrix_route_toggle",
+      "selected": false,
+      "editable": true
+    },
+    {
+      "id": "matrix.Out2.InC.gain",
+      "type": "selector",
+      "output": "Out2",
+      "input": "InC",
+      "label": "+0.0dB",
+      "function": "matrix_route_gain",
+      "value": "+0.0",
+      "unit": "dB",
+      "editable": true
+    },
+    {
+      "id": "matrix.Out2.InD.enable",
+      "type": "button",
+      "output": "Out2",
+      "input": "InD",
+      "label": "InD",
+      "function": "matrix_route_toggle",
+      "selected": false,
+      "editable": true
+    },
+    {
+      "id": "matrix.Out2.InD.gain",
+      "type": "selector",
+      "output": "Out2",
+      "input": "InD",
+      "label": "+0.0dB",
+      "function": "matrix_route_gain",
+      "value": "+0.0",
+      "unit": "dB",
+      "editable": true
+    },
+
+    {
+      "id": "matrix.Out3.InA.enable",
+      "type": "button",
+      "output": "Out3",
+      "input": "InA",
+      "label": "InA",
+      "function": "matrix_route_toggle",
+      "selected": false,
+      "editable": true
+    },
+    {
+      "id": "matrix.Out3.InA.gain",
+      "type": "selector",
+      "output": "Out3",
+      "input": "InA",
+      "label": "+0.0dB",
+      "function": "matrix_route_gain",
+      "value": "+0.0",
+      "unit": "dB",
+      "editable": true
+    },
+    {
+      "id": "matrix.Out3.InB.enable",
+      "type": "button",
+      "output": "Out3",
+      "input": "InB",
+      "label": "InB",
+      "function": "matrix_route_toggle",
+      "selected": false,
+      "editable": true
+    },
+    {
+      "id": "matrix.Out3.InB.gain",
+      "type": "selector",
+      "output": "Out3",
+      "input": "InB",
+      "label": "+0.0dB",
+      "function": "matrix_route_gain",
+      "value": "+0.0",
+      "unit": "dB",
+      "editable": true
+    },
+    {
+      "id": "matrix.Out3.InC.enable",
+      "type": "button",
+      "output": "Out3",
+      "input": "InC",
+      "label": "InC",
+      "function": "matrix_route_toggle",
+      "selected": true,
+      "editable": true
+    },
+    {
+      "id": "matrix.Out3.InC.gain",
+      "type": "selector",
+      "output": "Out3",
+      "input": "InC",
+      "label": "+0.0dB",
+      "function": "matrix_route_gain",
+      "value": "+0.0",
+      "unit": "dB",
+      "editable": true
+    },
+    {
+      "id": "matrix.Out3.InD.enable",
+      "type": "button",
+      "output": "Out3",
+      "input": "InD",
+      "label": "InD",
+      "function": "matrix_route_toggle",
+      "selected": false,
+      "editable": true
+    },
+    {
+      "id": "matrix.Out3.InD.gain",
+      "type": "selector",
+      "output": "Out3",
+      "input": "InD",
+      "label": "+0.0dB",
+      "function": "matrix_route_gain",
+      "value": "+0.0",
+      "unit": "dB",
+      "editable": true
+    },
+
+    {
+      "id": "matrix.Out4.InA.enable",
+      "type": "button",
+      "output": "Out4",
+      "input": "InA",
+      "label": "InA",
+      "function": "matrix_route_toggle",
+      "selected": false,
+      "editable": true
+    },
+    {
+      "id": "matrix.Out4.InA.gain",
+      "type": "selector",
+      "output": "Out4",
+      "input": "InA",
+      "label": "+0.0dB",
+      "function": "matrix_route_gain",
+      "value": "+0.0",
+      "unit": "dB",
+      "editable": true
+    },
+    {
+      "id": "matrix.Out4.InB.enable",
+      "type": "button",
+      "output": "Out4",
+      "input": "InB",
+      "label": "InB",
+      "function": "matrix_route_toggle",
+      "selected": false,
+      "editable": true
+    },
+    {
+      "id": "matrix.Out4.InB.gain",
+      "type": "selector",
+      "output": "Out4",
+      "input": "InB",
+      "label": "+0.0dB",
+      "function": "matrix_route_gain",
+      "value": "+0.0",
+      "unit": "dB",
+      "editable": true
+    },
+    {
+      "id": "matrix.Out4.InC.enable",
+      "type": "button",
+      "output": "Out4",
+      "input": "InC",
+      "label": "InC",
+      "function": "matrix_route_toggle",
+      "selected": false,
+      "editable": true
+    },
+    {
+      "id": "matrix.Out4.InC.gain",
+      "type": "selector",
+      "output": "Out4",
+      "input": "InC",
+      "label": "+0.0dB",
+      "function": "matrix_route_gain",
+      "value": "+0.0",
+      "unit": "dB",
+      "editable": true
+    },
+    {
+      "id": "matrix.Out4.InD.enable",
+      "type": "button",
+      "output": "Out4",
+      "input": "InD",
+      "label": "InD",
+      "function": "matrix_route_toggle",
+      "selected": true,
+      "editable": true
+    },
+    {
+      "id": "matrix.Out4.InD.gain",
+      "type": "selector",
+      "output": "Out4",
+      "input": "InD",
+      "label": "+0.0dB",
+      "function": "matrix_route_gain",
+      "value": "+0.0",
+      "unit": "dB",
+      "editable": true
+    },
+
+    {
+      "id": "matrix.Out5.InA.enable",
+      "type": "button",
+      "output": "Out5",
+      "input": "InA",
+      "label": "InA",
+      "function": "matrix_route_toggle",
+      "selected": true,
+      "editable": true
+    },
+    {
+      "id": "matrix.Out5.InA.gain",
+      "type": "selector",
+      "output": "Out5",
+      "input": "InA",
+      "label": "+0.0dB",
+      "function": "matrix_route_gain",
+      "value": "+0.0",
+      "unit": "dB",
+      "editable": true
+    },
+    {
+      "id": "matrix.Out5.InB.enable",
+      "type": "button",
+      "output": "Out5",
+      "input": "InB",
+      "label": "InB",
+      "function": "matrix_route_toggle",
+      "selected": false,
+      "editable": true
+    },
+    {
+      "id": "matrix.Out5.InB.gain",
+      "type": "selector",
+      "output": "Out5",
+      "input": "InB",
+      "label": "+0.0dB",
+      "function": "matrix_route_gain",
+      "value": "+0.0",
+      "unit": "dB",
+      "editable": true
+    },
+    {
+      "id": "matrix.Out5.InC.enable",
+      "type": "button",
+      "output": "Out5",
+      "input": "InC",
+      "label": "InC",
+      "function": "matrix_route_toggle",
+      "selected": false,
+      "editable": true
+    },
+    {
+      "id": "matrix.Out5.InC.gain",
+      "type": "selector",
+      "output": "Out5",
+      "input": "InC",
+      "label": "+0.0dB",
+      "function": "matrix_route_gain",
+      "value": "+0.0",
+      "unit": "dB",
+      "editable": true
+    },
+    {
+      "id": "matrix.Out5.InD.enable",
+      "type": "button",
+      "output": "Out5",
+      "input": "InD",
+      "label": "InD",
+      "function": "matrix_route_toggle",
+      "selected": false,
+      "editable": true
+    },
+    {
+      "id": "matrix.Out5.InD.gain",
+      "type": "selector",
+      "output": "Out5",
+      "input": "InD",
+      "label": "+0.0dB",
+      "function": "matrix_route_gain",
+      "value": "+0.0",
+      "unit": "dB",
+      "editable": true
+    },
+
+    {
+      "id": "matrix.Out6.InA.enable",
+      "type": "button",
+      "output": "Out6",
+      "input": "InA",
+      "label": "InA",
+      "function": "matrix_route_toggle",
+      "selected": false,
+      "editable": true
+    },
+    {
+      "id": "matrix.Out6.InA.gain",
+      "type": "selector",
+      "output": "Out6",
+      "input": "InA",
+      "label": "+0.0dB",
+      "function": "matrix_route_gain",
+      "value": "+0.0",
+      "unit": "dB",
+      "editable": true
+    },
+    {
+      "id": "matrix.Out6.InB.enable",
+      "type": "button",
+      "output": "Out6",
+      "input": "InB",
+      "label": "InB",
+      "function": "matrix_route_toggle",
+      "selected": true,
+      "editable": true
+    },
+    {
+      "id": "matrix.Out6.InB.gain",
+      "type": "selector",
+      "output": "Out6",
+      "input": "InB",
+      "label": "+0.0dB",
+      "function": "matrix_route_gain",
+      "value": "+0.0",
+      "unit": "dB",
+      "editable": true
+    },
+    {
+      "id": "matrix.Out6.InC.enable",
+      "type": "button",
+      "output": "Out6",
+      "input": "InC",
+      "label": "InC",
+      "function": "matrix_route_toggle",
+      "selected": false,
+      "editable": true
+    },
+    {
+      "id": "matrix.Out6.InC.gain",
+      "type": "selector",
+      "output": "Out6",
+      "input": "InC",
+      "label": "+0.0dB",
+      "function": "matrix_route_gain",
+      "value": "+0.0",
+      "unit": "dB",
+      "editable": true
+    },
+    {
+      "id": "matrix.Out6.InD.enable",
+      "type": "button",
+      "output": "Out6",
+      "input": "InD",
+      "label": "InD",
+      "function": "matrix_route_toggle",
+      "selected": false,
+      "editable": true
+    },
+    {
+      "id": "matrix.Out6.InD.gain",
+      "type": "selector",
+      "output": "Out6",
+      "input": "InD",
+      "label": "+0.0dB",
+      "function": "matrix_route_gain",
+      "value": "+0.0",
+      "unit": "dB",
+      "editable": true
+    },
+
+    {
+      "id": "matrix.Out7.InA.enable",
+      "type": "button",
+      "output": "Out7",
+      "input": "InA",
+      "label": "InA",
+      "function": "matrix_route_toggle",
+      "selected": false,
+      "editable": true
+    },
+    {
+      "id": "matrix.Out7.InA.gain",
+      "type": "selector",
+      "output": "Out7",
+      "input": "InA",
+      "label": "+0.0dB",
+      "function": "matrix_route_gain",
+      "value": "+0.0",
+      "unit": "dB",
+      "editable": true
+    },
+    {
+      "id": "matrix.Out7.InB.enable",
+      "type": "button",
+      "output": "Out7",
+      "input": "InB",
+      "label": "InB",
+      "function": "matrix_route_toggle",
+      "selected": false,
+      "editable": true
+    },
+    {
+      "id": "matrix.Out7.InB.gain",
+      "type": "selector",
+      "output": "Out7",
+      "input": "InB",
+      "label": "+0.0dB",
+      "function": "matrix_route_gain",
+      "value": "+0.0",
+      "unit": "dB",
+      "editable": true
+    },
+    {
+      "id": "matrix.Out7.InC.enable",
+      "type": "button",
+      "output": "Out7",
+      "input": "InC",
+      "label": "InC",
+      "function": "matrix_route_toggle",
+      "selected": true,
+      "editable": true
+    },
+    {
+      "id": "matrix.Out7.InC.gain",
+      "type": "selector",
+      "output": "Out7",
+      "input": "InC",
+      "label": "+0.0dB",
+      "function": "matrix_route_gain",
+      "value": "+0.0",
+      "unit": "dB",
+      "editable": true
+    },
+    {
+      "id": "matrix.Out7.InD.enable",
+      "type": "button",
+      "output": "Out7",
+      "input": "InD",
+      "label": "InD",
+      "function": "matrix_route_toggle",
+      "selected": false,
+      "editable": true
+    },
+    {
+      "id": "matrix.Out7.InD.gain",
+      "type": "selector",
+      "output": "Out7",
+      "input": "InD",
+      "label": "+0.0dB",
+      "function": "matrix_route_gain",
+      "value": "+0.0",
+      "unit": "dB",
+      "editable": true
+    },
+
+    {
+      "id": "matrix.Out8.InA.enable",
+      "type": "button",
+      "output": "Out8",
+      "input": "InA",
+      "label": "InA",
+      "function": "matrix_route_toggle",
+      "selected": false,
+      "editable": true
+    },
+    {
+      "id": "matrix.Out8.InA.gain",
+      "type": "selector",
+      "output": "Out8",
+      "input": "InA",
+      "label": "+0.0dB",
+      "function": "matrix_route_gain",
+      "value": "+0.0",
+      "unit": "dB",
+      "editable": true
+    },
+    {
+      "id": "matrix.Out8.InB.enable",
+      "type": "button",
+      "output": "Out8",
+      "input": "InB",
+      "label": "InB",
+      "function": "matrix_route_toggle",
+      "selected": false,
+      "editable": true
+    },
+    {
+      "id": "matrix.Out8.InB.gain",
+      "type": "selector",
+      "output": "Out8",
+      "input": "InB",
+      "label": "+0.0dB",
+      "function": "matrix_route_gain",
+      "value": "+0.0",
+      "unit": "dB",
+      "editable": true
+    },
+    {
+      "id": "matrix.Out8.InC.enable",
+      "type": "button",
+      "output": "Out8",
+      "input": "InC",
+      "label": "InC",
+      "function": "matrix_route_toggle",
+      "selected": false,
+      "editable": true
+    },
+    {
+      "id": "matrix.Out8.InC.gain",
+      "type": "selector",
+      "output": "Out8",
+      "input": "InC",
+      "label": "+0.0dB",
+      "function": "matrix_route_gain",
+      "value": "+0.0",
+      "unit": "dB",
+      "editable": true
+    },
+    {
+      "id": "matrix.Out8.InD.enable",
+      "type": "button",
+      "output": "Out8",
+      "input": "InD",
+      "label": "InD",
+      "function": "matrix_route_toggle",
+      "selected": true,
+      "editable": true
+    },
+    {
+      "id": "matrix.Out8.InD.gain",
+      "type": "selector",
+      "output": "Out8",
+      "input": "InD",
+      "label": "+0.0dB",
+      "function": "matrix_route_gain",
+      "value": "+0.0",
+      "unit": "dB",
+      "editable": true
+    }
+  ],
+  "summary": {
+    "visibleOutputCount": 8,
+    "visibleInputCountPerOutput": 4,
+    "controlsPerRoute": 2,
+    "visibleOutputs": ["Out1", "Out2", "Out3", "Out4", "Out5", "Out6", "Out7", "Out8"],
+    "visibleInputs": ["InA", "InB", "InC", "InD"],
+    "visibleControlTypes": ["route enable button", "route gain selector"],
+    "visuallyEnabledRoutes": [
+      "Out1<-InA",
+      "Out2<-InB",
+      "Out3<-InC",
+      "Out4<-InD",
+      "Out5<-InA",
+      "Out6<-InB",
+      "Out7<-InC",
+      "Out8<-InD"
+    ]
+  },
+  "uncertainty": [
+    {
+      "scope": "whole_page",
+      "reason": "The screenshot is cropped; tabs and bottom/global controls outside the shown region are not visible here."
+    },
+    {
+      "scope": "route_enable_meaning",
+      "reason": "Green-highlighted input buttons strongly suggest active/enabled matrix routes, but the exact semantic meaning cannot be proven from the screenshot alone."
+    },
+    {
+      "scope": "route_gain_widget",
+      "reason": "The +0.0dB fields appear to be selector/spinbox-style controls with arrows rather than free text fields."
+    }
+  ]
+}

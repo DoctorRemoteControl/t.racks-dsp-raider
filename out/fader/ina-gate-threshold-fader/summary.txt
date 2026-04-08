@@ -1,0 +1,6 @@
+tag=ina-gate-threshold-fader
+ + frames= + 44 + 
+ + writes= + 22 + 
+ + responses= + 22 + 
+ + seriesCount= + len ( [sniff{dir=PC_TO_DSP, cmd=0x3E, len=13, hex=00 01 0A 3E 00 00 00 63 00 63 00 00 00}, sniff{dir=PC_TO_DSP, cmd=0x3E, len=13, hex=00 01 0A 3E 00 00 00 63 00 63 00 06 00}, sniff{dir=PC_TO_DSP, cmd=0x3E, len=13, hex=00 01 0A 3E 00 00 00 63 00 63 00 38 00}, sniff{dir=PC_TO_DSP, cmd=0x3E, len=13, hex=00 01 0A 3E 00 00 00 63 00 63 00 57 00}, sniff{dir=PC_TO_DSP, cmd=0x3E, len=13, hex=00 01 0A 3E 00 00 00 63 00 63 00 63 00}, sniff{dir=PC_TO_DSP, cmd=0x3E, len=13, hex=00 01 0A 3E 00 00 00 63 00 63 00 8F 00}, sniff{dir=PC_TO_DSP, cmd=0x3E, len=13, hex=00 01 0A 3E 00 00 00 63 00 63 00 B4 00}] ) + 
+ + lastInteresting= + sniff{dir=PC_TO_DSP, cmd=0x3E, len=13, hex=00 01 0A 3E 00 00 00 63 00 63 00 B4 00} + 

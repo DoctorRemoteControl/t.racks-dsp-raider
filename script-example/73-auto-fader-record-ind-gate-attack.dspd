@@ -1,0 +1,25 @@
+let tag = "ind-gate-attack-fader";
+
+guiConnect();
+
+let cap = guiActionCapture(
+    "Move only the InD gate attack fader now.",
+    45000,
+    1200,
+    6000
+);
+
+let series = writesByCommandAndChannel(cap, 0x3E, 0x03);
+let last = lastWriteExcluding(cap, 0x40);
+
+saveText("out/fader/${tag}/last-write.txt", last);
+saveText("out/fader/${tag}/payload-series.txt", payloadSeries(series));
+saveText("out/fader/${tag}/changing-offsets.txt", changingOffsetsAcrossWrites(series));
+saveText("out/fader/${tag}/u16-at-5.txt", u16Series(series, 5));
+saveText("out/fader/${tag}/u16-at-7.txt", u16Series(series, 7));
+saveText("out/fader/${tag}/u16-at-9.txt", u16Series(series, 9));
+saveText("out/fader/${tag}/u16-at-11.txt", u16Series(series, 11));
+
+print("done");
+print(last);
+print(changingOffsetsAcrossWrites(series));

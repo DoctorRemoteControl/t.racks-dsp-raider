@@ -1,0 +1,54 @@
+let base = "out/hypothesis/compressor-read-out1-out5";
+
+connect();
+resetSession();
+ensureSession();
+handshake();
+
+# Out1 baseline -> max-pattern
+for (let i in 0..28) {
+    write("00 01 0C 30 04 00 00 00 00 09 00 00 00 00 00");
+    sleep(150);
+    let before = readBlock(i);
+
+    write("00 01 0C 30 04 0F 00 E6 03 B7 0B 0C 00 DC 00");
+    sleep(150);
+    let after = readBlock(i);
+
+    let offsets = changedOffsets(before.payload, after.payload);
+    if (len(offsets) > 0) {
+        saveText("${base}/out1/block-${i}-before.hex.txt", before.payloadHex);
+        saveText("${base}/out1/block-${i}-after.hex.txt", after.payloadHex);
+        saveText("${base}/out1/block-${i}-changed-offsets.txt", offsets);
+        saveText("${base}/out1/block-${i}-diff-bytes.txt", diffBytes(before.payload, after.payload));
+        saveText("${base}/out1/block-${i}-diff-u16le.txt", diffU16le(before.payload, after.payload));
+        saveDiffReport("${base}/out1/block-${i}-diff-report.txt", before.payload, after.payload);
+        print("out1 changed-block ${i}");
+        print(offsets);
+    }
+}
+
+# Out5 baseline -> max-pattern
+for (let i in 0..28) {
+    write("00 01 0C 30 08 00 00 00 00 09 00 00 00 00 00");
+    sleep(150);
+    let before = readBlock(i);
+
+    write("00 01 0C 30 08 0F 00 E6 03 B7 0B 0C 00 DC 00");
+    sleep(150);
+    let after = readBlock(i);
+
+    let offsets = changedOffsets(before.payload, after.payload);
+    if (len(offsets) > 0) {
+        saveText("${base}/out5/block-${i}-before.hex.txt", before.payloadHex);
+        saveText("${base}/out5/block-${i}-after.hex.txt", after.payloadHex);
+        saveText("${base}/out5/block-${i}-changed-offsets.txt", offsets);
+        saveText("${base}/out5/block-${i}-diff-bytes.txt", diffBytes(before.payload, after.payload));
+        saveText("${base}/out5/block-${i}-diff-u16le.txt", diffU16le(before.payload, after.payload));
+        saveDiffReport("${base}/out5/block-${i}-diff-report.txt", before.payload, after.payload);
+        print("out5 changed-block ${i}");
+        print(offsets);
+    }
+}
+
+print("compressor-read-hypothesis-out1-out5-done");

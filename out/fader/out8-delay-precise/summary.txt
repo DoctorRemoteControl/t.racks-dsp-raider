@@ -1,0 +1,5 @@
+tag=out8-delay-precise
+ + frames= + 122 + 
+ + writes= + 61 + 
+ + responses= + 61 + 
+ + lastInteresting= + sniff{dir=PC_TO_DSP, cmd=0x38, len=7, hex=00 01 04 38 0B 00 FF} + 

@@ -1,0 +1,6 @@
+tag=out8-comp-attack-series
+ + frames= + 52 + 
+ + writes= + 26 + 
+ + responses= + 26 + 
+ + seriesCount= + len ( [sniff{dir=PC_TO_DSP, cmd=0x30, len=15, hex=00 01 0C 30 0B 0F 00 C4 03 B7 0B 0C 00 00 00}, sniff{dir=PC_TO_DSP, cmd=0x30, len=15, hex=00 01 0C 30 0B 0F 00 A1 03 B7 0B 0C 00 00 00}, sniff{dir=PC_TO_DSP, cmd=0x30, len=15, hex=00 01 0C 30 0B 0F 00 18 03 B7 0B 0C 00 00 00}, sniff{dir=PC_TO_DSP, cmd=0x30, len=15, hex=00 01 0C 30 0B 0F 00 F5 02 B7 0B 0C 00 00 00}, sniff{dir=PC_TO_DSP, cmd=0x30, len=15, hex=00 01 0C 30 0B 0F 00 8E 02 B7 0B 0C 00 00 00}, sniff{dir=PC_TO_DSP, cmd=0x30, len=15, hex=00 01 0C 30 0B 0F 00 6B 02 B7 0B 0C 00 00 00}, sniff{dir=PC_TO_DSP, cmd=0x30, len=15, hex=00 01 0C 30 0B 0F 00 7B 01 B7 0B 0C 00 00 00}, sniff{dir=PC_TO_DSP, cmd=0x30, len=15, hex=00 01 0C 30 0B 0F 00 13 01 B7 0B 0C 00 00 00}, sniff{dir=PC_TO_DSP, cmd=0x30, len=15, hex=00 01 0C 30 0B 0F 00 67 00 B7 0B 0C 00 00 00}, sniff{dir=PC_TO_DSP, cmd=0x30, len=15, hex=00 01 0C 30 0B 0F 00 00 00 B7 0B 0C 00 00 00}] ) + 
+ + lastInteresting= + sniff{dir=PC_TO_DSP, cmd=0x30, len=15, hex=00 01 0C 30 0B 0F 00 00 00 B7 0B 0C 00 00 00} + 

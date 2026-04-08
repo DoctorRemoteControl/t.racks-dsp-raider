@@ -1,0 +1,276 @@
+{
+  "pageFamily": "Channel",
+  "title": "Channel",
+  "visibleScope": "partial_crop",
+  "appliesToPages": [
+    "InA",
+    "InB",
+    "InC",
+    "InD",
+    "Out1",
+    "Out2",
+    "Out3",
+    "Out4",
+    "Out5",
+    "Out6",
+    "Out7",
+    "Out8"
+  ],
+  "variables": {
+    "channelScope": "input_or_output",
+    "channelName": "InA|InB|InC|InD|Out1|Out2|Out3|Out4|Out5|Out6|Out7|Out8"
+  },
+  "groups": [
+    {
+      "groupId": "peq_table",
+      "label": "PEQ",
+      "bandCount": 8
+    },
+    {
+      "groupId": "peq_parameter",
+      "label": "PEQ Parameter"
+    },
+    {
+      "groupId": "highpass",
+      "label": "HighPass"
+    },
+    {
+      "groupId": "lowpass",
+      "label": "LowPass"
+    },
+    {
+      "groupId": "gain",
+      "label": "Gain"
+    }
+  ],
+  "peqBandDefaults": [
+    {
+      "band": 1,
+      "defaultFrequency": "50.8Hz",
+      "defaultQ": "3.00",
+      "defaultGain": "0.0dB",
+      "defaultType": "Peak",
+      "bypassLabel": "Bypass"
+    },
+    {
+      "band": 2,
+      "defaultFrequency": "101.5Hz",
+      "defaultQ": "3.00",
+      "defaultGain": "0.0dB",
+      "defaultType": "Peak",
+      "bypassLabel": "Bypass"
+    },
+    {
+      "band": 3,
+      "defaultFrequency": "203.1Hz",
+      "defaultQ": "3.00",
+      "defaultGain": "0.0dB",
+      "defaultType": "Peak",
+      "bypassLabel": "Bypass"
+    },
+    {
+      "band": 4,
+      "defaultFrequency": "500.0Hz",
+      "defaultQ": "3.00",
+      "defaultGain": "0.0dB",
+      "defaultType": "Peak",
+      "bypassLabel": "Bypass"
+    },
+    {
+      "band": 5,
+      "defaultFrequency": "1.00KHz",
+      "defaultQ": "3.00",
+      "defaultGain": "0.0dB",
+      "defaultType": "Peak",
+      "bypassLabel": "Bypass"
+    },
+    {
+      "band": 6,
+      "defaultFrequency": "2.00KHz",
+      "defaultQ": "3.00",
+      "defaultGain": "0.0dB",
+      "defaultType": "Peak",
+      "bypassLabel": "Bypass"
+    },
+    {
+      "band": 7,
+      "defaultFrequency": "5.04KHz",
+      "defaultQ": "3.00",
+      "defaultGain": "0.0dB",
+      "defaultType": "Peak",
+      "bypassLabel": "Bypass"
+    },
+    {
+      "band": 8,
+      "defaultFrequency": "10.08KHz",
+      "defaultQ": "3.00",
+      "defaultGain": "0.0dB",
+      "defaultType": "Peak",
+      "bypassLabel": "Bypass"
+    }
+  ],
+  "controlTemplates": [
+    {
+      "id": "${channelScope}.${channelName}.peq.selected_band",
+      "type": "state",
+      "function": "peq_selected_band",
+      "valueType": "integer"
+    },
+    {
+      "id": "${channelScope}.${channelName}.peq.band${band}.frequency",
+      "type": "table_value",
+      "function": "peq_band_frequency",
+      "editable": true
+    },
+    {
+      "id": "${channelScope}.${channelName}.peq.band${band}.q",
+      "type": "table_value",
+      "function": "peq_band_q",
+      "editable": true
+    },
+    {
+      "id": "${channelScope}.${channelName}.peq.band${band}.gain",
+      "type": "table_value",
+      "function": "peq_band_gain",
+      "editable": true
+    },
+    {
+      "id": "${channelScope}.${channelName}.peq.band${band}.type",
+      "type": "selector",
+      "function": "peq_band_type",
+      "editable": true
+    },
+    {
+      "id": "${channelScope}.${channelName}.peq.band${band}.bypass",
+      "type": "button",
+      "function": "peq_band_bypass_toggle",
+      "label": "Bypass",
+      "editable": true
+    },
+    {
+      "id": "${channelScope}.${channelName}.peq.parameter.freq",
+      "type": "fader",
+      "function": "peq_selected_band_frequency",
+      "editable": true
+    },
+    {
+      "id": "${channelScope}.${channelName}.peq.parameter.q",
+      "type": "fader",
+      "function": "peq_selected_band_q",
+      "editable": true
+    },
+    {
+      "id": "${channelScope}.${channelName}.peq.parameter.gain",
+      "type": "fader",
+      "function": "peq_selected_band_gain",
+      "editable": true
+    },
+    {
+      "id": "${channelScope}.${channelName}.highpass.freq",
+      "type": "fader",
+      "function": "highpass_frequency",
+      "editable": true
+    },
+    {
+      "id": "${channelScope}.${channelName}.highpass.slope",
+      "type": "selector",
+      "function": "highpass_slope",
+      "editable": true
+    },
+    {
+      "id": "${channelScope}.${channelName}.highpass.bypass",
+      "type": "button",
+      "function": "highpass_bypass_toggle",
+      "label": "Bypass",
+      "editable": true
+    },
+    {
+      "id": "${channelScope}.${channelName}.lowpass.freq",
+      "type": "fader",
+      "function": "lowpass_frequency",
+      "editable": true
+    },
+    {
+      "id": "${channelScope}.${channelName}.lowpass.slope",
+      "type": "selector",
+      "function": "lowpass_slope",
+      "editable": true
+    },
+    {
+      "id": "${channelScope}.${channelName}.lowpass.bypass",
+      "type": "button",
+      "function": "lowpass_bypass_toggle",
+      "label": "Bypass",
+      "editable": true
+    },
+    {
+      "id": "${channelScope}.${channelName}.gain",
+      "type": "fader",
+      "function": "channel_gain",
+      "editable": true
+    },
+    {
+      "id": "${channelScope}.${channelName}.gain_value",
+      "type": "value_display_or_editor",
+      "function": "channel_gain_value",
+      "editable": true
+    },
+    {
+      "id": "${channelScope}.${channelName}.mode",
+      "type": "button",
+      "function": "polarity_or_phase_toggle",
+      "label": "Normal",
+      "editable": true
+    },
+    {
+      "id": "${channelScope}.${channelName}.mute",
+      "type": "button",
+      "function": "mute_toggle",
+      "label": "Mute",
+      "editable": true
+    },
+    {
+      "id": "${channelScope}.${channelName}.meter",
+      "type": "meter_display",
+      "function": "level_meter",
+      "scaleLabels": [
+        "Clip",
+        "+12dB",
+        "+5dB",
+        "+0dB",
+        "-5dB",
+        "-10dB",
+        "-20dB",
+        "-30dB",
+        "-50dB"
+      ],
+      "editable": false
+    }
+  ],
+  "summary": {
+    "pageType": "single_channel_processing_page",
+    "visiblePeqBandCount": 8,
+    "highpassVisible": true,
+    "lowpassVisible": true,
+    "gainSectionVisible": true,
+    "sameLayoutForAllChannelPages": true
+  },
+  "uncertainty": [
+    {
+      "scope": "${channelScope}.${channelName}.peq.band${band}.*",
+      "reason": "The table structure is visible, but exact edit behavior of each PEQ table cell cannot be proven from the screenshot alone."
+    },
+    {
+      "scope": "${channelScope}.${channelName}.peq.selected_band",
+      "reason": "The selected PEQ band can be inferred visually, but should be treated as runtime state, not as a fixed template value."
+    },
+    {
+      "scope": "${channelScope}.${channelName}.*.bypass",
+      "reason": "Buttons labeled Bypass are visible, but the screenshot alone does not prove whether the red styling means enabled, disabled, or bypass-active state."
+    },
+    {
+      "scope": "${channelScope}.${channelName}.mode",
+      "reason": "The visible Normal button likely represents polarity/phase state, but that cannot be proven from the screenshot alone."
+    }
+  ]
+}

@@ -1,0 +1,26 @@
+let tag = "idle-meter-traffic";
+
+guiConnect();
+
+print("Starting background capture for 5000 ms. Do not touch the GUI.");
+
+guiBeginCapture();
+sleep(5000);
+let cap = guiEndCapture(800, 1500);
+
+saveText("out/runtime/${tag}/summary.txt",
+    "tag=${tag}\n"
+    + "frames=" + cap.totalFrames + "\n"
+    + "writes=" + cap.writeCount + "\n"
+    + "responses=" + cap.responseCount + "\n"
+    + "lastWrite=" + cap.lastWrite + "\n"
+    + "lastResponse=" + cap.lastResponse + "\n"
+);
+
+saveText("out/runtime/${tag}/all-frames.txt", cap.frames);
+saveText("out/runtime/${tag}/writes.txt", cap.writes);
+saveText("out/runtime/${tag}/responses.txt", cap.responses);
+saveText("out/runtime/${tag}/read-block-responses.txt", cap.readBlockResponses);
+
+print("done");
+print(cap);

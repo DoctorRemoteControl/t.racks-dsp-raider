@@ -1,0 +1,473 @@
+{
+  "page": "Comp",
+  "title": "Comp",
+  "visibleScope": "partial_crop",
+  "groups": [
+    {
+      "groupId": "output_channels",
+      "label": "Output Compressor Controls",
+      "channels": ["Out1", "Out2", "Out3", "Out4", "Out5", "Out6", "Out7", "Out8"]
+    }
+  ],
+  "controlPatterns": [
+    {
+      "slot": "threshold",
+      "type": "fader",
+      "function": "compressor_threshold",
+      "unit": "dB"
+    },
+    {
+      "slot": "attack",
+      "type": "fader",
+      "function": "compressor_attack",
+      "unit": "ms"
+    },
+    {
+      "slot": "ratio",
+      "type": "selector",
+      "function": "compressor_ratio",
+      "unit": "ratio"
+    },
+    {
+      "slot": "release",
+      "type": "fader",
+      "function": "compressor_release",
+      "unit": "ms"
+    },
+    {
+      "slot": "knee",
+      "type": "selector",
+      "function": "compressor_knee",
+      "unit": "dB"
+    }
+  ],
+  "controls": [
+    {
+      "id": "output.Out1.comp.threshold",
+      "type": "fader",
+      "channel": "Out1",
+      "label": "Threshold",
+      "function": "compressor_threshold",
+      "value": "+20.0",
+      "unit": "dB",
+      "editable": true
+    },
+    {
+      "id": "output.Out1.comp.attack",
+      "type": "fader",
+      "channel": "Out1",
+      "label": "Attack",
+      "function": "compressor_attack",
+      "value": "50",
+      "unit": "ms",
+      "editable": true
+    },
+    {
+      "id": "output.Out1.comp.ratio",
+      "type": "selector",
+      "channel": "Out1",
+      "label": "Ratio",
+      "function": "compressor_ratio",
+      "value": "1:1.0",
+      "unit": "ratio",
+      "editable": true
+    },
+    {
+      "id": "output.Out1.comp.release",
+      "type": "fader",
+      "channel": "Out1",
+      "label": "Release",
+      "function": "compressor_release",
+      "value": "500",
+      "unit": "ms",
+      "editable": true
+    },
+    {
+      "id": "output.Out1.comp.knee",
+      "type": "selector",
+      "channel": "Out1",
+      "label": "Knee",
+      "function": "compressor_knee",
+      "value": "0",
+      "unit": "dB",
+      "editable": true
+    },
+
+    {
+      "id": "output.Out2.comp.threshold",
+      "type": "fader",
+      "channel": "Out2",
+      "label": "Threshold",
+      "function": "compressor_threshold",
+      "value": "+20.0",
+      "unit": "dB",
+      "editable": true
+    },
+    {
+      "id": "output.Out2.comp.attack",
+      "type": "fader",
+      "channel": "Out2",
+      "label": "Attack",
+      "function": "compressor_attack",
+      "value": "50",
+      "unit": "ms",
+      "editable": true
+    },
+    {
+      "id": "output.Out2.comp.ratio",
+      "type": "selector",
+      "channel": "Out2",
+      "label": "Ratio",
+      "function": "compressor_ratio",
+      "value": "1:1.0",
+      "unit": "ratio",
+      "editable": true
+    },
+    {
+      "id": "output.Out2.comp.release",
+      "type": "fader",
+      "channel": "Out2",
+      "label": "Release",
+      "function": "compressor_release",
+      "value": "500",
+      "unit": "ms",
+      "editable": true
+    },
+    {
+      "id": "output.Out2.comp.knee",
+      "type": "selector",
+      "channel": "Out2",
+      "label": "Knee",
+      "function": "compressor_knee",
+      "value": "0",
+      "unit": "dB",
+      "editable": true
+    },
+
+    {
+      "id": "output.Out3.comp.threshold",
+      "type": "fader",
+      "channel": "Out3",
+      "label": "Threshold",
+      "function": "compressor_threshold",
+      "value": "+20.0",
+      "unit": "dB",
+      "editable": true
+    },
+    {
+      "id": "output.Out3.comp.attack",
+      "type": "fader",
+      "channel": "Out3",
+      "label": "Attack",
+      "function": "compressor_attack",
+      "value": "50",
+      "unit": "ms",
+      "editable": true
+    },
+    {
+      "id": "output.Out3.comp.ratio",
+      "type": "selector",
+      "channel": "Out3",
+      "label": "Ratio",
+      "function": "compressor_ratio",
+      "value": "1:1.0",
+      "unit": "ratio",
+      "editable": true
+    },
+    {
+      "id": "output.Out3.comp.release",
+      "type": "fader",
+      "channel": "Out3",
+      "label": "Release",
+      "function": "compressor_release",
+      "value": "500",
+      "unit": "ms",
+      "editable": true
+    },
+    {
+      "id": "output.Out3.comp.knee",
+      "type": "selector",
+      "channel": "Out3",
+      "label": "Knee",
+      "function": "compressor_knee",
+      "value": "0",
+      "unit": "dB",
+      "editable": true
+    },
+
+    {
+      "id": "output.Out4.comp.threshold",
+      "type": "fader",
+      "channel": "Out4",
+      "label": "Threshold",
+      "function": "compressor_threshold",
+      "value": "+20.0",
+      "unit": "dB",
+      "editable": true
+    },
+    {
+      "id": "output.Out4.comp.attack",
+      "type": "fader",
+      "channel": "Out4",
+      "label": "Attack",
+      "function": "compressor_attack",
+      "value": "50",
+      "unit": "ms",
+      "editable": true
+    },
+    {
+      "id": "output.Out4.comp.ratio",
+      "type": "selector",
+      "channel": "Out4",
+      "label": "Ratio",
+      "function": "compressor_ratio",
+      "value": "1:1.0",
+      "unit": "ratio",
+      "editable": true
+    },
+    {
+      "id": "output.Out4.comp.release",
+      "type": "fader",
+      "channel": "Out4",
+      "label": "Release",
+      "function": "compressor_release",
+      "value": "500",
+      "unit": "ms",
+      "editable": true
+    },
+    {
+      "id": "output.Out4.comp.knee",
+      "type": "selector",
+      "channel": "Out4",
+      "label": "Knee",
+      "function": "compressor_knee",
+      "value": "0",
+      "unit": "dB",
+      "editable": true
+    },
+
+    {
+      "id": "output.Out5.comp.threshold",
+      "type": "fader",
+      "channel": "Out5",
+      "label": "Threshold",
+      "function": "compressor_threshold",
+      "value": "+20.0",
+      "unit": "dB",
+      "editable": true
+    },
+    {
+      "id": "output.Out5.comp.attack",
+      "type": "fader",
+      "channel": "Out5",
+      "label": "Attack",
+      "function": "compressor_attack",
+      "value": "50",
+      "unit": "ms",
+      "editable": true
+    },
+    {
+      "id": "output.Out5.comp.ratio",
+      "type": "selector",
+      "channel": "Out5",
+      "label": "Ratio",
+      "function": "compressor_ratio",
+      "value": "1:1.0",
+      "unit": "ratio",
+      "editable": true
+    },
+    {
+      "id": "output.Out5.comp.release",
+      "type": "fader",
+      "channel": "Out5",
+      "label": "Release",
+      "function": "compressor_release",
+      "value": "500",
+      "unit": "ms",
+      "editable": true
+    },
+    {
+      "id": "output.Out5.comp.knee",
+      "type": "selector",
+      "channel": "Out5",
+      "label": "Knee",
+      "function": "compressor_knee",
+      "value": "0",
+      "unit": "dB",
+      "editable": true
+    },
+
+    {
+      "id": "output.Out6.comp.threshold",
+      "type": "fader",
+      "channel": "Out6",
+      "label": "Threshold",
+      "function": "compressor_threshold",
+      "value": "+20.0",
+      "unit": "dB",
+      "editable": true
+    },
+    {
+      "id": "output.Out6.comp.attack",
+      "type": "fader",
+      "channel": "Out6",
+      "label": "Attack",
+      "function": "compressor_attack",
+      "value": "50",
+      "unit": "ms",
+      "editable": true
+    },
+    {
+      "id": "output.Out6.comp.ratio",
+      "type": "selector",
+      "channel": "Out6",
+      "label": "Ratio",
+      "function": "compressor_ratio",
+      "value": "1:1.0",
+      "unit": "ratio",
+      "editable": true
+    },
+    {
+      "id": "output.Out6.comp.release",
+      "type": "fader",
+      "channel": "Out6",
+      "label": "Release",
+      "function": "compressor_release",
+      "value": "500",
+      "unit": "ms",
+      "editable": true
+    },
+    {
+      "id": "output.Out6.comp.knee",
+      "type": "selector",
+      "channel": "Out6",
+      "label": "Knee",
+      "function": "compressor_knee",
+      "value": "0",
+      "unit": "dB",
+      "editable": true
+    },
+
+    {
+      "id": "output.Out7.comp.threshold",
+      "type": "fader",
+      "channel": "Out7",
+      "label": "Threshold",
+      "function": "compressor_threshold",
+      "value": "+20.0",
+      "unit": "dB",
+      "editable": true
+    },
+    {
+      "id": "output.Out7.comp.attack",
+      "type": "fader",
+      "channel": "Out7",
+      "label": "Attack",
+      "function": "compressor_attack",
+      "value": "50",
+      "unit": "ms",
+      "editable": true
+    },
+    {
+      "id": "output.Out7.comp.ratio",
+      "type": "selector",
+      "channel": "Out7",
+      "label": "Ratio",
+      "function": "compressor_ratio",
+      "value": "1:1.0",
+      "unit": "ratio",
+      "editable": true
+    },
+    {
+      "id": "output.Out7.comp.release",
+      "type": "fader",
+      "channel": "Out7",
+      "label": "Release",
+      "function": "compressor_release",
+      "value": "500",
+      "unit": "ms",
+      "editable": true
+    },
+    {
+      "id": "output.Out7.comp.knee",
+      "type": "selector",
+      "channel": "Out7",
+      "label": "Knee",
+      "function": "compressor_knee",
+      "value": "0",
+      "unit": "dB",
+      "editable": true
+    },
+
+    {
+      "id": "output.Out8.comp.threshold",
+      "type": "fader",
+      "channel": "Out8",
+      "label": "Threshold",
+      "function": "compressor_threshold",
+      "value": "+20.0",
+      "unit": "dB",
+      "editable": true
+    },
+    {
+      "id": "output.Out8.comp.attack",
+      "type": "fader",
+      "channel": "Out8",
+      "label": "Attack",
+      "function": "compressor_attack",
+      "value": "50",
+      "unit": "ms",
+      "editable": true
+    },
+    {
+      "id": "output.Out8.comp.ratio",
+      "type": "selector",
+      "channel": "Out8",
+      "label": "Ratio",
+      "function": "compressor_ratio",
+      "value": "1:1.0",
+      "unit": "ratio",
+      "editable": true
+    },
+    {
+      "id": "output.Out8.comp.release",
+      "type": "fader",
+      "channel": "Out8",
+      "label": "Release",
+      "function": "compressor_release",
+      "value": "500",
+      "unit": "ms",
+      "editable": true
+    },
+    {
+      "id": "output.Out8.comp.knee",
+      "type": "selector",
+      "channel": "Out8",
+      "label": "Knee",
+      "function": "compressor_knee",
+      "value": "0",
+      "unit": "dB",
+      "editable": true
+    }
+  ],
+  "summary": {
+    "visibleChannelCount": 8,
+    "controlsPerChannel": 5,
+    "visibleChannels": ["Out1", "Out2", "Out3", "Out4", "Out5", "Out6", "Out7", "Out8"],
+    "visibleControlTypes": ["threshold", "attack", "ratio", "release", "knee"]
+  },
+  "uncertainty": [
+    {
+      "scope": "whole_page",
+      "reason": "The screenshot is cropped; tabs, input sections, and bottom/global controls are not visible here."
+    },
+    {
+      "scope": "ratio_and_knee_widgets",
+      "reason": "Ratio and Knee appear to be selector/spinbox-style controls with arrows, not faders."
+    },
+    {
+      "scope": "interaction_model",
+      "reason": "The image shows editable-looking controls, but exact click, scroll, or keyboard behavior cannot be proven from the screenshot alone."
+    }
+  ]
+}

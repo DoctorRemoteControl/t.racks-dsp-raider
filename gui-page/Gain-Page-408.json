@@ -1,0 +1,582 @@
+{
+  "page": "Gain",
+  "title": "Gain",
+  "visibleScope": "gain_channel_strips_only",
+  "groups": [
+    {
+      "groupId": "input_channels",
+      "label": "Input",
+      "channels": ["InA", "InB", "InC", "InD"]
+    },
+    {
+      "groupId": "output_channels",
+      "label": "Output",
+      "channels": ["Out1", "Out2", "Out3", "Out4", "Out5", "Out6", "Out7", "Out8"]
+    }
+  ],
+  "channelStripTemplate": {
+    "controls": [
+      {
+        "slot": "gain",
+        "type": "fader",
+        "function": "gain",
+        "unit": "dB",
+        "editable": true
+      },
+      {
+        "slot": "gain_value",
+        "type": "value_display_or_editor",
+        "function": "gain_value",
+        "unit": "dB",
+        "editable": true
+      },
+      {
+        "slot": "mode",
+        "type": "button",
+        "label": "Normal",
+        "function": "polarity_or_phase_toggle",
+        "editable": true
+      },
+      {
+        "slot": "mute",
+        "type": "button",
+        "label": "Mute",
+        "function": "mute_toggle",
+        "editable": true
+      },
+      {
+        "slot": "meter",
+        "type": "meter_display",
+        "function": "level_meter",
+        "editable": false
+      }
+    ]
+  },
+  "controls": [
+    {
+      "id": "input.InA.gain",
+      "type": "fader",
+      "channel": "InA",
+      "function": "gain",
+      "value": "+0.0",
+      "unit": "dB",
+      "editable": true
+    },
+    {
+      "id": "input.InA.gain_value",
+      "type": "value_display_or_editor",
+      "channel": "InA",
+      "function": "gain_value",
+      "value": "+0.0",
+      "unit": "dB",
+      "editable": true
+    },
+    {
+      "id": "input.InA.mode",
+      "type": "button",
+      "channel": "InA",
+      "label": "Normal",
+      "function": "polarity_or_phase_toggle",
+      "editable": true
+    },
+    {
+      "id": "input.InA.mute",
+      "type": "button",
+      "channel": "InA",
+      "label": "Mute",
+      "function": "mute_toggle",
+      "editable": true
+    },
+    {
+      "id": "input.InA.meter",
+      "type": "meter_display",
+      "channel": "InA",
+      "function": "level_meter",
+      "editable": false
+    },
+
+    {
+      "id": "input.InB.gain",
+      "type": "fader",
+      "channel": "InB",
+      "function": "gain",
+      "value": "+0.0",
+      "unit": "dB",
+      "editable": true
+    },
+    {
+      "id": "input.InB.gain_value",
+      "type": "value_display_or_editor",
+      "channel": "InB",
+      "function": "gain_value",
+      "value": "+0.0",
+      "unit": "dB",
+      "editable": true
+    },
+    {
+      "id": "input.InB.mode",
+      "type": "button",
+      "channel": "InB",
+      "label": "Normal",
+      "function": "polarity_or_phase_toggle",
+      "editable": true
+    },
+    {
+      "id": "input.InB.mute",
+      "type": "button",
+      "channel": "InB",
+      "label": "Mute",
+      "function": "mute_toggle",
+      "editable": true
+    },
+    {
+      "id": "input.InB.meter",
+      "type": "meter_display",
+      "channel": "InB",
+      "function": "level_meter",
+      "editable": false
+    },
+
+    {
+      "id": "input.InC.gain",
+      "type": "fader",
+      "channel": "InC",
+      "function": "gain",
+      "value": "+0.0",
+      "unit": "dB",
+      "editable": true
+    },
+    {
+      "id": "input.InC.gain_value",
+      "type": "value_display_or_editor",
+      "channel": "InC",
+      "function": "gain_value",
+      "value": "+0.0",
+      "unit": "dB",
+      "editable": true
+    },
+    {
+      "id": "input.InC.mode",
+      "type": "button",
+      "channel": "InC",
+      "label": "Normal",
+      "function": "polarity_or_phase_toggle",
+      "editable": true
+    },
+    {
+      "id": "input.InC.mute",
+      "type": "button",
+      "channel": "InC",
+      "label": "Mute",
+      "function": "mute_toggle",
+      "editable": true
+    },
+    {
+      "id": "input.InC.meter",
+      "type": "meter_display",
+      "channel": "InC",
+      "function": "level_meter",
+      "editable": false
+    },
+
+    {
+      "id": "input.InD.gain",
+      "type": "fader",
+      "channel": "InD",
+      "function": "gain",
+      "value": "+0.0",
+      "unit": "dB",
+      "editable": true
+    },
+    {
+      "id": "input.InD.gain_value",
+      "type": "value_display_or_editor",
+      "channel": "InD",
+      "function": "gain_value",
+      "value": "+0.0",
+      "unit": "dB",
+      "editable": true
+    },
+    {
+      "id": "input.InD.mode",
+      "type": "button",
+      "channel": "InD",
+      "label": "Normal",
+      "function": "polarity_or_phase_toggle",
+      "editable": true
+    },
+    {
+      "id": "input.InD.mute",
+      "type": "button",
+      "channel": "InD",
+      "label": "Mute",
+      "function": "mute_toggle",
+      "editable": true
+    },
+    {
+      "id": "input.InD.meter",
+      "type": "meter_display",
+      "channel": "InD",
+      "function": "level_meter",
+      "editable": false
+    },
+
+    {
+      "id": "output.Out1.gain",
+      "type": "fader",
+      "channel": "Out1",
+      "function": "gain",
+      "value": "+0.0",
+      "unit": "dB",
+      "editable": true
+    },
+    {
+      "id": "output.Out1.gain_value",
+      "type": "value_display_or_editor",
+      "channel": "Out1",
+      "function": "gain_value",
+      "value": "+0.0",
+      "unit": "dB",
+      "editable": true
+    },
+    {
+      "id": "output.Out1.mode",
+      "type": "button",
+      "channel": "Out1",
+      "label": "Normal",
+      "function": "polarity_or_phase_toggle",
+      "editable": true
+    },
+    {
+      "id": "output.Out1.mute",
+      "type": "button",
+      "channel": "Out1",
+      "label": "Mute",
+      "function": "mute_toggle",
+      "editable": true
+    },
+    {
+      "id": "output.Out1.meter",
+      "type": "meter_display",
+      "channel": "Out1",
+      "function": "level_meter",
+      "editable": false
+    },
+
+    {
+      "id": "output.Out2.gain",
+      "type": "fader",
+      "channel": "Out2",
+      "function": "gain",
+      "value": "+0.0",
+      "unit": "dB",
+      "editable": true
+    },
+    {
+      "id": "output.Out2.gain_value",
+      "type": "value_display_or_editor",
+      "channel": "Out2",
+      "function": "gain_value",
+      "value": "+0.0",
+      "unit": "dB",
+      "editable": true
+    },
+    {
+      "id": "output.Out2.mode",
+      "type": "button",
+      "channel": "Out2",
+      "label": "Normal",
+      "function": "polarity_or_phase_toggle",
+      "editable": true
+    },
+    {
+      "id": "output.Out2.mute",
+      "type": "button",
+      "channel": "Out2",
+      "label": "Mute",
+      "function": "mute_toggle",
+      "editable": true
+    },
+    {
+      "id": "output.Out2.meter",
+      "type": "meter_display",
+      "channel": "Out2",
+      "function": "level_meter",
+      "editable": false
+    },
+
+    {
+      "id": "output.Out3.gain",
+      "type": "fader",
+      "channel": "Out3",
+      "function": "gain",
+      "value": "+0.0",
+      "unit": "dB",
+      "editable": true
+    },
+    {
+      "id": "output.Out3.gain_value",
+      "type": "value_display_or_editor",
+      "channel": "Out3",
+      "function": "gain_value",
+      "value": "+0.0",
+      "unit": "dB",
+      "editable": true
+    },
+    {
+      "id": "output.Out3.mode",
+      "type": "button",
+      "channel": "Out3",
+      "label": "Normal",
+      "function": "polarity_or_phase_toggle",
+      "editable": true
+    },
+    {
+      "id": "output.Out3.mute",
+      "type": "button",
+      "channel": "Out3",
+      "label": "Mute",
+      "function": "mute_toggle",
+      "editable": true
+    },
+    {
+      "id": "output.Out3.meter",
+      "type": "meter_display",
+      "channel": "Out3",
+      "function": "level_meter",
+      "editable": false
+    },
+
+    {
+      "id": "output.Out4.gain",
+      "type": "fader",
+      "channel": "Out4",
+      "function": "gain",
+      "value": "+0.0",
+      "unit": "dB",
+      "editable": true
+    },
+    {
+      "id": "output.Out4.gain_value",
+      "type": "value_display_or_editor",
+      "channel": "Out4",
+      "function": "gain_value",
+      "value": "+0.0",
+      "unit": "dB",
+      "editable": true
+    },
+    {
+      "id": "output.Out4.mode",
+      "type": "button",
+      "channel": "Out4",
+      "label": "Normal",
+      "function": "polarity_or_phase_toggle",
+      "editable": true
+    },
+    {
+      "id": "output.Out4.mute",
+      "type": "button",
+      "channel": "Out4",
+      "label": "Mute",
+      "function": "mute_toggle",
+      "editable": true
+    },
+    {
+      "id": "output.Out4.meter",
+      "type": "meter_display",
+      "channel": "Out4",
+      "function": "level_meter",
+      "editable": false
+    },
+
+    {
+      "id": "output.Out5.gain",
+      "type": "fader",
+      "channel": "Out5",
+      "function": "gain",
+      "value": "+0.0",
+      "unit": "dB",
+      "editable": true
+    },
+    {
+      "id": "output.Out5.gain_value",
+      "type": "value_display_or_editor",
+      "channel": "Out5",
+      "function": "gain_value",
+      "value": "+0.0",
+      "unit": "dB",
+      "editable": true
+    },
+    {
+      "id": "output.Out5.mode",
+      "type": "button",
+      "channel": "Out5",
+      "label": "Normal",
+      "function": "polarity_or_phase_toggle",
+      "editable": true
+    },
+    {
+      "id": "output.Out5.mute",
+      "type": "button",
+      "channel": "Out5",
+      "label": "Mute",
+      "function": "mute_toggle",
+      "editable": true
+    },
+    {
+      "id": "output.Out5.meter",
+      "type": "meter_display",
+      "channel": "Out5",
+      "function": "level_meter",
+      "editable": false
+    },
+
+    {
+      "id": "output.Out6.gain",
+      "type": "fader",
+      "channel": "Out6",
+      "function": "gain",
+      "value": "+0.0",
+      "unit": "dB",
+      "editable": true
+    },
+    {
+      "id": "output.Out6.gain_value",
+      "type": "value_display_or_editor",
+      "channel": "Out6",
+      "function": "gain_value",
+      "value": "+0.0",
+      "unit": "dB",
+      "editable": true
+    },
+    {
+      "id": "output.Out6.mode",
+      "type": "button",
+      "channel": "Out6",
+      "label": "Normal",
+      "function": "polarity_or_phase_toggle",
+      "editable": true
+    },
+    {
+      "id": "output.Out6.mute",
+      "type": "button",
+      "channel": "Out6",
+      "label": "Mute",
+      "function": "mute_toggle",
+      "editable": true
+    },
+    {
+      "id": "output.Out6.meter",
+      "type": "meter_display",
+      "channel": "Out6",
+      "function": "level_meter",
+      "editable": false
+    },
+
+    {
+      "id": "output.Out7.gain",
+      "type": "fader",
+      "channel": "Out7",
+      "function": "gain",
+      "value": "+0.0",
+      "unit": "dB",
+      "editable": true
+    },
+    {
+      "id": "output.Out7.gain_value",
+      "type": "value_display_or_editor",
+      "channel": "Out7",
+      "function": "gain_value",
+      "value": "+0.0",
+      "unit": "dB",
+      "editable": true
+    },
+    {
+      "id": "output.Out7.mode",
+      "type": "button",
+      "channel": "Out7",
+      "label": "Normal",
+      "function": "polarity_or_phase_toggle",
+      "editable": true
+    },
+    {
+      "id": "output.Out7.mute",
+      "type": "button",
+      "channel": "Out7",
+      "label": "Mute",
+      "function": "mute_toggle",
+      "editable": true
+    },
+    {
+      "id": "output.Out7.meter",
+      "type": "meter_display",
+      "channel": "Out7",
+      "function": "level_meter",
+      "editable": false
+    },
+
+    {
+      "id": "output.Out8.gain",
+      "type": "fader",
+      "channel": "Out8",
+      "function": "gain",
+      "value": "+0.0",
+      "unit": "dB",
+      "editable": true
+    },
+    {
+      "id": "output.Out8.gain_value",
+      "type": "value_display_or_editor",
+      "channel": "Out8",
+      "function": "gain_value",
+      "value": "+0.0",
+      "unit": "dB",
+      "editable": true
+    },
+    {
+      "id": "output.Out8.mode",
+      "type": "button",
+      "channel": "Out8",
+      "label": "Normal",
+      "function": "polarity_or_phase_toggle",
+      "editable": true
+    },
+    {
+      "id": "output.Out8.mute",
+      "type": "button",
+      "channel": "Out8",
+      "label": "Mute",
+      "function": "mute_toggle",
+      "editable": true
+    },
+    {
+      "id": "output.Out8.meter",
+      "type": "meter_display",
+      "channel": "Out8",
+      "function": "level_meter",
+      "editable": false
+    }
+  ],
+  "summary": {
+    "inputChannelCount": 4,
+    "outputChannelCount": 8,
+    "controlsPerChannel": [
+      "gain",
+      "gain_value",
+      "mode",
+      "mute",
+      "meter"
+    ],
+    "allVisibleGainValues": "+0.0 dB"
+  },
+  "uncertainty": [
+    {
+      "controlPattern": "*.mode",
+      "reason": "The 'Normal' button likely represents polarity/phase state, but that cannot be proven from this screenshot alone."
+    },
+    {
+      "controlPattern": "*.gain_value",
+      "reason": "The +0.0dB field appears interactive, but exact edit behavior cannot be proven from the screenshot alone."
+    }
+  ]
+}

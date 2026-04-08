@@ -1,0 +1,334 @@
+{
+  "page": "Delay",
+  "title": "Delay",
+  "visibleScope": "partial_crop",
+  "groups": [
+    {
+      "groupId": "input_channels",
+      "label": "Input Delay Controls",
+      "channels": ["InA", "InB", "InC", "InD"]
+    },
+    {
+      "groupId": "output_channels",
+      "label": "Output Delay Controls",
+      "channels": ["Out1", "Out2", "Out3", "Out4", "Out5", "Out6", "Out7", "Out8"]
+    },
+    {
+      "groupId": "delay_units",
+      "label": "Delay Unit Selector",
+      "options": ["ms", "m", "ft"]
+    }
+  ],
+  "controlPatterns": [
+    {
+      "slot": "delay",
+      "type": "fader",
+      "function": "delay_time",
+      "unit": "ms"
+    },
+    {
+      "slot": "delay_value",
+      "type": "value_display_or_editor",
+      "function": "delay_time_value",
+      "unit": "ms"
+    },
+    {
+      "slot": "unit_selector",
+      "type": "button_group",
+      "function": "delay_unit_select",
+      "values": ["ms", "m", "ft"]
+    }
+  ],
+  "controls": [
+    {
+      "id": "input.InA.delay.time",
+      "type": "fader",
+      "channel": "InA",
+      "label": "InA",
+      "function": "delay_time",
+      "value": "0.000",
+      "unit": "ms",
+      "editable": true
+    },
+    {
+      "id": "input.InA.delay.value",
+      "type": "value_display_or_editor",
+      "channel": "InA",
+      "label": "0.000ms",
+      "function": "delay_time_value",
+      "unit": "ms",
+      "editable": true
+    },
+
+    {
+      "id": "input.InB.delay.time",
+      "type": "fader",
+      "channel": "InB",
+      "label": "InB",
+      "function": "delay_time",
+      "value": "0.000",
+      "unit": "ms",
+      "editable": true
+    },
+    {
+      "id": "input.InB.delay.value",
+      "type": "value_display_or_editor",
+      "channel": "InB",
+      "label": "0.000ms",
+      "function": "delay_time_value",
+      "unit": "ms",
+      "editable": true
+    },
+
+    {
+      "id": "input.InC.delay.time",
+      "type": "fader",
+      "channel": "InC",
+      "label": "InC",
+      "function": "delay_time",
+      "value": "0.000",
+      "unit": "ms",
+      "editable": true
+    },
+    {
+      "id": "input.InC.delay.value",
+      "type": "value_display_or_editor",
+      "channel": "InC",
+      "label": "0.000ms",
+      "function": "delay_time_value",
+      "unit": "ms",
+      "editable": true
+    },
+
+    {
+      "id": "input.InD.delay.time",
+      "type": "fader",
+      "channel": "InD",
+      "label": "InD",
+      "function": "delay_time",
+      "value": "0.000",
+      "unit": "ms",
+      "editable": true
+    },
+    {
+      "id": "input.InD.delay.value",
+      "type": "value_display_or_editor",
+      "channel": "InD",
+      "label": "0.000ms",
+      "function": "delay_time_value",
+      "unit": "ms",
+      "editable": true
+    },
+
+    {
+      "id": "output.Out1.delay.time",
+      "type": "fader",
+      "channel": "Out1",
+      "label": "Out1",
+      "function": "delay_time",
+      "value": "0.000",
+      "unit": "ms",
+      "editable": true
+    },
+    {
+      "id": "output.Out1.delay.value",
+      "type": "value_display_or_editor",
+      "channel": "Out1",
+      "label": "0.000ms",
+      "function": "delay_time_value",
+      "unit": "ms",
+      "editable": true
+    },
+
+    {
+      "id": "output.Out2.delay.time",
+      "type": "fader",
+      "channel": "Out2",
+      "label": "Out2",
+      "function": "delay_time",
+      "value": "0.000",
+      "unit": "ms",
+      "editable": true
+    },
+    {
+      "id": "output.Out2.delay.value",
+      "type": "value_display_or_editor",
+      "channel": "Out2",
+      "label": "0.000ms",
+      "function": "delay_time_value",
+      "unit": "ms",
+      "editable": true
+    },
+
+    {
+      "id": "output.Out3.delay.time",
+      "type": "fader",
+      "channel": "Out3",
+      "label": "Out3",
+      "function": "delay_time",
+      "value": "0.000",
+      "unit": "ms",
+      "editable": true
+    },
+    {
+      "id": "output.Out3.delay.value",
+      "type": "value_display_or_editor",
+      "channel": "Out3",
+      "label": "0.000ms",
+      "function": "delay_time_value",
+      "unit": "ms",
+      "editable": true
+    },
+
+    {
+      "id": "output.Out4.delay.time",
+      "type": "fader",
+      "channel": "Out4",
+      "label": "Out4",
+      "function": "delay_time",
+      "value": "0.000",
+      "unit": "ms",
+      "editable": true
+    },
+    {
+      "id": "output.Out4.delay.value",
+      "type": "value_display_or_editor",
+      "channel": "Out4",
+      "label": "0.000ms",
+      "function": "delay_time_value",
+      "unit": "ms",
+      "editable": true
+    },
+
+    {
+      "id": "output.Out5.delay.time",
+      "type": "fader",
+      "channel": "Out5",
+      "label": "Out5",
+      "function": "delay_time",
+      "value": "0.000",
+      "unit": "ms",
+      "editable": true
+    },
+    {
+      "id": "output.Out5.delay.value",
+      "type": "value_display_or_editor",
+      "channel": "Out5",
+      "label": "0.000ms",
+      "function": "delay_time_value",
+      "unit": "ms",
+      "editable": true
+    },
+
+    {
+      "id": "output.Out6.delay.time",
+      "type": "fader",
+      "channel": "Out6",
+      "label": "Out6",
+      "function": "delay_time",
+      "value": "0.000",
+      "unit": "ms",
+      "editable": true
+    },
+    {
+      "id": "output.Out6.delay.value",
+      "type": "value_display_or_editor",
+      "channel": "Out6",
+      "label": "0.000ms",
+      "function": "delay_time_value",
+      "unit": "ms",
+      "editable": true
+    },
+
+    {
+      "id": "output.Out7.delay.time",
+      "type": "fader",
+      "channel": "Out7",
+      "label": "Out7",
+      "function": "delay_time",
+      "value": "0.000",
+      "unit": "ms",
+      "editable": true
+    },
+    {
+      "id": "output.Out7.delay.value",
+      "type": "value_display_or_editor",
+      "channel": "Out7",
+      "label": "0.000ms",
+      "function": "delay_time_value",
+      "unit": "ms",
+      "editable": true
+    },
+
+    {
+      "id": "output.Out8.delay.time",
+      "type": "fader",
+      "channel": "Out8",
+      "label": "Out8",
+      "function": "delay_time",
+      "value": "0.000",
+      "unit": "ms",
+      "editable": true
+    },
+    {
+      "id": "output.Out8.delay.value",
+      "type": "value_display_or_editor",
+      "channel": "Out8",
+      "label": "0.000ms",
+      "function": "delay_time_value",
+      "unit": "ms",
+      "editable": true
+    },
+
+    {
+      "id": "global.delay.unit.ms",
+      "type": "button",
+      "label": "ms",
+      "function": "delay_unit_select",
+      "value": "ms",
+      "selected": true,
+      "editable": true
+    },
+    {
+      "id": "global.delay.unit.m",
+      "type": "button",
+      "label": "m",
+      "function": "delay_unit_select",
+      "value": "m",
+      "selected": false,
+      "editable": true
+    },
+    {
+      "id": "global.delay.unit.ft",
+      "type": "button",
+      "label": "ft",
+      "function": "delay_unit_select",
+      "value": "ft",
+      "selected": false,
+      "editable": true
+    }
+  ],
+  "summary": {
+    "visibleInputChannelCount": 4,
+    "visibleOutputChannelCount": 8,
+    "controlsPerChannel": 2,
+    "visibleInputChannels": ["InA", "InB", "InC", "InD"],
+    "visibleOutputChannels": ["Out1", "Out2", "Out3", "Out4", "Out5", "Out6", "Out7", "Out8"],
+    "visibleControlTypes": ["delay fader", "delay value box", "unit selector"],
+    "activeUnit": "ms"
+  },
+  "uncertainty": [
+    {
+      "scope": "whole_page",
+      "reason": "The screenshot is cropped; tabs and bottom/global controls outside the shown region are not visible here."
+    },
+    {
+      "scope": "value_boxes",
+      "reason": "The 0.000ms fields are visible, but the screenshot alone cannot prove whether they are directly editable text boxes or only displays linked to the faders."
+    },
+    {
+      "scope": "unit_selector_behavior",
+      "reason": "The buttons ms, m, and ft appear selectable, with ms visually active, but exact behavior cannot be proven from the screenshot alone."
+    }
+  ]
+}

@@ -197,6 +197,18 @@ final class ScriptFunctions {
                 int command = ScriptValueResolver.toInt(resolver.resolveValue(tokens.get(2)));
                 yield writesByCommand(capture, command);
             }
+            case "frames-by-command" -> {
+                requireArgs(tokens, 3, "frames-by-command <capture> <cmd>");
+                GuiCaptureResult capture = requireCapture(resolver.resolveValue(tokens.get(1)));
+                int command = ScriptValueResolver.toInt(resolver.resolveValue(tokens.get(2)));
+                yield framesByCommand(capture, command);
+            }
+            case "responses-by-command" -> {
+                requireArgs(tokens, 3, "responses-by-command <capture> <cmd>");
+                GuiCaptureResult capture = requireCapture(resolver.resolveValue(tokens.get(1)));
+                int command = ScriptValueResolver.toInt(resolver.resolveValue(tokens.get(2)));
+                yield responsesByCommand(capture, command);
+            }
             case "writes-by-command-and-channel" -> {
                 requireArgs(tokens, 4, "writes-by-command-and-channel <capture> <cmd> <channel>");
                 GuiCaptureResult capture = requireCapture(resolver.resolveValue(tokens.get(1)));
@@ -636,6 +648,18 @@ final class ScriptFunctions {
                 GuiCaptureResult capture = requireCapture(evaluateExpression(args.get(0)));
                 int command = ScriptValueResolver.toInt(evaluateExpression(args.get(1)));
                 yield writesByCommand(capture, command);
+            }
+            case "frames-by-command" -> {
+                requireCallArgCount(name, args, 2);
+                GuiCaptureResult capture = requireCapture(evaluateExpression(args.get(0)));
+                int command = ScriptValueResolver.toInt(evaluateExpression(args.get(1)));
+                yield framesByCommand(capture, command);
+            }
+            case "responses-by-command" -> {
+                requireCallArgCount(name, args, 2);
+                GuiCaptureResult capture = requireCapture(evaluateExpression(args.get(0)));
+                int command = ScriptValueResolver.toInt(evaluateExpression(args.get(1)));
+                yield responsesByCommand(capture, command);
             }
             case "writes-by-command-and-channel" -> {
                 requireCallArgCount(name, args, 3);
@@ -1450,7 +1474,8 @@ final class ScriptFunctions {
                  "capture-count", "capture-write-count", "capture-response-count",
                  "capture-frame", "first-write", "last-write",
                  "first-response", "last-response",
-                 "last-write-excluding", "writes-by-command", "writes-by-command-and-channel",
+                 "last-write-excluding", "writes-by-command", "frames-by-command", "responses-by-command",
+                 "writes-by-command-and-channel",
                  "recent-writes", "recent-writes-excluding",
                  "writes", "responses", "payload-series", "u16-series", "changing-offsets-across-writes", "len",
                  "contains", "starts-with", "ends-with",
@@ -1506,6 +1531,8 @@ final class ScriptFunctions {
             case "lastresponse" -> "last-response";
             case "lastwriteexcluding" -> "last-write-excluding";
             case "writesbycommand" -> "writes-by-command";
+            case "framesbycommand" -> "frames-by-command";
+            case "responsesbycommand" -> "responses-by-command";
             case "writesbycommandandchannel" -> "writes-by-command-and-channel";
             case "recentwrites" -> "recent-writes";
             case "recentwritesexcluding" -> "recent-writes-excluding";
@@ -1523,6 +1550,28 @@ final class ScriptFunctions {
         int expectedCommand = command & 0xFF;
         for (SniffedFrame frame : capture.frames()) {
             if (frame != null && frame.isWrite() && frame.command() != null && frame.command() == expectedCommand) {
+                out.add(frame);
+            }
+        }
+        return List.copyOf(out);
+    }
+
+    private static List<SniffedFrame> framesByCommand(GuiCaptureResult capture, int command) {
+        List<SniffedFrame> out = new ArrayList<>();
+        int expectedCommand = command & 0xFF;
+        for (SniffedFrame frame : capture.frames()) {
+            if (frame != null && frame.command() != null && frame.command() == expectedCommand) {
+                out.add(frame);
+            }
+        }
+        return List.copyOf(out);
+    }
+
+    private static List<SniffedFrame> responsesByCommand(GuiCaptureResult capture, int command) {
+        List<SniffedFrame> out = new ArrayList<>();
+        int expectedCommand = command & 0xFF;
+        for (SniffedFrame frame : capture.frames()) {
+            if (frame != null && frame.isResponse() && frame.command() != null && frame.command() == expectedCommand) {
                 out.add(frame);
             }
         }

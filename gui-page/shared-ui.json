@@ -1,0 +1,30 @@
+{
+  "sharedUi": {
+    "topTabBar": {
+      "visibleOnPages": ["Gain", "Gate", "Comp", "Limit", "Delay", "Matrix", "GEQ", "Channel"],
+      "tabs": [
+        { "id": "tab.Gain", "label": "Gain", "type": "tab_button", "function": "navigate_page" },
+        { "id": "tab.Gate", "label": "Gate", "type": "tab_button", "function": "navigate_page" },
+        { "id": "tab.Comp", "label": "Comp", "type": "tab_button", "function": "navigate_page" },
+        { "id": "tab.Limit", "label": "Limit", "type": "tab_button", "function": "navigate_page" },
+        { "id": "tab.Delay", "label": "Delay", "type": "tab_button", "function": "navigate_page" },
+        { "id": "tab.Matrix", "label": "Matrix", "type": "tab_button", "function": "navigate_page" },
+        { "id": "tab.GEQ", "label": "GEQ", "type": "tab_button", "function": "navigate_page" },
+        { "id": "tab.Channel", "label": "Channel", "type": "tab_button", "function": "navigate_page" }
+      ]
+    },
+    "bottomBar": {
+      "visibleOnPages": ["Gain", "Gate", "Comp", "Limit", "Delay", "Matrix", "GEQ", "Channel"],
+      "controls": [
+        { "id": "global.address", "label": "Address", "type": "button_or_section", "function": "device_address_or_network_settings" },
+        { "id": "global.device_id", "label": "ID", "type": "display_or_button", "function": "device_id" },
+        { "id": "global.ip_address", "label": "IP", "type": "display_or_button", "function": "ip_address" },
+        { "id": "global.preset_section", "label": "Preset", "type": "button_or_section", "function": "preset_section" },
+        { "id": "global.preset_number", "label": "F00", "type": "display_or_selector", "function": "preset_number" },
+        { "id": "global.preset_name", "label": "Default Preset", "type": "display_or_selector", "function": "preset_name" },
+        { "id": "global.store", "label": "Store", "type": "button", "function": "store_preset_or_settings" },
+        { "id": "global.recall", "label": "Recall", "type": "button", "function": "recall_preset_or_settings" }
+      ]
+    }
+  }
+}

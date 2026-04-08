@@ -1,0 +1,22 @@
+let tag = "ina-out8";
+
+guiConnect();
+print("Capture state: InA -> Out8");
+guiBeginCapture();
+sleep(5000);
+let cap = guiEndCapture(800, 1500);
+
+let cmd40Responses = responsesByCommand(cap, 0x40);
+saveText("out/runtime/${tag}/summary.txt",
+    "tag=${tag}\n"
+    + "frames=" + cap.totalFrames + "\n"
+    + "writes=" + cap.writeCount + "\n"
+    + "responses=" + cap.responseCount + "\n"
+    + "cmd40Responses=" + len(cmd40Responses) + "\n"
+    + "cmd40ResponseChangingOffsets=" + changingOffsetsAcrossWrites(cmd40Responses) + "\n"
+);
+saveText("out/runtime/${tag}/cmd40-response-payload-series.txt", payloadSeries(cmd40Responses));
+for (let i in 0..20) {
+    saveText("out/runtime/${tag}/cmd40-response-u16le-offset-${i}.txt", u16Series(cmd40Responses, i));
+}
+print("done");

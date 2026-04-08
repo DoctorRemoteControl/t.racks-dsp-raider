@@ -1,0 +1,5 @@
+tag=ina-delay-precise
+ + frames= + 103 + 
+ + writes= + 52 + 
+ + responses= + 51 + 
+ + lastInteresting= + sniff{dir=PC_TO_DSP, cmd=0x38, len=7, hex=00 01 04 38 00 00 FF} + 

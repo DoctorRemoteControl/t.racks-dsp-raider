@@ -1,0 +1,441 @@
+{
+  "page": "GEQ",
+  "title": "GEQ",
+  "visibleScope": "partial_crop",
+  "groups": [
+    {
+      "groupId": "geq_bands",
+      "label": "Graphic EQ Bands",
+      "channel": "InA",
+      "bandCount": 31,
+      "frequencies": [
+        "20",
+        "25",
+        "31.5",
+        "40",
+        "50",
+        "63",
+        "80",
+        "100",
+        "125",
+        "160",
+        "200",
+        "250",
+        "315",
+        "400",
+        "500",
+        "630",
+        "800",
+        "1K",
+        "1.25K",
+        "1.6K",
+        "2K",
+        "2.5K",
+        "3.15K",
+        "4K",
+        "5K",
+        "6.3K",
+        "8K",
+        "10K",
+        "12.5K",
+        "16K",
+        "20K"
+      ]
+    },
+    {
+      "groupId": "channel_selector",
+      "label": "GEQ Channel Selector",
+      "channels": ["InA", "InB", "InC", "InD"],
+      "selectedChannel": "InA"
+    }
+  ],
+  "controlPatterns": [
+    {
+      "slot": "band_gain",
+      "type": "fader",
+      "function": "geq_band_gain",
+      "unit": "dB"
+    },
+    {
+      "slot": "band_value",
+      "type": "value_display_or_editor",
+      "function": "geq_band_gain_value",
+      "unit": "dB"
+    },
+    {
+      "slot": "channel_select",
+      "type": "button",
+      "function": "geq_channel_select"
+    }
+  ],
+  "controls": [
+    {
+      "id": "input.InA.geq.band_20",
+      "type": "fader",
+      "channel": "InA",
+      "bandLabel": "20",
+      "function": "geq_band_gain",
+      "value": "+0.0",
+      "unit": "dB",
+      "editable": true
+    },
+    {
+      "id": "input.InA.geq.band_25",
+      "type": "fader",
+      "channel": "InA",
+      "bandLabel": "25",
+      "function": "geq_band_gain",
+      "value": "+0.0",
+      "unit": "dB",
+      "editable": true
+    },
+    {
+      "id": "input.InA.geq.band_31_5",
+      "type": "fader",
+      "channel": "InA",
+      "bandLabel": "31.5",
+      "function": "geq_band_gain",
+      "value": "+0.0",
+      "unit": "dB",
+      "editable": true
+    },
+    {
+      "id": "input.InA.geq.band_40",
+      "type": "fader",
+      "channel": "InA",
+      "bandLabel": "40",
+      "function": "geq_band_gain",
+      "value": "+0.0",
+      "unit": "dB",
+      "editable": true
+    },
+    {
+      "id": "input.InA.geq.band_50",
+      "type": "fader",
+      "channel": "InA",
+      "bandLabel": "50",
+      "function": "geq_band_gain",
+      "value": "+0.0",
+      "unit": "dB",
+      "editable": true
+    },
+    {
+      "id": "input.InA.geq.band_63",
+      "type": "fader",
+      "channel": "InA",
+      "bandLabel": "63",
+      "function": "geq_band_gain",
+      "value": "+0.0",
+      "unit": "dB",
+      "editable": true
+    },
+    {
+      "id": "input.InA.geq.band_80",
+      "type": "fader",
+      "channel": "InA",
+      "bandLabel": "80",
+      "function": "geq_band_gain",
+      "value": "+0.0",
+      "unit": "dB",
+      "editable": true
+    },
+    {
+      "id": "input.InA.geq.band_100",
+      "type": "fader",
+      "channel": "InA",
+      "bandLabel": "100",
+      "function": "geq_band_gain",
+      "value": "+0.0",
+      "unit": "dB",
+      "editable": true
+    },
+    {
+      "id": "input.InA.geq.band_125",
+      "type": "fader",
+      "channel": "InA",
+      "bandLabel": "125",
+      "function": "geq_band_gain",
+      "value": "+0.0",
+      "unit": "dB",
+      "editable": true
+    },
+    {
+      "id": "input.InA.geq.band_160",
+      "type": "fader",
+      "channel": "InA",
+      "bandLabel": "160",
+      "function": "geq_band_gain",
+      "value": "+0.0",
+      "unit": "dB",
+      "editable": true
+    },
+    {
+      "id": "input.InA.geq.band_200",
+      "type": "fader",
+      "channel": "InA",
+      "bandLabel": "200",
+      "function": "geq_band_gain",
+      "value": "+0.0",
+      "unit": "dB",
+      "editable": true
+    },
+    {
+      "id": "input.InA.geq.band_250",
+      "type": "fader",
+      "channel": "InA",
+      "bandLabel": "250",
+      "function": "geq_band_gain",
+      "value": "+0.0",
+      "unit": "dB",
+      "editable": true
+    },
+    {
+      "id": "input.InA.geq.band_315",
+      "type": "fader",
+      "channel": "InA",
+      "bandLabel": "315",
+      "function": "geq_band_gain",
+      "value": "+0.0",
+      "unit": "dB",
+      "editable": true
+    },
+    {
+      "id": "input.InA.geq.band_400",
+      "type": "fader",
+      "channel": "InA",
+      "bandLabel": "400",
+      "function": "geq_band_gain",
+      "value": "+0.0",
+      "unit": "dB",
+      "editable": true
+    },
+    {
+      "id": "input.InA.geq.band_500",
+      "type": "fader",
+      "channel": "InA",
+      "bandLabel": "500",
+      "function": "geq_band_gain",
+      "value": "+0.0",
+      "unit": "dB",
+      "editable": true
+    },
+    {
+      "id": "input.InA.geq.band_630",
+      "type": "fader",
+      "channel": "InA",
+      "bandLabel": "630",
+      "function": "geq_band_gain",
+      "value": "+0.0",
+      "unit": "dB",
+      "editable": true
+    },
+    {
+      "id": "input.InA.geq.band_800",
+      "type": "fader",
+      "channel": "InA",
+      "bandLabel": "800",
+      "function": "geq_band_gain",
+      "value": "+0.0",
+      "unit": "dB",
+      "editable": true
+    },
+    {
+      "id": "input.InA.geq.band_1K",
+      "type": "fader",
+      "channel": "InA",
+      "bandLabel": "1K",
+      "function": "geq_band_gain",
+      "value": "+0.0",
+      "unit": "dB",
+      "editable": true
+    },
+    {
+      "id": "input.InA.geq.band_1_25K",
+      "type": "fader",
+      "channel": "InA",
+      "bandLabel": "1.25K",
+      "function": "geq_band_gain",
+      "value": "+0.0",
+      "unit": "dB",
+      "editable": true
+    },
+    {
+      "id": "input.InA.geq.band_1_6K",
+      "type": "fader",
+      "channel": "InA",
+      "bandLabel": "1.6K",
+      "function": "geq_band_gain",
+      "value": "+0.0",
+      "unit": "dB",
+      "editable": true
+    },
+    {
+      "id": "input.InA.geq.band_2K",
+      "type": "fader",
+      "channel": "InA",
+      "bandLabel": "2K",
+      "function": "geq_band_gain",
+      "value": "+0.0",
+      "unit": "dB",
+      "editable": true
+    },
+    {
+      "id": "input.InA.geq.band_2_5K",
+      "type": "fader",
+      "channel": "InA",
+      "bandLabel": "2.5K",
+      "function": "geq_band_gain",
+      "value": "+0.0",
+      "unit": "dB",
+      "editable": true
+    },
+    {
+      "id": "input.InA.geq.band_3_15K",
+      "type": "fader",
+      "channel": "InA",
+      "bandLabel": "3.15K",
+      "function": "geq_band_gain",
+      "value": "+0.0",
+      "unit": "dB",
+      "editable": true
+    },
+    {
+      "id": "input.InA.geq.band_4K",
+      "type": "fader",
+      "channel": "InA",
+      "bandLabel": "4K",
+      "function": "geq_band_gain",
+      "value": "+0.0",
+      "unit": "dB",
+      "editable": true
+    },
+    {
+      "id": "input.InA.geq.band_5K",
+      "type": "fader",
+      "channel": "InA",
+      "bandLabel": "5K",
+      "function": "geq_band_gain",
+      "value": "+0.0",
+      "unit": "dB",
+      "editable": true
+    },
+    {
+      "id": "input.InA.geq.band_6_3K",
+      "type": "fader",
+      "channel": "InA",
+      "bandLabel": "6.3K",
+      "function": "geq_band_gain",
+      "value": "+0.0",
+      "unit": "dB",
+      "editable": true
+    },
+    {
+      "id": "input.InA.geq.band_8K",
+      "type": "fader",
+      "channel": "InA",
+      "bandLabel": "8K",
+      "function": "geq_band_gain",
+      "value": "+0.0",
+      "unit": "dB",
+      "editable": true
+    },
+    {
+      "id": "input.InA.geq.band_10K",
+      "type": "fader",
+      "channel": "InA",
+      "bandLabel": "10K",
+      "function": "geq_band_gain",
+      "value": "+0.0",
+      "unit": "dB",
+      "editable": true
+    },
+    {
+      "id": "input.InA.geq.band_12_5K",
+      "type": "fader",
+      "channel": "InA",
+      "bandLabel": "12.5K",
+      "function": "geq_band_gain",
+      "value": "+0.0",
+      "unit": "dB",
+      "editable": true
+    },
+    {
+      "id": "input.InA.geq.band_16K",
+      "type": "fader",
+      "channel": "InA",
+      "bandLabel": "16K",
+      "function": "geq_band_gain",
+      "value": "+0.0",
+      "unit": "dB",
+      "editable": true
+    },
+    {
+      "id": "input.InA.geq.band_20K",
+      "type": "fader",
+      "channel": "InA",
+      "bandLabel": "20K",
+      "function": "geq_band_gain",
+      "value": "+0.0",
+      "unit": "dB",
+      "editable": true
+    },
+
+    {
+      "id": "global.geq.channel.InA",
+      "type": "button",
+      "label": "InA",
+      "function": "geq_channel_select",
+      "value": "InA",
+      "selected": true,
+      "editable": true
+    },
+    {
+      "id": "global.geq.channel.InB",
+      "type": "button",
+      "label": "InB",
+      "function": "geq_channel_select",
+      "value": "InB",
+      "selected": false,
+      "editable": true
+    },
+    {
+      "id": "global.geq.channel.InC",
+      "type": "button",
+      "label": "InC",
+      "function": "geq_channel_select",
+      "value": "InC",
+      "selected": false,
+      "editable": true
+    },
+    {
+      "id": "global.geq.channel.InD",
+      "type": "button",
+      "label": "InD",
+      "function": "geq_channel_select",
+      "value": "InD",
+      "selected": false,
+      "editable": true
+    }
+  ],
+  "summary": {
+    "visibleBandCount": 31,
+    "visibleChannelButtons": ["InA", "InB", "InC", "InD"],
+    "selectedChannel": "InA",
+    "visibleControlTypes": ["31 band faders", "channel selector"],
+    "allVisibleBandValues": "+0.0 dB"
+  },
+  "uncertainty": [
+    {
+      "scope": "whole_page",
+      "reason": "The screenshot is cropped; tabs and bottom/global controls outside the shown region are not visible here."
+    },
+    {
+      "scope": "channel_scope",
+      "reason": "Only input channel selectors InA to InD are visible in this crop; the screenshot alone cannot prove whether GEQ also exists for outputs on other views."
+    },
+    {
+      "scope": "value_entry_behavior",
+      "reason": "The screenshot shows +0.0 values under each band, but exact direct-edit behavior versus fader-only editing cannot be proven from the screenshot alone."
+    }
+  ]
+}

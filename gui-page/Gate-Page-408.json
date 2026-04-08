@@ -1,0 +1,219 @@
+{
+  "page": "Gate",
+  "title": "Gate",
+  "visibleScope": "partial_crop",
+  "groups": [
+    {
+      "groupId": "input_channels",
+      "label": "Input Gate Controls",
+      "channels": ["InA", "InB", "InC", "InD"]
+    }
+  ],
+  "controlPatterns": [
+    {
+      "slot": "threshold",
+      "type": "fader",
+      "function": "gate_threshold",
+      "unit": "dB"
+    },
+    {
+      "slot": "attack",
+      "type": "fader",
+      "function": "gate_attack",
+      "unit": "ms"
+    },
+    {
+      "slot": "hold",
+      "type": "fader",
+      "function": "gate_hold",
+      "unit": "ms"
+    },
+    {
+      "slot": "release",
+      "type": "fader",
+      "function": "gate_release",
+      "unit": "ms"
+    }
+  ],
+  "controls": [
+    {
+      "id": "input.InA.gate.threshold",
+      "type": "fader",
+      "channel": "InA",
+      "label": "Threshold",
+      "function": "gate_threshold",
+      "value": "-90.0",
+      "unit": "dB",
+      "editable": true
+    },
+    {
+      "id": "input.InA.gate.attack",
+      "type": "fader",
+      "channel": "InA",
+      "label": "Attack",
+      "function": "gate_attack",
+      "value": "1",
+      "unit": "ms",
+      "editable": true
+    },
+    {
+      "id": "input.InA.gate.hold",
+      "type": "fader",
+      "channel": "InA",
+      "label": "Hold",
+      "function": "gate_hold",
+      "value": "100",
+      "unit": "ms",
+      "editable": true
+    },
+    {
+      "id": "input.InA.gate.release",
+      "type": "fader",
+      "channel": "InA",
+      "label": "Release",
+      "function": "gate_release",
+      "value": "100",
+      "unit": "ms",
+      "editable": true
+    },
+
+    {
+      "id": "input.InB.gate.threshold",
+      "type": "fader",
+      "channel": "InB",
+      "label": "Threshold",
+      "function": "gate_threshold",
+      "value": "-90.0",
+      "unit": "dB",
+      "editable": true
+    },
+    {
+      "id": "input.InB.gate.attack",
+      "type": "fader",
+      "channel": "InB",
+      "label": "Attack",
+      "function": "gate_attack",
+      "value": "1",
+      "unit": "ms",
+      "editable": true
+    },
+    {
+      "id": "input.InB.gate.hold",
+      "type": "fader",
+      "channel": "InB",
+      "label": "Hold",
+      "function": "gate_hold",
+      "value": "100",
+      "unit": "ms",
+      "editable": true
+    },
+    {
+      "id": "input.InB.gate.release",
+      "type": "fader",
+      "channel": "InB",
+      "label": "Release",
+      "function": "gate_release",
+      "value": "100",
+      "unit": "ms",
+      "editable": true
+    },
+
+    {
+      "id": "input.InC.gate.threshold",
+      "type": "fader",
+      "channel": "InC",
+      "label": "Threshold",
+      "function": "gate_threshold",
+      "value": "-90.0",
+      "unit": "dB",
+      "editable": true
+    },
+    {
+      "id": "input.InC.gate.attack",
+      "type": "fader",
+      "channel": "InC",
+      "label": "Attack",
+      "function": "gate_attack",
+      "value": "1",
+      "unit": "ms",
+      "editable": true
+    },
+    {
+      "id": "input.InC.gate.hold",
+      "type": "fader",
+      "channel": "InC",
+      "label": "Hold",
+      "function": "gate_hold",
+      "value": "100",
+      "unit": "ms",
+      "editable": true
+    },
+    {
+      "id": "input.InC.gate.release",
+      "type": "fader",
+      "channel": "InC",
+      "label": "Release",
+      "function": "gate_release",
+      "value": "100",
+      "unit": "ms",
+      "editable": true
+    },
+
+    {
+      "id": "input.InD.gate.threshold",
+      "type": "fader",
+      "channel": "InD",
+      "label": "Threshold",
+      "function": "gate_threshold",
+      "value": "-90.0",
+      "unit": "dB",
+      "editable": true
+    },
+    {
+      "id": "input.InD.gate.attack",
+      "type": "fader",
+      "channel": "InD",
+      "label": "Attack",
+      "function": "gate_attack",
+      "value": "1",
+      "unit": "ms",
+      "editable": true
+    },
+    {
+      "id": "input.InD.gate.hold",
+      "type": "fader",
+      "channel": "InD",
+      "label": "Hold",
+      "function": "gate_hold",
+      "value": "100",
+      "unit": "ms",
+      "editable": true
+    },
+    {
+      "id": "input.InD.gate.release",
+      "type": "fader",
+      "channel": "InD",
+      "label": "Release",
+      "function": "gate_release",
+      "value": "100",
+      "unit": "ms",
+      "editable": true
+    }
+  ],
+  "summary": {
+    "visibleChannelCount": 4,
+    "controlsPerChannel": 4,
+    "visibleChannels": ["InA", "InB", "InC", "InD"],
+    "visibleControlTypes": ["threshold", "attack", "hold", "release"]
+  },
+  "uncertainty": [
+    {
+      "scope": "whole_page",
+      "reason": "The screenshot is cropped; tabs, output sections, and bottom/global controls are not visible here."
+    },
+    {
+      "scope": "interaction_model",
+      "reason": "The image shows fader-like controls and value boxes, but exact click/drag behavior cannot be proven from the screenshot alone."
+    }
+  ]
+}

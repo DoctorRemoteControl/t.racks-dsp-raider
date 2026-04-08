@@ -1,0 +1,44 @@
+let tag = "cmd40-analysis";
+
+guiConnect();
+
+print("Starting cmd 0x40 capture for 5000 ms. Keep the current DSP/GUI state stable.");
+
+guiBeginCapture();
+sleep(5000);
+let cap = guiEndCapture(800, 1500);
+
+let cmd40Frames = framesByCommand(cap, 0x40);
+let cmd40Writes = writesByCommand(cap, 0x40);
+let cmd40Responses = responsesByCommand(cap, 0x40);
+let changing = changingOffsetsAcrossWrites(cmd40Responses);
+let payloads = payloadSeries(cmd40Responses);
+
+saveText("out/runtime/${tag}/summary.txt",
+    "tag=${tag}\n"
+    + "frames=" + cap.totalFrames + "\n"
+    + "writes=" + cap.writeCount + "\n"
+    + "responses=" + cap.responseCount + "\n"
+    + "cmd40Frames=" + len(cmd40Frames) + "\n"
+    + "cmd40Writes=" + len(cmd40Writes) + "\n"
+    + "cmd40Responses=" + len(cmd40Responses) + "\n"
+    + "cmd40ResponseChangingOffsets=" + changing + "\n"
+    + "firstCmd40Response=" + firstResponse(cap) + "\n"
+    + "lastCmd40Response=" + lastResponse(cap) + "\n"
+);
+
+saveText("out/runtime/${tag}/cmd40-frames.txt", cmd40Frames);
+saveText("out/runtime/${tag}/cmd40-writes.txt", cmd40Writes);
+saveText("out/runtime/${tag}/cmd40-responses.txt", cmd40Responses);
+saveText("out/runtime/${tag}/cmd40-response-payload-series.txt", payloads);
+saveText("out/runtime/${tag}/cmd40-response-changing-offsets.txt", changing);
+
+for (let i in 0..20) {
+    let series = u16Series(cmd40Responses, i);
+    if (len(series) > 0) {
+        saveText("out/runtime/${tag}/cmd40-response-u16le-offset-${i}.txt", series);
+    }
+}
+
+print("done");
+print(cap);

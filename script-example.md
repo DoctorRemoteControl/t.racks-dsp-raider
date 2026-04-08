@@ -1460,6 +1460,27 @@ print(u16Series(series, 5));
 
 ---
 
+## Example 11: Start Gate decoding with isolated GUI capture
+
+Use the dedicated Gate capture scripts to identify the real GUI write command before readback localization:
+
+```txt
+script-example/64-auto-capture-ina-gate-threshold-clean.dspd
+script-example/65-auto-capture-ina-gate-attack-clean.dspd
+script-example/66-auto-capture-ina-gate-hold-clean.dspd
+script-example/67-auto-capture-ina-gate-release-clean.dspd
+```
+
+Recommended workflow:
+
+1. Move exactly one InA gate control once.
+2. Inspect `out/clean/.../last-write.txt`.
+3. Inspect `recent-interesting-writes.txt` for related command series.
+4. If the GUI emitted read-block responses, inspect the saved `blocks/`.
+5. After the Gate write command is known, create focused before/after read-diff scripts like the existing mute, phase, and gain decode scripts.
+
+---
+
 # Event-Based Capture And Fader Helpers
 
 ## gui-action-capture / guiActionCapture

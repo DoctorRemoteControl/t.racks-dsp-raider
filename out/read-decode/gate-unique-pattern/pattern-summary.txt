@@ -1,0 +1,4 @@
+InA attack=111 release=222 hold=333 threshold=44
+ + InB attack=555 release=666 hold=777 threshold=88
+ + InC attack=999 release=1111 hold=1222 threshold=132
+ + InD attack=1444 release=1666 hold=1777 threshold=176
