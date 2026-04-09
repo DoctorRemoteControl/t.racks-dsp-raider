@@ -129,6 +129,23 @@ final class ScriptFunctions {
                 byte[] after = ScriptValueResolver.toBytes(evaluateSingle(tokens.get(3)));
                 yield saveDiffReport(pathText, before, after);
             }
+            case "pause" -> {
+                String note = tokens.size() >= 2
+                        ? ScriptValueResolver.stringify(evaluateExpression(tokens.subList(1, tokens.size())))
+                        : null;
+                state.pauseForUser(note);
+                yield "continued";
+            }
+            case "reconnect-session" -> {
+                long timeoutMs = tokens.size() >= 2
+                        ? ScriptValueResolver.toLong(evaluateSingle(tokens.get(1)))
+                        : 120000L;
+                long pollMs = tokens.size() >= 3
+                        ? ScriptValueResolver.toLong(evaluateSingle(tokens.get(2)))
+                        : 250L;
+                state.reconnectSession(timeoutMs, pollMs);
+                yield "reconnected";
+            }
             case "send-payload", "tx", "write" -> evaluateSendPayload(tokens, state.requireClient());
 
             case "gui-capture" -> evaluateGuiCapture(tokens);
@@ -452,6 +469,16 @@ final class ScriptFunctions {
                 Thread.sleep(ms);
                 yield ms;
             }
+            case "pause" -> {
+                if (args.size() > 1) {
+                    throw new IllegalArgumentException("pause() expects 0 or 1 argument.");
+                }
+                String note = args.size() == 1
+                        ? ScriptValueResolver.stringify(evaluateExpression(args.get(0)))
+                        : null;
+                state.pauseForUser(note);
+                yield "continued";
+            }
             case "save-text" -> {
                 requireCallArgCount(name, args, 2);
                 String pathText = ScriptValueResolver.stringify(evaluateExpression(args.get(0)));
@@ -495,8 +522,41 @@ final class ScriptFunctions {
                 yield saveDiffReport(pathText, before, after);
             }
             case "attach-session" -> {
-                requireCallArgCount(name, args, 0);
-                state.requireClient().attachSession();
+                if (args.isEmpty()) {
+                    state.requireClient().attachSession();
+                    yield "ok";
+                }
+                if (args.size() == 2) {
+                    long timeoutMs = ScriptValueResolver.toLong(evaluateExpression(args.get(0)));
+                    long pollMs = ScriptValueResolver.toLong(evaluateExpression(args.get(1)));
+                    state.requireClient().attachSession(timeoutMs, pollMs);
+                    yield "ok";
+                }
+                throw new IllegalArgumentException(
+                        "Invalid attach-session syntax. Expected: attachSession() or attachSession(timeoutMs, pollMs)"
+                );
+            }
+            case "reconnect-session" -> {
+                if (args.size() > 2) {
+                    throw new IllegalArgumentException("reconnectSession() expects 0..2 numeric arguments.");
+                }
+                long timeoutMs = args.size() >= 1
+                        ? ScriptValueResolver.toLong(evaluateExpression(args.get(0)))
+                        : 120000L;
+                long pollMs = args.size() >= 2
+                        ? ScriptValueResolver.toLong(evaluateExpression(args.get(1)))
+                        : 250L;
+                state.reconnectSession(timeoutMs, pollMs);
+                yield "reconnected";
+            }
+            case "pause-for-user" -> {
+                if (args.size() > 1) {
+                    throw new IllegalArgumentException("pauseForUser() expects 0 or 1 argument.");
+                }
+                String note = args.size() == 1
+                        ? ScriptValueResolver.stringify(evaluateExpression(args.get(0)))
+                        : null;
+                state.pauseForUser(note);
                 yield "ok";
             }
             case "handshake-init" -> {
@@ -1464,7 +1524,7 @@ final class ScriptFunctions {
         return switch (normalized) {
             case "status", "connect", "disconnect", "gui-connect", "gui-disconnect",
                  "reset-session", "ensure-session", "clear-frames", "handshake", "attach-session",
-                 "sleep", "save-text", "save-capture-read-blocks", "save-diff-report",
+                 "reconnect-session", "pause", "sleep", "save-text", "save-capture-read-blocks", "save-diff-report",
                  "handshake-init", "device-info", "system-info",
                  "login", "read-block", "read-block-index", "read-block-payload",
                  "cmd", "payload", "raw", "payload-hex", "payload-ascii",
@@ -1504,6 +1564,8 @@ final class ScriptFunctions {
             case "resetsession" -> "reset-session";
             case "clearframes" -> "clear-frames";
             case "attachsession" -> "attach-session";
+            case "reconnectsession" -> "reconnect-session";
+            case "pauseforuser" -> "pause";
             case "handshakeinit" -> "handshake-init";
             case "deviceinfo" -> "device-info";
             case "systeminfo" -> "system-info";

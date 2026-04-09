@@ -1,0 +1,20 @@
+let tag = "ina-lowpass-slope-b-to-a";
+let base = "out/clean/${tag}";
+
+guiConnect();
+let cap = guiActionCapture(
+    "Select InA on the Channel page. Start with LowPass slope at the opposite endpoint, then switch only once back to the first endpoint now.",
+    45000,
+    1200,
+    6000
+);
+
+let last = lastWriteExcluding(cap, 0x40);
+let recent = recentWritesExcluding(cap, 16, 0x40);
+
+saveText("${base}/capture.txt", cap);
+saveText("${base}/last-write.txt", last);
+saveText("${base}/recent-interesting-writes.txt", recent);
+
+print("done");
+print(last);

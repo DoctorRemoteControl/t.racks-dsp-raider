@@ -428,6 +428,40 @@
     "test_tone_sine_frequency": {
       "ui_unit": "Hz",
       "gui_range": [20, 20000],
+      "selector_type": "enum31",
+      "selector_mapping": {
+        "20Hz": 0,
+        "25Hz": 1,
+        "31.5Hz": 2,
+        "40Hz": 3,
+        "50Hz": 4,
+        "63Hz": 5,
+        "80Hz": 6,
+        "100Hz": 7,
+        "125Hz": 8,
+        "160Hz": 9,
+        "200Hz": 10,
+        "250Hz": 11,
+        "315Hz": 12,
+        "400Hz": 13,
+        "500Hz": 14,
+        "630Hz": 15,
+        "800Hz": 16,
+        "1KHz": 17,
+        "1.25KHz": 18,
+        "1.6KHz": 19,
+        "2KHz": 20,
+        "2.5KHz": 21,
+        "3.15KHz": 22,
+        "4KHz": 23,
+        "5KHz": 24,
+        "6.3KHz": 25,
+        "8KHz": 26,
+        "10KHz": 27,
+        "12.5KHz": 28,
+        "16KHz": 29,
+        "20KHz": 30
+      },
       "status": "observed"
     },
     "device_id": {
@@ -582,7 +616,54 @@
         ]
       },
       "write": {
-        "status": "not_decoded"
+        "status": "observed_strong",
+        "command": "0x3D",
+        "payload_structure": "00 01 0A 3D <channel_index> <name_ascii_8bytes_zero_padded>",
+        "channel_index_mapping": {
+          "InA": "0x00",
+          "InB": "0x01",
+          "InC": "0x02",
+          "InD": "0x03",
+          "Out1": "0x04",
+          "Out2": "0x05",
+          "Out3": "0x06",
+          "Out4": "0x07",
+          "Out5": "0x08",
+          "Out6": "0x09",
+          "Out7": "0x0A",
+          "Out8": "0x0B"
+        },
+        "field_layout": {
+          "channel_index_u8": {
+            "payload_offset_dec": 4,
+            "status": "observed_strong"
+          },
+          "name_ascii_8bytes_zero_padded": {
+            "payload_offset_dec": 5,
+            "length_bytes": 8,
+            "encoding": "ascii_zero_padded",
+            "status": "observed_strong"
+          }
+        },
+        "observations": [
+          "setting 12 unique channel names in the GUI emitted 12 sequential command 0x3D writes, one per channel, rather than one combined bulk write",
+          "the write order observed was Out8 down to InA using channel indices 0x0B down to 0x00",
+          "name bytes are ASCII and zero padded to 8 bytes"
+        ],
+        "examples": {
+          "Out8_O77": "00 01 0A 3D 0B 4F 37 37 00 00 00 00 00",
+          "Out7_O77": "00 01 0A 3D 0A 4F 37 37 00 00 00 00 00",
+          "Out6_O66": "00 01 0A 3D 09 4F 36 36 00 00 00 00 00",
+          "Out5_O55": "00 01 0A 3D 08 4F 35 35 00 00 00 00 00",
+          "Out4_O44": "00 01 0A 3D 07 4F 34 34 00 00 00 00 00",
+          "Out3_O33": "00 01 0A 3D 06 4F 33 33 00 00 00 00 00",
+          "Out2_O22": "00 01 0A 3D 05 4F 32 32 00 00 00 00 00",
+          "Out1_O11": "00 01 0A 3D 04 4F 31 31 00 00 00 00 00",
+          "InD_ID4": "00 01 0A 3D 03 49 44 34 00 00 00 00 00",
+          "InC_IC3": "00 01 0A 3D 02 49 43 33 00 00 00 00 00",
+          "InB_IB2": "00 01 0A 3D 01 49 42 32 00 00 00 00 00",
+          "InA_IA1": "00 01 0A 3D 00 49 41 31 00 00 00 00 00"
+        }
       }
     },
     "gain": {
@@ -1184,8 +1265,11 @@
     "observations": [
       "command 0x33 was observed during InA input PEQ GUI changes",
       "payload byte 4 matched InA as 0x00",
+      "payload byte 4 matched InD as 0x03 in a controlled PEQ1 gain capture",
       "payload byte 5 matched PEQ1 as 0x00 and PEQ8 as 0x07",
       "an InA PEQ1 gain capture produced 00 01 0A 33 00 00 82 00 29 00 23 00 00",
+      "an InD PEQ1 gain capture produced 00 01 0A 33 03 00 82 00 29 00 23 00 00",
+      "an InD PEQ8 gain capture produced 00 01 0A 33 03 07 F0 00 0E 01 23 00 00",
       "an InA PEQ1 alternate capture produced 00 01 0A 33 00 00 82 00 02 00 23 00 00",
       "an InA PEQ1 type capture produced 00 01 0A 33 00 00 82 00 02 00 0A 02 00",
       "an InA PEQ8 gain capture produced 00 01 0A 33 00 07 F0 00 0E 01 23 00 00",
@@ -1197,6 +1281,8 @@
     ],
     "examples": {
       "ina_peq1_gain_capture_hex": "00 01 0A 33 00 00 82 00 29 00 23 00 00",
+      "ind_peq1_gain_capture_hex": "00 01 0A 33 03 00 82 00 29 00 23 00 00",
+      "ind_peq8_gain_capture_hex": "00 01 0A 33 03 07 F0 00 0E 01 23 00 00",
       "ina_peq1_alt_capture_hex": "00 01 0A 33 00 00 82 00 02 00 23 00 00",
       "ina_peq1_type_capture_hex": "00 01 0A 33 00 00 82 00 02 00 0A 02 00",
       "ina_peq8_gain_capture_hex": "00 01 0A 33 00 07 F0 00 0E 01 23 00 00",
@@ -1245,7 +1331,7 @@
         },
         "InD": {
           "channel_hex": "0x03",
-          "status": "predicted_strong"
+          "status": "observed_strong"
         }
       },
       "template_hex": "00 01 0A 33 <input_channel_index> <peq_band_index> <gain_lo> <gain_hi> <frequency_lo> <frequency_hi> <q_raw> <filter_type> <bypass>"
@@ -1256,7 +1342,14 @@
     "type": "mixed_u16le_u8_plus_bitmask",
     "observations": [
       "automated read-decode for InA PEQ8 gain changed only block 0x02 offset 41",
+      "automated read-decode for InD PEQ1 gain changed only block 0x0A offset 19",
+      "automated read-decode for InD PEQ8 gain changed only block 0x0B offset 11",
+      "automated read-decode for InA PEQ8 frequency changed only block 0x02 offset 43",
+      "automated read-decode for InA PEQ8 q changed only block 0x02 offset 45",
+      "automated read-decode for InA PEQ8 filter_type changed only block 0x02 offset 46",
+      "automated read-decode for InA PEQ1 bypass changed block 0x1C offset 17 from 0x00 to 0x01",
       "automated read-decode for InA PEQ8 bypass changed only block 0x1C offset 17",
+      "automated read-decode for InA PEQ8 bypass changed block 0x1C offset 17 from 0x01 to 0x81",
       "InA crossover read anchors now exist at block 0x02 offset 47 for high-pass frequency and block 0x02 offset 49 for low-pass frequency",
       "the observed PEQ8 gain anchor at 0x02:41 and the crossover anchors at 0x02:47/49 strongly support a compact contiguous InA PEQ read layout ending immediately before crossover storage"
     ],
@@ -1292,10 +1385,48 @@
             "offset_dec": 41,
             "status": "observed_strong"
           },
+          "frequency": {
+            "storage": "block_dump",
+            "block_hex": "0x02",
+            "offset_dec": 43,
+            "status": "observed_strong"
+          },
+          "q_raw": {
+            "storage": "block_dump",
+            "block_hex": "0x02",
+            "offset_dec": 45,
+            "status": "observed_strong"
+          },
+          "filter_type": {
+            "storage": "block_dump",
+            "block_hex": "0x02",
+            "offset_dec": 46,
+            "status": "observed_strong"
+          },
           "bypass": {
             "storage": "block_dump",
             "block_hex": "0x1C",
             "offset_dec": 17,
+            "status": "observed_strong"
+          }
+        }
+      },
+      "InD": {
+        "PEQ1": {
+          "gain": {
+            "storage": "block_dump",
+            "block_hex": "0x0A",
+            "offset_dec": 19,
+            "observed_change": "0x78 -> 0x82",
+            "status": "observed_strong"
+          }
+        },
+        "PEQ8": {
+          "gain": {
+            "storage": "block_dump",
+            "block_hex": "0x0B",
+            "offset_dec": 11,
+            "observed_change": "0x78 -> 0xF0",
             "status": "observed_strong"
           }
         }
@@ -1346,9 +1477,44 @@
       },
       "PEQ8": {
         "gain": { "block_hex": "0x02", "offset_dec": 41, "status": "observed_strong" },
-        "frequency": { "block_hex": "0x02", "offset_dec": 43, "status": "predicted_strong" },
-        "q_raw": { "block_hex": "0x02", "offset_dec": 45, "status": "predicted_strong" },
-        "filter_type": { "block_hex": "0x02", "offset_dec": 46, "status": "predicted_strong" }
+        "frequency": { "block_hex": "0x02", "offset_dec": 43, "status": "observed_strong" },
+        "q_raw": { "block_hex": "0x02", "offset_dec": 45, "status": "observed_strong" },
+        "filter_type": { "block_hex": "0x02", "offset_dec": 46, "status": "observed_strong" }
+      }
+    },
+    "predicted_input_read_maps": {
+      "InB": {
+        "PEQ1": { "gain": ["0x04", 39], "frequency": ["0x04", 41], "q_raw": ["0x04", 43], "filter_type": ["0x04", 44] },
+        "PEQ2": { "gain": ["0x04", 45], "frequency": ["0x04", 47], "q_raw": ["0x04", 49], "filter_type": ["0x04", 50] },
+        "PEQ3": { "gain": ["0x04", 51], "frequency": ["0x04", 53], "q_raw": ["0x05", 5], "filter_type": ["0x05", 6] },
+        "PEQ4": { "gain": ["0x05", 7], "frequency": ["0x05", 9], "q_raw": ["0x05", 11], "filter_type": ["0x05", 12] },
+        "PEQ5": { "gain": ["0x05", 13], "frequency": ["0x05", 15], "q_raw": ["0x05", 17], "filter_type": ["0x05", 18] },
+        "PEQ6": { "gain": ["0x05", 19], "frequency": ["0x05", 21], "q_raw": ["0x05", 23], "filter_type": ["0x05", 24] },
+        "PEQ7": { "gain": ["0x05", 25], "frequency": ["0x05", 27], "q_raw": ["0x05", 29], "filter_type": ["0x05", 30] },
+        "PEQ8": { "gain": ["0x05", 31], "frequency": ["0x05", 33], "q_raw": ["0x05", 35], "filter_type": ["0x05", 36] },
+        "status": "predicted_strong"
+      },
+      "InC": {
+        "PEQ1": { "gain": ["0x07", 29], "frequency": ["0x07", 31], "q_raw": ["0x07", 33], "filter_type": ["0x07", 34] },
+        "PEQ2": { "gain": ["0x07", 35], "frequency": ["0x07", 37], "q_raw": ["0x07", 39], "filter_type": ["0x07", 40] },
+        "PEQ3": { "gain": ["0x07", 41], "frequency": ["0x07", 43], "q_raw": ["0x07", 45], "filter_type": ["0x07", 46] },
+        "PEQ4": { "gain": ["0x07", 47], "frequency": ["0x07", 49], "q_raw": ["0x07", 51], "filter_type": ["0x07", 52] },
+        "PEQ5": { "gain": ["0x07", 53], "frequency": ["0x08", 5], "q_raw": ["0x08", 7], "filter_type": ["0x08", 8] },
+        "PEQ6": { "gain": ["0x08", 9], "frequency": ["0x08", 11], "q_raw": ["0x08", 13], "filter_type": ["0x08", 14] },
+        "PEQ7": { "gain": ["0x08", 15], "frequency": ["0x08", 17], "q_raw": ["0x08", 19], "filter_type": ["0x08", 20] },
+        "PEQ8": { "gain": ["0x08", 21], "frequency": ["0x08", 23], "q_raw": ["0x08", 25], "filter_type": ["0x08", 26] },
+        "status": "predicted_strong"
+      },
+      "InD": {
+        "PEQ1": { "gain": ["0x0A", 19], "frequency": ["0x0A", 21], "q_raw": ["0x0A", 23], "filter_type": ["0x0A", 24] },
+        "PEQ2": { "gain": ["0x0A", 25], "frequency": ["0x0A", 27], "q_raw": ["0x0A", 29], "filter_type": ["0x0A", 30] },
+        "PEQ3": { "gain": ["0x0A", 31], "frequency": ["0x0A", 33], "q_raw": ["0x0A", 35], "filter_type": ["0x0A", 36] },
+        "PEQ4": { "gain": ["0x0A", 37], "frequency": ["0x0A", 39], "q_raw": ["0x0A", 41], "filter_type": ["0x0A", 42] },
+        "PEQ5": { "gain": ["0x0A", 43], "frequency": ["0x0A", 45], "q_raw": ["0x0A", 47], "filter_type": ["0x0A", 48] },
+        "PEQ6": { "gain": ["0x0A", 49], "frequency": ["0x0A", 51], "q_raw": ["0x0A", 53], "filter_type": ["0x0A", 54] },
+        "PEQ7": { "gain": ["0x0B", 5], "frequency": ["0x0B", 7], "q_raw": ["0x0B", 9], "filter_type": ["0x0B", 10] },
+        "PEQ8": { "gain": ["0x0B", 11], "frequency": ["0x0B", 13], "q_raw": ["0x0B", 15], "filter_type": ["0x0B", 16] },
+        "status": "observed_plus_predicted_strong"
       }
     },
     "bypass_prediction": {
@@ -1357,17 +1523,29 @@
       "offset_dec": 17,
       "encoding": "bitmask_u8",
       "bands": ["PEQ1", "PEQ2", "PEQ3", "PEQ4", "PEQ5", "PEQ6", "PEQ7", "PEQ8"],
-      "status": "predicted_strong",
-      "note": "the byte location is strongly indicated by the PEQ8 bypass test, but the exact bit-to-band mapping is not yet proven"
+      "bit_mapping_observed": {
+        "bit0": {
+          "band": "PEQ1",
+          "status": "observed_strong",
+          "evidence": "block 0x1C offset 17 changed 0x00 -> 0x01 when InA PEQ1 bypass was toggled"
+        },
+        "bit7": {
+          "band": "PEQ8",
+          "status": "observed_strong",
+          "evidence": "block 0x1C offset 17 changed 0x01 -> 0x81 when InA PEQ8 bypass was toggled while PEQ1 bypass remained set"
+        }
+      },
+      "status": "observed_plus_predicted_strong",
+      "note": "the byte location is proven and endpoint bits PEQ1/PEQ8 are observed directly; intermediate bits PEQ2..PEQ7 remain strongly predicted as linear bit order"
     },
     "not_yet_proven": [
-      "InA PEQ8 frequency read location by targeted write/read verification",
-      "InA PEQ8 q read location by targeted write/read verification",
-      "InA PEQ8 filter_type read location by targeted write/read verification",
-      "exact bypass bit-to-band mapping inside block 0x1C offset 17",
+      "exact bypass bit-to-band mapping for PEQ2..PEQ7 inside block 0x1C offset 17",
       "direct targeted read verification for InA PEQ1..PEQ7",
       "full read layout for InB, InC, and InD input PEQ"
-    ]
+    ],
+    "status_note": "InA input PEQ is practically complete for decoding purposes: PEQ8 is fully anchored, the compact PEQ record layout is strongly supported, and the PEQ bypass byte location plus endpoint bits for PEQ1 and PEQ8 are directly observed. Remaining uncertainty is limited to intermediate bypass bit mapping and direct confirmation of PEQ1..PEQ7 read slots."
+    ,
+    "cross_input_stride_note": "InD gain anchors at PEQ1 (0x0A:19) and PEQ8 (0x0B:11) fit the same 6-byte per-band PEQ record model seen on InA, supporting a strong cross-input stride prediction for InB/InC/InD."
   }
 },
     "geq_input": {
@@ -1718,10 +1896,30 @@
         "status": "observed_partial",
         "input_observations": {
           "InA": {
+            "high_pass_slope_or_mode": {
+              "storage": "block_dump",
+              "block_hex": "0x02",
+              "offset_dec": 51,
+              "observed_change": "0x01 -> 0x14",
+              "status": "observed_strong",
+              "note": "same storage byte as high_pass_bypass, confirming that slope/family/bypass are combined in one mode/state byte"
+            },
+            "high_pass_bypass": {
+              "storage": "block_dump",
+              "block_hex": "0x02",
+              "offset_dec": 51,
+              "status": "observed_strong"
+            },
             "high_pass_frequency": {
               "storage": "block_dump",
               "block_hex": "0x02",
               "offset_dec": 47,
+              "status": "observed_strong"
+            },
+            "low_pass_bypass": {
+              "storage": "block_dump",
+              "block_hex": "0x02",
+              "offset_dec": 52,
               "status": "observed_strong"
             },
             "low_pass_frequency": {
@@ -1732,8 +1930,37 @@
             }
           }
         },
+        "status_note": "InA crossover is practically complete for decoding purposes except for low-pass slope/family storage. High-pass frequency, high-pass mode byte, low-pass frequency, and low-pass bypass are anchored.",
+        "predicted_input_read_maps": {
+          "InB": {
+            "high_pass_frequency": { "block_hex": "0x05", "offset_dec": 37, "status": "predicted_strong" },
+            "high_pass_mode": { "block_hex": "0x05", "offset_dec": 41, "status": "predicted_strong" },
+            "low_pass_frequency": { "block_hex": "0x05", "offset_dec": 39, "status": "predicted_strong" },
+            "low_pass_bypass": { "block_hex": "0x05", "offset_dec": 42, "status": "predicted_strong" }
+          },
+          "InC": {
+            "high_pass_frequency": { "block_hex": "0x08", "offset_dec": 27, "status": "predicted_strong" },
+            "high_pass_mode": { "block_hex": "0x08", "offset_dec": 31, "status": "predicted_strong" },
+            "low_pass_frequency": { "block_hex": "0x08", "offset_dec": 29, "status": "predicted_strong" },
+            "low_pass_bypass": { "block_hex": "0x08", "offset_dec": 32, "status": "predicted_strong" }
+          },
+          "InD": {
+            "high_pass_frequency": { "block_hex": "0x0B", "offset_dec": 17, "status": "predicted_strong" },
+            "high_pass_mode": { "block_hex": "0x0B", "offset_dec": 21, "status": "predicted_strong" },
+            "low_pass_frequency": { "block_hex": "0x0B", "offset_dec": 19, "status": "predicted_strong" },
+            "low_pass_bypass": { "block_hex": "0x0B", "offset_dec": 22, "status": "predicted_strong" }
+          }
+        },
         "output_observations": {
           "Out1": {
+            "high_pass_mode": {
+              "storage": "block_dump",
+              "block_hex": "0x0B",
+              "offset_dec": 53,
+              "write_test_source": "00 01 05 32 04 00 00 14",
+              "observed_change": "00 -> 14",
+              "status": "observed_strong"
+            },
             "high_pass_bypass": {
               "storage": "block_dump",
               "block_hex": "0x0B",
@@ -1748,6 +1975,14 @@
               "offset_dec": 49,
               "write_test_source": "00 01 05 32 04 1D 00 00",
               "observed_change": "00 -> 1D",
+              "status": "observed_strong"
+            },
+            "low_pass_mode": {
+              "storage": "block_dump",
+              "block_hex": "0x0B",
+              "offset_dec": 54,
+              "write_test_source": "00 01 05 31 04 2C 01 14",
+              "observed_change": "00 -> 14",
               "status": "observed_strong"
             },
             "low_pass_bypass": {
@@ -1766,10 +2001,28 @@
               "observed_change": "2C -> 1D",
               "status": "observed_strong"
             }
+          },
+          "Out8": {
+            "high_pass_mode": {
+              "storage": "block_dump",
+              "block_hex": "0x1A",
+              "offset_dec": 31,
+              "write_test_source": "00 01 05 32 0B 00 00 12",
+              "observed_change": "00 -> 12",
+              "status": "observed_strong"
+            },
+            "low_pass_mode": {
+              "storage": "block_dump",
+              "block_hex": "0x1A",
+              "offset_dec": 32,
+              "write_test_source": "00 01 05 31 0B 2C 01 14",
+              "observed_change": "00 -> 14",
+              "status": "observed_strong"
+            }
           }
         },
         "not_yet_decoded": [
-          "exact slope field storage",
+          "exact low-pass slope field storage",
           "exact family field storage",
           "full all-output read map"
         ]
@@ -2429,6 +2682,16 @@
           ]
         },
         "output_locations": {
+          "Out1": {
+            "storage": "block_dump",
+            "block_hex": "0D",
+            "unknown": {
+              "offset_dec": 23,
+              "observed_change": "0x0000 -> 0x1234",
+              "status": "observed_strong",
+              "note": "controlled write diff with 00 01 0A 3F 04 E6 03 B7 0B 00 00 CF 00 vs 00 01 0A 3F 04 E6 03 B7 0B 34 12 CF 00 changed bytes 0x17..0x18 in block 0x0D"
+            }
+          },
           "Out8": {
             "storage": "block_dump",
             "block_hex": "1B",
@@ -2452,8 +2715,9 @@
             },
             "unknown": {
               "offset_dec": 51,
-              "status": "predicted_strong",
-              "note": "unverified intermediate u16 slot inferred from the observed write layout and the contiguous spacing between release@49 and threshold@53"
+              "observed_change": "0x0000 -> 0x1234",
+              "status": "observed_strong",
+              "note": "controlled write diff with 00 01 0A 3F 0B E6 03 B7 0B 00 00 CF 00 vs 00 01 0A 3F 0B E6 03 B7 0B 34 12 CF 00 changed bytes 0x33..0x34 in block 0x1B"
             },
             "threshold": {
               "offset_dec": 53,
@@ -2492,7 +2756,7 @@
             "Out1": {
               "attack": { "block_hex": "0D", "offset_dec": 19, "status": "predicted_strong" },
               "release": { "block_hex": "0D", "offset_dec": 21, "status": "predicted_strong" },
-              "unknown": { "block_hex": "0D", "offset_dec": 23, "status": "predicted_strong" },
+              "unknown": { "block_hex": "0D", "offset_dec": 23, "status": "observed_strong" },
               "threshold": { "block_hex": "0D", "offset_dec": 25, "status": "predicted_strong" }
             },
             "Out2": {
@@ -2534,7 +2798,7 @@
             "Out8": {
               "attack": { "block_hex": "1B", "offset_dec": 47, "status": "observed_strong" },
               "release": { "block_hex": "1B", "offset_dec": 49, "status": "observed_strong" },
-              "unknown": { "block_hex": "1B", "offset_dec": 51, "status": "predicted_strong" },
+              "unknown": { "block_hex": "1B", "offset_dec": 51, "status": "observed_strong" },
               "threshold": { "block_hex": "1B", "offset_dec": 53, "status": "observed_strong" }
             }
           }
@@ -2572,11 +2836,28 @@
                 "status": "observed_strong"
               }
             ]
+          },
+          "unknown": {
+            "status": "observed_partial",
+            "read_locations_observed": [
+              {
+                "output": "Out1",
+                "block_hex": "0D",
+                "offset_dec": 23,
+                "status": "observed_strong"
+              },
+              {
+                "output": "Out8",
+                "block_hex": "1B",
+                "offset_dec": 51,
+                "status": "observed_strong"
+              }
+            ]
           }
         },
         "not_yet_proven": [
           "semantic meaning of the intermediate u16 field between release and threshold",
-          "direct targeted read verification for Out1..Out7"
+          "direct targeted read verification for Out2..Out7"
         ]
       }
     },
@@ -3212,7 +3493,48 @@
         "status": "observed"
       },
       "read": {
-        "status": "not_decoded"
+        "status": "observed_plus_predicted_strong",
+        "type": "input_mask_u8",
+        "observed_locations": [
+          {
+            "output": "Out1",
+            "block_hex": "0B",
+            "offset_dec": 39,
+            "examples": {
+              "InA_mask": "0x01",
+              "InB_mask": "0x02"
+            },
+            "status": "observed_strong"
+          },
+          {
+            "output": "Out8",
+            "block_hex": "1A",
+            "offset_dec": 17,
+            "examples": {
+              "InA_mask": "0x01",
+              "InC_mask": "0x04"
+            },
+            "status": "observed_strong"
+          }
+        ],
+        "predicted_full_read_map": {
+          "rule": "Matrix routing read follows the same per-output stride family as output matrix/crossover storage. The route byte appears immediately before the four matrix crosspoint gain u16 values for the output.",
+          "outputs": {
+            "Out1": { "block_hex": "0B", "offset_dec": 39, "status": "observed_strong" },
+            "Out2": { "block_hex": "0D", "offset_dec": 43, "status": "predicted_strong" },
+            "Out3": { "block_hex": "0F", "offset_dec": 47, "status": "predicted_strong" },
+            "Out4": { "block_hex": "11", "offset_dec": 51, "status": "predicted_strong" },
+            "Out5": { "block_hex": "14", "offset_dec": 5, "status": "predicted_strong" },
+            "Out6": { "block_hex": "16", "offset_dec": 9, "status": "predicted_strong" },
+            "Out7": { "block_hex": "18", "offset_dec": 13, "status": "predicted_strong" },
+            "Out8": { "block_hex": "1A", "offset_dec": 17, "status": "observed_strong" }
+          }
+        },
+        "observations": [
+          "Out1 routing changed block 0x0B offset 39 from 0x01 to 0x02 when written from InA to InB",
+          "Out8 routing changed block 0x1A offset 17 from 0x01 to 0x04 when written from InA to InC",
+          "the route byte sits immediately before the four matrix crosspoint gain u16 values for the same output"
+        ]
       }
     },
     "matrix_crosspoint_gain": {
@@ -3429,10 +3751,65 @@
         "sine_frequency_model": "test_tone_sine_frequency"
       },
       "write": {
-        "status": "not_decoded"
+        "status": "observed_partial",
+        "command": "0x39",
+        "payload_structure": "00 01 03 39 <source_index> <sine_frequency_raw>",
+        "field_layout": {
+          "source_index_u8": {
+            "payload_offset_dec": 4,
+            "status": "observed_strong"
+          },
+          "sine_frequency_raw_u8": {
+            "payload_offset_dec": 5,
+            "status": "observed_strong"
+          }
+        },
+        "source_index_mapping": {
+          "0x00": "ANALOG INPUT",
+          "0x01": "PINK NOISE",
+          "0x02": "WHITE NOISE",
+          "0x03": "SINE"
+        },
+        "observations": [
+          "switching to ANALOG INPUT produced 00 01 03 39 00 00",
+          "switching to PINK NOISE produced 00 01 03 39 01 00",
+          "switching to WHITE NOISE produced 00 01 03 39 02 00",
+          "switching to SINE produced 00 01 03 39 03 00",
+          "moving the sine frequency control while SINE was selected produced writes such as 00 01 03 39 03 1E"
+        ],
+        "status_note": "The generator source is decoded strongly. The last byte is a 31-step sine frequency selector raw value, but the exact raw-to-Hz mapping is not yet proven."
       },
       "read": {
-        "status": "not_decoded"
+        "status": "observed_partial",
+        "storage": "block_dump",
+        "block_hex": "1C",
+        "field_locations": {
+          "source": {
+            "offset_dec": 41,
+            "examples": {
+              "ANALOG INPUT": "0x00",
+              "SINE": "0x03"
+            },
+            "status": "observed_strong"
+          },
+          "sine_frequency_raw": {
+            "offset_dec": 43,
+            "examples": {
+              "raw_low": "0x00",
+              "raw_high": "0x1E"
+            },
+            "enum_ref": "test_tone_sine_frequency.selector_mapping",
+            "status": "observed_strong"
+          }
+        },
+        "observations": [
+          "test tone source changed block 0x1C offset 41 from 0x00 to 0x03 when written from ANALOG INPUT to SINE",
+          "sine frequency changed block 0x1C offset 43 from 0x00 to 0x1E when written from the lowest to the highest observed sine selector step",
+          "the 31 sine selector steps align with the standard third-octave-like list 20Hz..20KHz used by the GUI"
+        ],
+        "not_yet_proven": [
+          "direct point-by-point capture for intermediate sine selector values beyond the observed 0x00 and 0x1E endpoints"
+        ]
       }
     },
     "device_password": {

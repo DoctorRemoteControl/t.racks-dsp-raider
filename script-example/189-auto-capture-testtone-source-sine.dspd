@@ -1,0 +1,19 @@
+let tag = "testtone-source-sine";
+
+guiConnect();
+
+let cap = guiActionCapture(
+    "Switch only the test tone source to SINE now.",
+    45000,
+    1200,
+    6000
+);
+
+let last = lastWriteExcluding(cap, 0x40);
+let recent = recentWritesExcluding(cap, 20, 0x40);
+
+saveText("out/clean/${tag}/last-write.txt", last);
+saveText("out/clean/${tag}/recent-interesting-writes.txt", recent);
+
+print("done");
+print(last);

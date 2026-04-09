@@ -1,0 +1,21 @@
+let tag = "channel-names-set";
+
+guiConnect();
+
+let cap = guiActionCapture(
+    "On the channel naming UI, enter your prepared names into the text fields, then click only the SET button once now.",
+    60000,
+    1500,
+    10000
+);
+
+let last = lastWriteExcluding(cap, 0x40);
+let recent = recentWritesExcluding(cap, 40, 0x40);
+
+saveText("out/clean/${tag}/capture.txt", cap);
+saveText("out/clean/${tag}/last-write.txt", last);
+saveText("out/clean/${tag}/recent-interesting-writes.txt", recent);
+
+print("done");
+print(last);
+print(recent);

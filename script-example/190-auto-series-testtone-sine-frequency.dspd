@@ -1,0 +1,19 @@
+let tag = "testtone-sine-frequency";
+
+guiConnect();
+
+let cap = guiActionCapture(
+    "With test tone source already set to SINE, move only the sine frequency control slowly across several positions now.",
+    45000,
+    1200,
+    8000
+);
+
+let last = lastWriteExcluding(cap, 0x40);
+let recent = recentWritesExcluding(cap, 20, 0x40);
+
+saveText("out/fader/${tag}/last-write.txt", last);
+saveText("out/fader/${tag}/recent-interesting-writes.txt", recent);
+
+print("done");
+print(last);

@@ -1,0 +1,32 @@
+let tag = "ina-lowpass-bypass-gui";
+let base = "out/gui-read-decode/${tag}";
+
+connect();
+attachSession();
+
+let before2 = readBlock(2);
+saveText("${base}/before/block-2.hex.txt", before2.payloadHex);
+let before28 = readBlock(28);
+saveText("${base}/before/block-28.hex.txt", before28.payloadHex);
+
+guiConnect();
+clearFrames();
+let cap = guiActionCapture(
+    "On Channel/InA, click only the LowPass bypass button once now.",
+    45000,
+    1200,
+    6000
+);
+
+let last = lastWriteExcluding(cap, 0x40);
+let recent = recentWritesExcluding(cap, 16, 0x40);
+saveText("${base}/capture/last-write.txt", last);
+saveText("${base}/capture/recent-interesting-writes.txt", recent);
+
+let after2 = readBlock(2);
+saveText("${base}/after/block-2.hex.txt", after2.payloadHex);
+let after28 = readBlock(28);
+saveText("${base}/after/block-28.hex.txt", after28.payloadHex);
+
+print("done");
+print(last);

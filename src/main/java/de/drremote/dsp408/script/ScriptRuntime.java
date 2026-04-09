@@ -5,6 +5,7 @@ import de.drremote.dsp408.proxy.GuiSnifferClient;
 import de.drremote.dsp408.proxy.ProxyClient;
 import de.drremote.dsp408.proxy.ProxyConfig;
 
+import java.io.InputStream;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -62,6 +63,10 @@ final class ScriptRuntime {
     }
 
     void beginGuiCapture() throws Exception {
+        if (guiSniffer != null) {
+            guiSniffer.beginCapture();
+            return;
+        }
         if (client != null) {
             client.beginCapture();
             return;
@@ -70,6 +75,9 @@ final class ScriptRuntime {
     }
 
     GuiCaptureResult finishGuiCapture(long quietMs, long maxWaitMs) throws Exception {
+        if (guiSniffer != null) {
+            return guiSniffer.finishCapture(quietMs, maxWaitMs);
+        }
         if (client != null) {
             return client.finishCapture(quietMs, maxWaitMs);
         }
@@ -80,10 +88,40 @@ final class ScriptRuntime {
                                       long quietMs,
                                       long maxWaitMs,
                                       Integer... ignoredCommands) throws Exception {
+        if (guiSniffer != null) {
+            return guiSniffer.captureUntilAction(actionWindowMs, quietMs, maxWaitMs, ignoredCommands);
+        }
         if (client != null) {
             return client.captureUntilAction(actionWindowMs, quietMs, maxWaitMs, ignoredCommands);
         }
         return requireGuiSniffer().captureUntilAction(actionWindowMs, quietMs, maxWaitMs, ignoredCommands);
+    }
+
+    void reconnectSession(long readyTimeoutMs, long pollMs) throws Exception {
+        closeGuiSniffer();
+        closeClient();
+        connect(defaultStreamHost, defaultStreamPort, defaultControlHost, defaultControlPort);
+        requireClient().attachSession(readyTimeoutMs, pollMs);
+    }
+
+    void pauseForUser(String message) throws Exception {
+        if (message != null && !message.isBlank()) {
+            System.out.println(message);
+        }
+        System.out.println("[SCRIPT] Press ENTER to continue...");
+        System.out.flush();
+
+        InputStream in = System.in;
+        byte[] one = new byte[1];
+        while (true) {
+            int n = in.read(one);
+            if (n < 0) {
+                throw new IllegalStateException("pause() requires interactive stdin, but stdin is closed.");
+            }
+            if (one[0] == '\n' || one[0] == '\r') {
+                return;
+            }
+        }
     }
 
     void closeClient() throws Exception {

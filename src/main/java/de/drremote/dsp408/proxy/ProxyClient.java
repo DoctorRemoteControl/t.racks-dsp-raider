@@ -54,7 +54,15 @@ public final class ProxyClient implements AutoCloseable {
 
     public void attachSession() throws IOException {
         requireConnected();
-        waitUntilInjectReadyWithoutReset();
+        waitUntilInjectReadyWithoutReset(
+                ProxyConstants.READY_WAIT_TIMEOUT_MS,
+                ProxyConstants.RETRY_DELAY_MS
+        );
+    }
+
+    public void attachSession(long timeoutMs, long pollMs) throws IOException {
+        requireConnected();
+        waitUntilInjectReadyWithoutReset(timeoutMs, pollMs);
     }
 
     public void clearFrames() {
@@ -297,8 +305,9 @@ public final class ProxyClient implements AutoCloseable {
         throw new IOException("DSP session active, but injectReady did not become true in time.");
     }
 
-    private void waitUntilInjectReadyWithoutReset() throws IOException {
-        long deadline = System.currentTimeMillis() + ProxyConstants.READY_WAIT_TIMEOUT_MS;
+    private void waitUntilInjectReadyWithoutReset(long timeoutMs, long pollMs) throws IOException {
+        long deadline = System.currentTimeMillis() + Math.max(1000L, timeoutMs);
+        long sleepMs = Math.max(50L, pollMs);
         ProxyStatus last = null;
 
         while (System.currentTimeMillis() < deadline) {
@@ -306,7 +315,7 @@ public final class ProxyClient implements AutoCloseable {
             if (last.sessionActive() && last.injectReady()) {
                 return;
             }
-            WaitUtil.sleepMs(ProxyConstants.RETRY_DELAY_MS);
+            WaitUtil.sleepMs(sleepMs);
         }
 
         if (last == null) {

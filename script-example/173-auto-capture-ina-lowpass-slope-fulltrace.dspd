@@ -1,0 +1,28 @@
+let tag = "ina-lowpass-slope-fulltrace";
+let base = "out/clean/${tag}";
+
+guiConnect();
+let cap = guiActionCapture(
+    "Select InA on the Channel page. Keep LowPass frequency fixed and bypass unchanged. Now switch only the LowPass slope/family once between clearly different values, for example BW -6 and LR -48.",
+    45000,
+    1500,
+    8000
+);
+
+let last = lastWriteExcluding(cap, 0x40);
+let recent = recentWritesExcluding(cap, 32, 0x40);
+let allWrites31 = writesByCommand(cap, 0x31);
+let series31 = payloadSeries(allWrites31);
+let changing31 = changingOffsetsAcrossWrites(allWrites31);
+
+saveText("${base}/capture.txt", cap);
+saveText("${base}/last-write.txt", last);
+saveText("${base}/recent-interesting-writes.txt", recent);
+saveText("${base}/writes-cmd31.txt", allWrites31);
+saveText("${base}/payload-series-cmd31.txt", series31);
+saveText("${base}/changing-offsets-cmd31.txt", changing31);
+
+print("done");
+print(last);
+print(series31);
+print(changing31);

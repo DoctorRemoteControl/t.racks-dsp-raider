@@ -1,0 +1,21 @@
+let tag = "channel-names-set-unique";
+
+guiConnect();
+
+let cap = guiActionCapture(
+    "Prepare 12 clearly unique short channel names in the GUI, then click only the SET button once now. Recommended names: IA1, IB2, IC3, ID4, O11, O22, O33, O44, O55, O66, O77, O88.",
+    60000,
+    1500,
+    10000
+);
+
+let last = lastWriteExcluding(cap, 0x40);
+let recent = recentWritesExcluding(cap, 60, 0x40);
+
+saveText("out/clean/${tag}/capture.txt", cap);
+saveText("out/clean/${tag}/last-write.txt", last);
+saveText("out/clean/${tag}/recent-interesting-writes.txt", recent);
+
+print("done");
+print(last);
+print(recent);
