@@ -1,0 +1,7 @@
+tag=out8-highpass-bypass-toggle
+ + frames= + 17 + 
+ + writes= + 17 + 
+ + responses= + 0 + 
+ + seriesCount= + len ( [sniff{dir=PC_TO_DSP, cmd=0x32, len=8, hex=00 01 05 32 0B 0D 00 00}] ) + 
+ + lastInteresting= + sniff{dir=PC_TO_DSP, cmd=0x32, len=8, hex=00 01 05 32 0B 0D 00 00} + 
+ + assumption=bypass_started_off

@@ -67,6 +67,42 @@ public final class GuiSnifferClient implements AutoCloseable {
         return new GuiCaptureResult(out);
     }
 
+    public SniffedFrame waitForAnyFrame(long timeoutMs) throws IOException {
+        requireConnected();
+
+        StreamFrameEvent event = streamChannel.waitForAnyFrame(timeoutMs);
+        if (event == null) {
+            return null;
+        }
+
+        return toSniffedFrame(event);
+    }
+
+    public SniffedFrame waitForWrite(long timeoutMs, Integer... ignoredCommands) throws IOException {
+        requireConnected();
+
+        long deadline = System.currentTimeMillis() + Math.max(1L, timeoutMs);
+
+        while (System.currentTimeMillis() < deadline) {
+            long waitMs = Math.max(1L, deadline - System.currentTimeMillis());
+            SniffedFrame frame = waitForAnyFrame(waitMs);
+
+            if (frame == null) {
+                return null;
+            }
+            if (!frame.isWrite()) {
+                continue;
+            }
+            if (matchesAny(frame.command(), ignoredCommands)) {
+                continue;
+            }
+
+            return frame;
+        }
+
+        return null;
+    }
+
     public GuiCaptureResult captureUntilAction(long actionWindowMs,
                                                long quietMs,
                                                long maxWaitMs,
@@ -120,8 +156,10 @@ public final class GuiSnifferClient implements AutoCloseable {
                 continue;
             }
 
-            if (!ignored) {
-                quietDeadline = System.currentTimeMillis() + quiet;
+            if (interestingWrite) {
+                long current = System.currentTimeMillis();
+                quietDeadline = current + quiet;
+                hardDeadline = current + maxAfterAction;
             }
         }
 

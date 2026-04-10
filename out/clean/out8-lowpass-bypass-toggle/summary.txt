@@ -1,0 +1,7 @@
+tag=out8-lowpass-bypass-toggle
+ + frames= + 18 + 
+ + writes= + 18 + 
+ + responses= + 0 + 
+ + seriesCount= + len ( [sniff{dir=PC_TO_DSP, cmd=0x31, len=8, hex=00 01 05 31 0B 2C 01 00}] ) + 
+ + lastInteresting= + sniff{dir=PC_TO_DSP, cmd=0x31, len=8, hex=00 01 05 31 0B 2C 01 00} + 
+ + assumption=bypass_started_off

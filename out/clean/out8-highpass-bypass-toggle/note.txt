@@ -1,0 +1,4 @@
+Out8 HighPass bypass toggle capture.
+ + Expected command: 0x32
+ + Expected channel: 0x0B
+ + Interpretation goal: verify whether bypass uses raw mode 0x00.

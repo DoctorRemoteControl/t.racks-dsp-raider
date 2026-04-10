@@ -1,0 +1,5 @@
+Recorded Out8 LowPass slope/family series.
+ + Command: 0x31
+ + Channel: 0x0B
+ + Move bottom-up one slope step at a time.
+ + Inspect payload-series.txt and recent-interesting-writes.txt.

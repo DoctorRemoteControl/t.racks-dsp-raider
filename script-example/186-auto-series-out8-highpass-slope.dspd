@@ -1,0 +1,41 @@
+let tag = "out8-highpass-slope-series";
+
+guiConnect();
+
+let cap = guiActionCapture(
+    "Select Out8 on the Channel page, then move only the HighPass slope control from the lowest value upward step by step. Leave frequency and bypass unchanged until you are fully done.",
+    45000,
+    2500,
+    15000
+);
+
+let series = writesByCommandAndChannel(cap, 0x32, 0x0B);
+let last = lastWriteExcluding(cap, 0x40);
+let recent = recentWritesExcluding(cap, 24, 0x40);
+
+saveText("out/fader/${tag}/summary.txt",
+    "tag=${tag}\n"
+    + "frames=" + cap.totalFrames + "\n"
+    + "writes=" + cap.writeCount + "\n"
+    + "responses=" + cap.responseCount + "\n"
+    + "seriesCount=" + len(series) + "\n"
+    + "lastInteresting=" + last + "\n"
+);
+
+saveText("out/fader/${tag}/last-write.txt", last);
+saveText("out/fader/${tag}/recent-interesting-writes.txt", recent);
+saveText("out/fader/${tag}/payload-series.txt", payloadSeries(series));
+saveText("out/fader/${tag}/changing-offsets.txt", changingOffsetsAcrossWrites(series));
+saveText("out/fader/${tag}/u16-at-5.txt", u16Series(series, 5));
+saveText("out/fader/${tag}/note.txt",
+    "Recorded Out8 HighPass slope/family series.\n"
+    + "Command: 0x32\n"
+    + "Channel: 0x0B\n"
+    + "Move bottom-up one slope step at a time.\n"
+    + "Inspect payload-series.txt and recent-interesting-writes.txt.\n"
+);
+
+print("done");
+print(last);
+print("seriesCount=" + len(series));
+print(changingOffsetsAcrossWrites(series));

@@ -118,6 +118,24 @@
                             </transformers>
                         </configuration>
                     </execution>
+
+                    <execution>
+                        <id>shade-gui-write-decode</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                        <configuration>
+                            <createDependencyReducedPom>false</createDependencyReducedPom>
+                            <shadedArtifactAttached>false</shadedArtifactAttached>
+                            <outputFile>${project.build.directory}/tracks-dsp-gui-write-decode-all.jar</outputFile>
+                            <transformers>
+                                <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                                    <mainClass>de.drremote.dsp408.tool.DspGuiWriteDecodeCli</mainClass>
+                                </transformer>
+                            </transformers>
+                        </configuration>
+                    </execution>
                 </executions>
             </plugin>
         </plugins>

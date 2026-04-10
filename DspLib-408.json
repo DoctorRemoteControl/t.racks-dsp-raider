@@ -245,25 +245,25 @@
     ],
     "crossover_slopes": [
       "BW -6",
-      "BW -12",
-      "BW -18",
-      "BW -24",
-      "BW -30",
-      "BW -36",
-      "BW -42",
-      "BW -48",
-      "LR -12",
-      "LR -24",
-      "LR -36",
-      "LR -48",
       "BS -6",
+      "BW -12",
       "BS -12",
+      "LR -12",
+      "BW -18",
       "BS -18",
+      "BW -24",
       "BS -24",
+      "LR -24",
+      "BW -30",
       "BS -30",
+      "BW -36",
       "BS -36",
+      "LR -36",
+      "BW -42",
       "BS -42",
-      "BS -48"
+      "BW -48",
+      "BS -48",
+      "LR -48"
     ],
     "geq_band_freqs_hz": [
       "20",
@@ -333,22 +333,42 @@
       "ui_unit": "dB",
       "gui_range": [-60, 12],
       "mapping_source": "DspGainMapping.dbToDeviceValue()",
-      "status": "observed"
+      "raw_to_gui": "db = raw <= 80 ? ((raw / 2.0) - 60.0) : ((raw / 10.0) - 28.0)",
+      "gui_to_raw": "raw = db <= -20.0 ? round((db + 60.0) * 2.0) : round((db + 28.0) * 10.0)",
+      "raw_range_for_gui": [0, 400],
+      "mapping_model": "piecewise_linear",
+      "note": "Anchored by observed points including -60 dB => 0, -20 dB => 80, -6 dB => 220, 0 dB => 280. Current best-fit model uses 2 raw steps per dB from -60..-20 and 10 raw steps per dB from -20..+12.",
+      "status": "observed_plus_inferred_strong"
     },
     "peq_frequency": {
       "ui_unit": "Hz",
-      "gui_range": [20, 20000],
-      "status": "observed"
+      "gui_range": [19.7, 20160.0],
+      "raw_range_for_gui": [0, 300],
+      "raw_to_gui": "hz = 19.7 * pow(20160.0 / 19.7, raw / 300.0)",
+      "gui_to_raw": "raw = round(300.0 * log(hz / 19.7) / log(20160.0 / 19.7))",
+      "mapping_model": "logarithmic",
+      "note": "Observed endpoints and baseline payloads align with a logarithmic mapping from raw 0..300 to 19.7 Hz .. 20.16 kHz. Raw 0x0000 corresponds to the low endpoint, and raw 0x012C corresponds to the high endpoint.",
+      "status": "observed_plus_inferred_strong"
     },
     "peq_q": {
       "ui_unit": "Q",
-      "gui_range": [0.4, 128],
-      "status": "observed"
+      "gui_range": [0.4, 128.0],
+      "raw_range_for_gui": [0, 100],
+      "raw_to_gui": "q = 0.4 * pow(128.0 / 0.4, raw / 100.0)",
+      "gui_to_raw": "raw = round(100.0 * log(q / 0.4) / log(128.0 / 0.4))",
+      "mapping_model": "logarithmic",
+      "note": "Observed PEQ Q writes fit a logarithmic GUI control covering 0.40 .. 128.00 over raw 0..100.",
+      "status": "observed_plus_inferred_strong"
     },
     "peq_gain": {
       "ui_unit": "dB",
       "gui_range": [-12, 12],
-      "status": "observed"
+      "raw_to_gui": "db = (raw / 10.0) - 12.0",
+      "gui_to_raw": "raw = round((db + 12.0) * 10.0)",
+      "raw_range_for_gui": [0, 240],
+      "mapping_model": "linear_0.1db_steps",
+      "note": "PEQ gain writes follow the same observed 0.1 dB storage step model as GEQ gain across -12 dB .. +12 dB.",
+      "status": "observed_plus_inferred_strong"
     },
     "geq_gain": {
       "ui_unit": "dB",
@@ -423,7 +443,12 @@
     "matrix_crosspoint_gain": {
       "ui_unit": "dB",
       "gui_range": [-60, 0],
-      "status": "observed"
+      "raw_to_gui": "db = raw <= 80 ? ((raw / 2.0) - 60.0) : ((raw / 10.0) - 28.0)",
+      "gui_to_raw": "raw = db <= -20.0 ? round((db + 60.0) * 2.0) : round((db + 28.0) * 10.0)",
+      "raw_range_for_gui": [0, 280],
+      "mapping_model": "piecewise_linear",
+      "note": "Anchored by observed points 0 dB => 280, -1 dB => 270, -20 dB => 80, -28 dB => 64, -30 dB => 60 and -60 dB => 0. Current best-fit model uses 2 raw steps per dB from -60..-20 and 10 raw steps per dB from -20..0.",
+      "status": "observed_plus_inferred_strong"
     },
     "test_tone_sine_frequency": {
       "ui_unit": "Hz",
@@ -1788,6 +1813,15 @@
         "high_pass": {
           "command": "0x32",
           "payload_structure_partial": "00 01 05 32 <channel_index> <value_lo> <value_hi> <mode_or_state>",
+          "frequency_mapping": {
+            "ui_unit": "Hz",
+            "gui_range": [19.7, 20160.0],
+            "raw_range_for_gui": [0, 300],
+            "raw_to_gui": "hz = 19.7 * pow(20160.0 / 19.7, raw / 300.0)",
+            "gui_to_raw": "raw = round(300.0 * log(hz / 19.7) / log(20160.0 / 19.7))",
+            "mapping_model": "logarithmic",
+            "status": "observed_plus_inferred_strong"
+          },
           "observations": [
             "for Out1 High Pass Bypass, payloads 00 01 05 32 04 00 00 14 and 00 01 05 32 04 00 00 00 were observed",
             "for Out1 High Pass Frequency, command 0x32 was observed repeatedly with output channel byte 0x04 and changing u16 values in bytes 5 and 6 while the last byte stayed 0x00",
@@ -1795,7 +1829,11 @@
             "earlier crossover runs were accidentally performed on Out8; those showed the same command structure with channel byte 0x0B",
             "for InA High Pass Frequency, payload 00 01 05 32 00 2C 01 00 was observed",
             "for InA High Pass Bypass, payload 00 01 05 32 00 2C 01 13 was observed",
-            "for InA High Pass slope, payload 00 01 05 32 00 2C 01 01 was observed for one slope endpoint and payload 00 01 05 32 00 2C 01 14 was observed for the opposite slope endpoint"
+            "for InA High Pass slope, payload 00 01 05 32 00 2C 01 01 was observed for one slope endpoint and payload 00 01 05 32 00 2C 01 14 was observed for the opposite slope endpoint",
+            "Out8 High Pass slope/family was measured completely by moving the GUI selector from bottom to top while keeping frequency fixed at raw 0x000D; the final mode byte ran through every value from 0x01 to 0x14 without gaps",
+            "Out8 High Pass bypass was then toggled from OFF to ON while the selected slope remained fixed, and the write became 00 01 05 32 0B 0D 00 00; this establishes raw mode 0x00 as bypass ON for Out8 HP",
+            "the user later confirmed that input crossover selectors follow the same write-side pattern as the outputs; the crossover model is therefore treated as common for InA..InD and Out1..Out8, with only the channel byte changing",
+            "because all channels share the same command structure and only the channel index byte changes, the fully measured crossover HP selector pattern is treated as the common write rule for InA..InD and Out1..Out8: raw 0x00 means bypass ON and raw 0x01..0x14 map to crossover_slopes in enum order"
           ],
           "input_channel_index_observed": {
             "InA": "0x00"
@@ -1812,7 +1850,40 @@
             "out1_hp_bypass_toggle_on": "00 01 05 32 04 00 00 14",
             "out1_hp_bypass_toggle_off": "00 01 05 32 04 00 00 00",
             "out8_hp_bypass_toggle_on": "00 01 05 32 0B 00 00 12",
-            "out8_hp_bypass_toggle_off": "00 01 05 32 0B 00 00 00"
+            "out8_hp_bypass_toggle_off": "00 01 05 32 0B 00 00 00",
+            "out8_hp_bypass_toggle_on_after_full_slope_decode": "00 01 05 32 0B 0D 00 00"
+          },
+          "out8_high_pass_slope_full_series_observed": {
+            "fixed_frequency_write": "00 01 05 32 0B 0D 00 ..",
+            "mode_sequence_hex": [
+              "0x01", "0x02", "0x03", "0x04", "0x05",
+              "0x06", "0x07", "0x08", "0x09", "0x0A",
+              "0x0B", "0x0C", "0x0D", "0x0E", "0x0F",
+              "0x10", "0x11", "0x12", "0x13", "0x14"
+            ],
+            "decoded_against_enum_order": {
+              "0x01": "BW -6",
+              "0x02": "BS -6",
+              "0x03": "BW -12",
+              "0x04": "BS -12",
+              "0x05": "LR -12",
+              "0x06": "BW -18",
+              "0x07": "BS -18",
+              "0x08": "BW -24",
+              "0x09": "BS -24",
+              "0x0A": "LR -24",
+              "0x0B": "BW -30",
+              "0x0C": "BS -30",
+              "0x0D": "BW -36",
+              "0x0E": "BS -36",
+              "0x0F": "LR -36",
+              "0x10": "BW -42",
+              "0x11": "BS -42",
+              "0x12": "BW -48",
+              "0x13": "BS -48",
+              "0x14": "LR -48"
+            },
+            "status": "observed_strong"
           },
           "frequency_examples": {
             "out1_hp_frequency_step_low": "00 01 05 32 04 01 00 00",
@@ -1825,32 +1896,89 @@
             },
             "frequency_u16": {
               "status": "observed_strong",
-              "note": "bytes 5 and 6 changed as a little-endian value during controlled HP frequency changes"
+              "note": "bytes 5 and 6 changed as a little-endian value during controlled HP frequency changes and fit the same logarithmic 19.7 Hz .. 20.16 kHz model used for PEQ frequency"
             },
             "mode_or_state_u8": {
-              "status": "observed_partial",
+              "status": "observed_plus_inferred_strong",
               "observed_values": {
-                "0x00": "normal or non-bypass state",
-                "0x01": "observed for one InA HP slope endpoint",
+                "0x00": "bypass ON for Out8 HP with fixed frequency raw 0x000D",
+                "0x01": "observed for one HP slope endpoint",
+                "0x12": "previously observed in an Out8 HP mode run before the full slope series was measured",
                 "0x13": "observed for InA HP bypass-toggled counterpart",
-                "0x12": "observed for Out8 HP bypass-toggled counterpart",
-                "0x14": "observed for Out1 HP bypass-toggled counterpart"
+                "0x14": "observed for one HP slope endpoint and as the top of the fully measured Out8 HP slope/family run"
               },
-              "note": "current evidence suggests this byte encodes a combined HP slope/family/bypass mode rather than a simple boolean bypass flag"
+              "note": "The crossover HP mode byte is now treated as a common selector model for inputs and outputs: raw 0x00 means bypass ON and raw 0x01..0x14 form the slope/family enum run in crossover_slopes order. Older isolated InA 0x13 captures are treated as stale or context-dependent."
+            },
+            "out8_high_pass_slope_enum_mapping": {
+              "selector_type": "enum20",
+              "enum_ref": "crossover_slopes",
+              "raw_range_for_gui": [1, 20],
+              "offset_basis": "enum_index = raw - 1",
+              "status": "observed_strong"
+            },
+            "out8_high_pass_bypass_mapping": {
+              "bypass_on_raw": "0x00",
+              "bypass_off_requires_selected_slope_raw": true,
+              "status": "observed_strong"
+            },
+            "all_outputs_high_pass_slope_enum_mapping": {
+              "scope": ["Out1", "Out2", "Out3", "Out4", "Out5", "Out6", "Out7", "Out8"],
+              "selector_type": "enum20",
+              "enum_ref": "crossover_slopes",
+              "raw_range_for_gui": [1, 20],
+              "offset_basis": "enum_index = raw - 1",
+              "basis": "fully observed on Out8 and transferred to Out1..Out7 because output crossover write structure is otherwise identical except for the linear output channel byte",
+              "status": "observed_plus_inferred_strong"
+            },
+            "all_outputs_high_pass_bypass_mapping": {
+              "scope": ["Out1", "Out2", "Out3", "Out4", "Out5", "Out6", "Out7", "Out8"],
+              "bypass_on_raw": "0x00",
+              "bypass_off_requires_selected_slope_raw": true,
+              "basis": "directly observed on Out8 after full slope decode and now treated as the common crossover rule for all channels",
+              "status": "observed_plus_inferred_strong"
+            },
+            "all_inputs_high_pass_slope_enum_mapping": {
+              "scope": ["InA", "InB", "InC", "InD"],
+              "selector_type": "enum20",
+              "enum_ref": "crossover_slopes",
+              "raw_range_for_gui": [1, 20],
+              "offset_basis": "enum_index = raw - 1",
+              "basis": "user confirmed that input crossover selectors follow the same pattern as outputs; channel byte changes, selector model stays the same",
+              "status": "observed_plus_inferred_strong"
+            },
+            "all_inputs_high_pass_bypass_mapping": {
+              "scope": ["InA", "InB", "InC", "InD"],
+              "bypass_on_raw": "0x00",
+              "bypass_off_requires_selected_slope_raw": true,
+              "basis": "user confirmed input crossover uses the same selector model as outputs",
+              "status": "observed_plus_inferred_strong"
             }
           },
-          "status": "observed_strong"
+          "status": "observed_plus_inferred_strong"
         },
         "low_pass": {
           "command": "0x31",
           "payload_structure_partial": "00 01 05 31 <channel_index> <value_lo> <value_hi> <mode_or_state>",
+          "frequency_mapping": {
+            "ui_unit": "Hz",
+            "gui_range": [19.7, 20160.0],
+            "raw_range_for_gui": [0, 300],
+            "raw_to_gui": "hz = 19.7 * pow(20160.0 / 19.7, raw / 300.0)",
+            "gui_to_raw": "raw = round(300.0 * log(hz / 19.7) / log(20160.0 / 19.7))",
+            "mapping_model": "logarithmic",
+            "status": "observed_plus_inferred_strong"
+          },
           "observations": [
             "for Out1 Low Pass Bypass, payloads 00 01 05 31 04 2C 01 14 and 00 01 05 31 04 2C 01 00 were observed",
             "for Out1 Low Pass Frequency, command 0x31 was observed repeatedly with output channel byte 0x04 and changing u16 values in bytes 5 and 6 while the last byte stayed 0x00",
             "earlier crossover runs were accidentally performed on Out8; those showed the same command structure with channel byte 0x0B",
             "for InA Low Pass Frequency, payload 00 01 05 31 00 00 00 00 was observed",
             "for InA Low Pass Bypass, payload 00 01 05 31 00 00 00 13 was observed",
-            "the InA Low Pass slope click did not produce a distinct write from the captured baseline, so slope remains undecoded on the write side"
+            "the InA Low Pass slope click did not produce a distinct write from the captured baseline, so input-side LP slope remains undecoded on the write side",
+            "Out8 Low Pass slope/family was measured completely by moving the GUI selector from bottom to top while keeping frequency fixed at raw 0x012C; the final mode byte ran through every value from 0x01 to 0x14 without gaps",
+            "Out8 Low Pass bypass was then toggled from OFF to ON while the selected slope remained fixed, and the write became 00 01 05 31 0B 2C 01 00; this establishes raw mode 0x00 as bypass ON for Out8 LP",
+            "the user later confirmed that input crossover selectors follow the same write-side pattern as the outputs; the crossover model is therefore treated as common for InA..InD and Out1..Out8, with only the channel byte changing",
+            "because all channels share the same command structure and only the channel index byte changes, the fully measured crossover LP selector pattern is treated as the common write rule for InA..InD and Out1..Out8: raw 0x00 means bypass ON and raw 0x01..0x14 map to crossover_slopes in enum order"
           ],
           "input_channel_index_observed": {
             "InA": "0x00"
@@ -1865,7 +1993,40 @@
             "out1_lp_bypass_toggle_on": "00 01 05 31 04 2C 01 14",
             "out1_lp_bypass_toggle_off": "00 01 05 31 04 2C 01 00",
             "out8_lp_bypass_toggle_on": "00 01 05 31 0B 2C 01 14",
-            "out8_lp_bypass_toggle_off": "00 01 05 31 0B 2C 01 00"
+            "out8_lp_bypass_toggle_off": "00 01 05 31 0B 2C 01 00",
+            "out8_lp_bypass_toggle_on_after_full_slope_decode": "00 01 05 31 0B 2C 01 00"
+          },
+          "out8_low_pass_slope_full_series_observed": {
+            "fixed_frequency_write": "00 01 05 31 0B 2C 01 ..",
+            "mode_sequence_hex": [
+              "0x01", "0x02", "0x03", "0x04", "0x05",
+              "0x06", "0x07", "0x08", "0x09", "0x0A",
+              "0x0B", "0x0C", "0x0D", "0x0E", "0x0F",
+              "0x10", "0x11", "0x12", "0x13", "0x14"
+            ],
+            "decoded_against_enum_order": {
+              "0x01": "BW -6",
+              "0x02": "BS -6",
+              "0x03": "BW -12",
+              "0x04": "BS -12",
+              "0x05": "LR -12",
+              "0x06": "BW -18",
+              "0x07": "BS -18",
+              "0x08": "BW -24",
+              "0x09": "BS -24",
+              "0x0A": "LR -24",
+              "0x0B": "BW -30",
+              "0x0C": "BS -30",
+              "0x0D": "BW -36",
+              "0x0E": "BS -36",
+              "0x0F": "LR -36",
+              "0x10": "BW -42",
+              "0x11": "BS -42",
+              "0x12": "BW -48",
+              "0x13": "BS -48",
+              "0x14": "LR -48"
+            },
+            "status": "observed_strong"
           },
           "frequency_examples": {
             "out1_lp_frequency_step_high": "00 01 05 31 04 2C 01 00",
@@ -1878,18 +2039,63 @@
             },
             "frequency_u16": {
               "status": "observed_strong",
-              "note": "bytes 5 and 6 changed as a little-endian value during controlled LP frequency changes"
+              "note": "bytes 5 and 6 changed as a little-endian value during controlled LP frequency changes and fit the same logarithmic 19.7 Hz .. 20.16 kHz model used for PEQ frequency"
             },
             "mode_or_state_u8": {
-              "status": "observed_partial",
+              "status": "observed_plus_inferred_strong",
               "observed_values": {
-                "0x00": "normal or non-bypass state",
+                "0x00": "bypass ON for Out8 LP with fixed frequency raw 0x012C",
                 "0x13": "observed for InA LP bypass-toggled counterpart",
-                "0x14": "bypass-toggled counterpart"
-              }
+                "0x14": "previously observed at the top of the fully measured Out8 LP slope/family run"
+              },
+              "note": "The crossover LP mode byte is now treated as a common selector model for inputs and outputs: raw 0x00 means bypass ON and raw 0x01..0x14 form the slope/family enum run in crossover_slopes order. Older isolated InA 0x13 captures are treated as stale or context-dependent."
+            },
+            "out8_low_pass_slope_enum_mapping": {
+              "selector_type": "enum20",
+              "enum_ref": "crossover_slopes",
+              "raw_range_for_gui": [1, 20],
+              "offset_basis": "enum_index = raw - 1",
+              "status": "observed_strong"
+            },
+            "out8_low_pass_bypass_mapping": {
+              "bypass_on_raw": "0x00",
+              "bypass_off_requires_selected_slope_raw": true,
+              "status": "observed_strong"
+            },
+            "all_outputs_low_pass_slope_enum_mapping": {
+              "scope": ["Out1", "Out2", "Out3", "Out4", "Out5", "Out6", "Out7", "Out8"],
+              "selector_type": "enum20",
+              "enum_ref": "crossover_slopes",
+              "raw_range_for_gui": [1, 20],
+              "offset_basis": "enum_index = raw - 1",
+              "basis": "fully observed on Out8 and transferred to Out1..Out7 because output crossover write structure is otherwise identical except for the linear output channel byte",
+              "status": "observed_plus_inferred_strong"
+            },
+            "all_outputs_low_pass_bypass_mapping": {
+              "scope": ["Out1", "Out2", "Out3", "Out4", "Out5", "Out6", "Out7", "Out8"],
+              "bypass_on_raw": "0x00",
+              "bypass_off_requires_selected_slope_raw": true,
+              "basis": "directly observed on Out8 after full slope decode and now treated as the common crossover rule for all channels",
+              "status": "observed_plus_inferred_strong"
+            },
+            "all_inputs_low_pass_slope_enum_mapping": {
+              "scope": ["InA", "InB", "InC", "InD"],
+              "selector_type": "enum20",
+              "enum_ref": "crossover_slopes",
+              "raw_range_for_gui": [1, 20],
+              "offset_basis": "enum_index = raw - 1",
+              "basis": "user confirmed that input crossover selectors follow the same pattern as outputs; channel byte changes, selector model stays the same",
+              "status": "observed_plus_inferred_strong"
+            },
+            "all_inputs_low_pass_bypass_mapping": {
+              "scope": ["InA", "InB", "InC", "InD"],
+              "bypass_on_raw": "0x00",
+              "bypass_off_requires_selected_slope_raw": true,
+              "basis": "user confirmed input crossover uses the same selector model as outputs",
+              "status": "observed_plus_inferred_strong"
             }
           },
-          "status": "observed_strong"
+          "status": "observed_plus_inferred_strong"
         }
       },
       "read": {
@@ -2009,7 +2215,8 @@
               "offset_dec": 31,
               "write_test_source": "00 01 05 32 0B 00 00 12",
               "observed_change": "00 -> 12",
-              "status": "observed_strong"
+              "status": "observed_strong",
+              "note": "The write-side selector for Out8 High Pass was later measured completely from 0x01 through 0x14 and matches crossover_slopes in order. This storage byte should be treated as HP slope/family mode, not as a simple bypass-only flag."
             },
             "low_pass_mode": {
               "storage": "block_dump",
@@ -2017,12 +2224,12 @@
               "offset_dec": 32,
               "write_test_source": "00 01 05 31 0B 2C 01 14",
               "observed_change": "00 -> 14",
-              "status": "observed_strong"
+              "status": "observed_strong",
+              "note": "The write-side selector for Out8 Low Pass was later measured completely from 0x01 through 0x14 and matches crossover_slopes in order. This storage byte should be treated as LP slope/family mode, not as a simple bypass-only flag."
             }
           }
         },
         "not_yet_decoded": [
-          "exact low-pass slope field storage",
           "exact family field storage",
           "full all-output read map"
         ]
@@ -3798,7 +4005,7 @@
               "raw_low": "0x00",
               "raw_high": "0x1E"
             },
-            "enum_ref": "test_tone_sine_frequency.selector_mapping",
+            "value_model": "test_tone_sine_frequency",
             "status": "observed_strong"
           }
         },

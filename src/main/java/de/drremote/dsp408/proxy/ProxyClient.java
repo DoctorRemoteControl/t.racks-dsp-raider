@@ -163,8 +163,10 @@ public final class ProxyClient implements AutoCloseable {
                 continue;
             }
 
-            if (!ignored) {
-                quietDeadline = System.currentTimeMillis() + quiet;
+            if (interestingWrite) {
+                long current = System.currentTimeMillis();
+                quietDeadline = current + quiet;
+                hardDeadline = current + maxAfterAction;
             }
         }
 
