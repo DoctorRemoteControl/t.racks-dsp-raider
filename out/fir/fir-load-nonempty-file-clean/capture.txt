@@ -1,0 +1,1 @@
+capture{frames=0, writes=0, responses=0}

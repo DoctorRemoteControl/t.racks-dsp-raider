@@ -1,0 +1,254 @@
+﻿[
+    {
+        "Selector":  0,
+        "Offset":  0,
+        "Response":  "01 00 38 56 00 00 00 00 00 80 3F 00 00 00 3F 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00",
+        "DataPrefix":  "00 00 80 3F 00 00 00 3F 00 00 00 00 00 00 00 00",
+        "FirstFloat":  1,
+        "SecondFloat":  0.5,
+        "Classification":  "data"
+    },
+    {
+        "Selector":  0,
+        "Offset":  13,
+        "Response":  "01 00 38 56 00 00 0D 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00",
+        "DataPrefix":  "00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00",
+        "FirstFloat":  0,
+        "SecondFloat":  0,
+        "Classification":  "data"
+    },
+    {
+        "Selector":  0,
+        "Offset":  26,
+        "Response":  "01 00 38 56 00 00 1A 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00",
+        "DataPrefix":  "00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00",
+        "FirstFloat":  0,
+        "SecondFloat":  0,
+        "Classification":  "data"
+    },
+    {
+        "Selector":  0,
+        "Offset":  39,
+        "Response":  "01 00 38 56 00 00 27 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF",
+        "DataPrefix":  "00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00",
+        "FirstFloat":  0,
+        "SecondFloat":  0,
+        "Classification":  "data"
+    },
+    {
+        "Selector":  0,
+        "Offset":  52,
+        "Response":  "01 00 38 56 00 00 34 FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF",
+        "DataPrefix":  "FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF",
+        "FirstFloat":  null,
+        "SecondFloat":  null,
+        "Classification":  "ff_empty_or_unavailable"
+    },
+    {
+        "Selector":  0,
+        "Offset":  156,
+        "Response":  "01 00 38 56 00 00 9C FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF",
+        "DataPrefix":  "FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF",
+        "FirstFloat":  null,
+        "SecondFloat":  null,
+        "Classification":  "ff_empty_or_unavailable"
+    },
+    {
+        "Selector":  0,
+        "Offset":  255,
+        "Response":  "01 00 38 56 00 00 FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF",
+        "DataPrefix":  "FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF",
+        "FirstFloat":  null,
+        "SecondFloat":  null,
+        "Classification":  "ff_empty_or_unavailable"
+    },
+    {
+        "Selector":  1,
+        "Offset":  0,
+        "Response":  "01 00 38 56 01 00 00 FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF",
+        "DataPrefix":  "FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF",
+        "FirstFloat":  null,
+        "SecondFloat":  null,
+        "Classification":  "ff_empty_or_unavailable"
+    },
+    {
+        "Selector":  1,
+        "Offset":  13,
+        "Response":  "01 00 38 56 01 00 0D FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF",
+        "DataPrefix":  "FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF",
+        "FirstFloat":  null,
+        "SecondFloat":  null,
+        "Classification":  "ff_empty_or_unavailable"
+    },
+    {
+        "Selector":  1,
+        "Offset":  26,
+        "Response":  "01 00 38 56 01 00 1A FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF",
+        "DataPrefix":  "FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF",
+        "FirstFloat":  null,
+        "SecondFloat":  null,
+        "Classification":  "ff_empty_or_unavailable"
+    },
+    {
+        "Selector":  1,
+        "Offset":  39,
+        "Response":  "01 00 38 56 01 00 27 FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF",
+        "DataPrefix":  "FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF",
+        "FirstFloat":  null,
+        "SecondFloat":  null,
+        "Classification":  "ff_empty_or_unavailable"
+    },
+    {
+        "Selector":  1,
+        "Offset":  52,
+        "Response":  "01 00 38 56 01 00 34 FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF",
+        "DataPrefix":  "FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF",
+        "FirstFloat":  null,
+        "SecondFloat":  null,
+        "Classification":  "ff_empty_or_unavailable"
+    },
+    {
+        "Selector":  1,
+        "Offset":  156,
+        "Response":  "01 00 38 56 01 00 9C FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF",
+        "DataPrefix":  "FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF",
+        "FirstFloat":  null,
+        "SecondFloat":  null,
+        "Classification":  "ff_empty_or_unavailable"
+    },
+    {
+        "Selector":  1,
+        "Offset":  255,
+        "Response":  "01 00 38 56 01 00 FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF",
+        "DataPrefix":  "FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF",
+        "FirstFloat":  null,
+        "SecondFloat":  null,
+        "Classification":  "ff_empty_or_unavailable"
+    },
+    {
+        "Selector":  2,
+        "Offset":  0,
+        "Response":  "01 00 38 56 02 00 00 FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF",
+        "DataPrefix":  "FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF",
+        "FirstFloat":  null,
+        "SecondFloat":  null,
+        "Classification":  "ff_empty_or_unavailable"
+    },
+    {
+        "Selector":  2,
+        "Offset":  13,
+        "Response":  "01 00 38 56 02 00 0D FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF",
+        "DataPrefix":  "FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF",
+        "FirstFloat":  null,
+        "SecondFloat":  null,
+        "Classification":  "ff_empty_or_unavailable"
+    },
+    {
+        "Selector":  2,
+        "Offset":  26,
+        "Response":  "01 00 38 56 02 00 1A FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF",
+        "DataPrefix":  "FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF",
+        "FirstFloat":  null,
+        "SecondFloat":  null,
+        "Classification":  "ff_empty_or_unavailable"
+    },
+    {
+        "Selector":  2,
+        "Offset":  39,
+        "Response":  "01 00 38 56 02 00 27 FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF",
+        "DataPrefix":  "FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF",
+        "FirstFloat":  null,
+        "SecondFloat":  null,
+        "Classification":  "ff_empty_or_unavailable"
+    },
+    {
+        "Selector":  2,
+        "Offset":  52,
+        "Response":  "01 00 38 56 02 00 34 FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF",
+        "DataPrefix":  "FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF",
+        "FirstFloat":  null,
+        "SecondFloat":  null,
+        "Classification":  "ff_empty_or_unavailable"
+    },
+    {
+        "Selector":  2,
+        "Offset":  156,
+        "Response":  "01 00 38 56 02 00 9C FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF",
+        "DataPrefix":  "FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF",
+        "FirstFloat":  null,
+        "SecondFloat":  null,
+        "Classification":  "ff_empty_or_unavailable"
+    },
+    {
+        "Selector":  2,
+        "Offset":  255,
+        "Response":  "01 00 38 56 02 00 FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF",
+        "DataPrefix":  "FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF",
+        "FirstFloat":  null,
+        "SecondFloat":  null,
+        "Classification":  "ff_empty_or_unavailable"
+    },
+    {
+        "Selector":  3,
+        "Offset":  0,
+        "Response":  "01 00 38 56 03 00 00 FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF",
+        "DataPrefix":  "FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF",
+        "FirstFloat":  null,
+        "SecondFloat":  null,
+        "Classification":  "ff_empty_or_unavailable"
+    },
+    {
+        "Selector":  3,
+        "Offset":  13,
+        "Response":  "01 00 38 56 03 00 0D FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF",
+        "DataPrefix":  "FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF",
+        "FirstFloat":  null,
+        "SecondFloat":  null,
+        "Classification":  "ff_empty_or_unavailable"
+    },
+    {
+        "Selector":  3,
+        "Offset":  26,
+        "Response":  "01 00 38 56 03 00 1A FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF",
+        "DataPrefix":  "FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF",
+        "FirstFloat":  null,
+        "SecondFloat":  null,
+        "Classification":  "ff_empty_or_unavailable"
+    },
+    {
+        "Selector":  3,
+        "Offset":  39,
+        "Response":  "01 00 38 56 03 00 27 FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF",
+        "DataPrefix":  "FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF",
+        "FirstFloat":  null,
+        "SecondFloat":  null,
+        "Classification":  "ff_empty_or_unavailable"
+    },
+    {
+        "Selector":  3,
+        "Offset":  52,
+        "Response":  "01 00 38 56 03 00 34 FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF",
+        "DataPrefix":  "FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF",
+        "FirstFloat":  null,
+        "SecondFloat":  null,
+        "Classification":  "ff_empty_or_unavailable"
+    },
+    {
+        "Selector":  3,
+        "Offset":  156,
+        "Response":  "01 00 38 56 03 00 9C FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF",
+        "DataPrefix":  "FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF",
+        "FirstFloat":  null,
+        "SecondFloat":  null,
+        "Classification":  "ff_empty_or_unavailable"
+    },
+    {
+        "Selector":  3,
+        "Offset":  255,
+        "Response":  "01 00 38 56 03 00 FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF",
+        "DataPrefix":  "FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF",
+        "FirstFloat":  null,
+        "SecondFloat":  null,
+        "Classification":  "ff_empty_or_unavailable"
+    }
+]

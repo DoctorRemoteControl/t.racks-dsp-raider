@@ -1,0 +1,58 @@
+let tag = "set-all-limiters-distinct-values";
+let base = "out/fir/${tag}";
+
+connect();
+attachSession(120000, 250);
+
+print("Writing distinct FIR408 output limiter values for UI proof");
+print("Frame layout: 00 01 0C 3F <out> <ratio> <attack> <release> <knee> <threshold>");
+
+// Ratio enum uses the compressor_ratios table: 0=1:1.0 ... 15=Limit.
+// Raw mappings: attack/release = ms - 1, knee = dB, threshold_raw = (dB + 90) * 2.
+
+// Out1: Ratio Limit, Attack 50ms, Release 500ms, Knee 0dB, Threshold +20.0dB
+write("00 01 0C 3F 04 0F 00 31 00 F3 01 00 00 DC 00");
+sleep(80);
+
+// Out2: Ratio 1:8.0, Attack 100ms, Release 600ms, Knee 2dB, Threshold +15.0dB
+write("00 01 0C 3F 05 0C 00 63 00 57 02 02 00 D2 00");
+sleep(80);
+
+// Out3: Ratio 1:5.0, Attack 150ms, Release 700ms, Knee 4dB, Threshold +10.0dB
+write("00 01 0C 3F 06 0A 00 95 00 BB 02 04 00 C8 00");
+sleep(80);
+
+// Out4: Ratio 1:3.5, Attack 200ms, Release 800ms, Knee 6dB, Threshold +5.0dB
+write("00 01 0C 3F 07 08 00 C7 00 1F 03 06 00 BE 00");
+sleep(80);
+
+// Out5: Ratio 1:2.5, Attack 250ms, Release 900ms, Knee 8dB, Threshold +0.0dB
+write("00 01 0C 3F 08 06 00 F9 00 83 03 08 00 B4 00");
+sleep(80);
+
+// Out6: Ratio 1:1.7, Attack 300ms, Release 1000ms, Knee 10dB, Threshold -5.0dB
+write("00 01 0C 3F 09 04 00 2B 01 E7 03 0A 00 AA 00");
+sleep(80);
+
+// Out7: Ratio 1:1.3, Attack 350ms, Release 1100ms, Knee 11dB, Threshold -10.0dB
+write("00 01 0C 3F 0A 02 00 5D 01 4B 04 0B 00 A0 00");
+sleep(80);
+
+// Out8: Ratio 1:1.0, Attack 400ms, Release 1200ms, Knee 12dB, Threshold -15.0dB
+write("00 01 0C 3F 0B 00 00 8F 01 AF 04 0C 00 96 00");
+sleep(120);
+
+saveText("${base}/expected-ui.txt",
+    "Expected limiter UI values:\n"
+    + "Out1: Threshold +20.0dB, Attack 50ms,  Ratio Limit, Release 500ms,  Knee 0dB\n"
+    + "Out2: Threshold +15.0dB, Attack 100ms, Ratio 1:8.0, Release 600ms,  Knee 2dB\n"
+    + "Out3: Threshold +10.0dB, Attack 150ms, Ratio 1:5.0, Release 700ms,  Knee 4dB\n"
+    + "Out4: Threshold +5.0dB,  Attack 200ms, Ratio 1:3.5, Release 800ms,  Knee 6dB\n"
+    + "Out5: Threshold +0.0dB,  Attack 250ms, Ratio 1:2.5, Release 900ms,  Knee 8dB\n"
+    + "Out6: Threshold -5.0dB,  Attack 300ms, Ratio 1:1.7, Release 1000ms, Knee 10dB\n"
+    + "Out7: Threshold -10.0dB, Attack 350ms, Ratio 1:1.3, Release 1100ms, Knee 11dB\n"
+    + "Out8: Threshold -15.0dB, Attack 400ms, Ratio 1:1.0, Release 1200ms, Knee 12dB\n"
+);
+
+print("set-all-limiters-distinct-values-done");
+print("saved=${base}");

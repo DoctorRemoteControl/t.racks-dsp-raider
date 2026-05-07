@@ -1,0 +1,13 @@
+let tag = "fir-current-static-decode";
+let base = "out/fir/${tag}";
+
+connect();
+resetSession();
+ensureSession();
+handshake();
+
+let current = readSaveConfig("${base}/current", 0x00, 0x1F);
+saveText("${base}/static-decode.md", decodeFir408Config(current));
+
+print("fir-current-static-decode-done");
+print("saved=${base}");

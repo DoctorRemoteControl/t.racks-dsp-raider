@@ -210,7 +210,7 @@ public final class ProxyClient implements AutoCloseable {
 
     public ProxyResponse readBlock(int blockIndex) throws IOException {
         if (blockIndex < ProxyConstants.BLOCK_START || blockIndex > ProxyConstants.BLOCK_END) {
-            throw new IllegalArgumentException("Block ausserhalb des Bereichs 0x00..0x1C: "
+            throw new IllegalArgumentException("Block ausserhalb des Bereichs 0x00..0x1F: "
                     + String.format("0x%02X", blockIndex));
         }
 

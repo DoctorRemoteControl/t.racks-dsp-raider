@@ -1,0 +1,49 @@
+let tag = "out5-limit-attack-fixed-window";
+let base = "out/fir/${tag}";
+
+guiConnect();
+
+print("FIXED WINDOW: Capture is active for 15 seconds.");
+print("On the Limit page, change only Out5 Attack, release it, then wait.");
+
+guiBeginCapture();
+sleep(15000);
+let cap = guiEndCapture(2500, 20000);
+
+let last = lastWriteExcluding(cap, 0x40);
+let recent = recentWritesExcluding(cap, 0x40, 80);
+
+let limitAll = writesByCommand(cap, 0x3F);
+let limitOut5 = writesByCommandAndChannel(cap, 0x3F, 0x08);
+let compAll = writesByCommand(cap, 0x30);
+let compOut5 = writesByCommandAndChannel(cap, 0x30, 0x08);
+
+saveText("${base}/summary.txt",
+    "tag=${tag}\n"
+    + "frames=" + cap.totalFrames + "\n"
+    + "writes=" + cap.writeCount + "\n"
+    + "responses=" + cap.responseCount + "\n"
+    + "limitAll=" + len(limitAll) + "\n"
+    + "limitOut5=" + len(limitOut5) + "\n"
+    + "compAll=" + len(compAll) + "\n"
+    + "compOut5=" + len(compOut5) + "\n"
+    + "lastInteresting=" + last + "\n"
+);
+
+saveText("${base}/last-write.txt", last);
+saveText("${base}/recent-interesting-writes.txt", recent);
+saveText("${base}/limit-all-payload-series.txt", payloadSeries(limitAll));
+saveText("${base}/limit-all-changing-offsets.txt", changingOffsetsAcrossWrites(limitAll));
+saveText("${base}/limit-out5-payload-series.txt", payloadSeries(limitOut5));
+saveText("${base}/limit-out5-changing-offsets.txt", changingOffsetsAcrossWrites(limitOut5));
+saveText("${base}/limit-out5-u16-at-5.txt", u16Series(limitOut5, 5));
+saveText("${base}/limit-out5-u16-at-7.txt", u16Series(limitOut5, 7));
+saveText("${base}/limit-out5-u16-at-9.txt", u16Series(limitOut5, 9));
+saveText("${base}/limit-out5-u16-at-11.txt", u16Series(limitOut5, 11));
+saveText("${base}/limit-out5-u16-at-13.txt", u16Series(limitOut5, 13));
+
+print("done");
+print("saved=${base}");
+print(last);
+print("limitOut5=" + len(limitOut5));
+print("compOut5=" + len(compOut5));

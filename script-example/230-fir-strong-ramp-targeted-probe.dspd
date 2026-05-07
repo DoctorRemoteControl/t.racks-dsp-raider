@@ -1,0 +1,30 @@
+let tag = "fir-strong-ramp-targeted-probe";
+let base = "out/fir/${tag}";
+
+connect();
+resetSession();
+ensureSession();
+handshake();
+
+let before = readSaveConfig("${base}/before", 0x00, 0x1F);
+
+let probe = fir408Cmd56ReadonlyOffsets(
+    "${base}/cmd56",
+    0x00,
+    "0,13,16,19,20,21,22,38,39,40,41,150,157,158,177,195,196,197",
+    1
+);
+saveText("${base}/cmd56-targeted-summary.md", probe);
+
+let after = readSaveConfig("${base}/after", 0x00, 0x1F);
+saveDiffReport("${base}/before-after-config-diff.md", assembledData(before), assembledData(after));
+
+if (assembledData(before) == assembledData(after)) {
+    print("fir-strong-ramp-targeted-probe-done");
+    print("Config compare: byte-for-byte match");
+} else {
+    print("fir-strong-ramp-targeted-probe-done");
+    print("Config compare: DIFFERENT - inspect ${base}/before-after-config-diff.md");
+}
+
+print("saved=${base}");

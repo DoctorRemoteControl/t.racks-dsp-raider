@@ -3,6 +3,7 @@ package de.drremote.dsp408.script;
 import de.drremote.dsp408.model.GuiCaptureResult;
 import de.drremote.dsp408.model.ProxyResponse;
 import de.drremote.dsp408.model.ProxyStatus;
+import de.drremote.dsp408.model.ReadBlockSet;
 import de.drremote.dsp408.model.SniffedFrame;
 import de.drremote.dsp408.util.DspProtocol;
 import de.drremote.dsp408.util.HexUtil;
@@ -175,6 +176,22 @@ final class ScriptValueResolver {
                 case "responses" -> capture.responses();
                 case "readBlockResponses" -> capture.readBlockResponses();
                 default -> throw new IllegalArgumentException("Unknown capture property: " + property);
+            };
+        }
+
+        if (current instanceof ReadBlockSet blocks) {
+            return switch (property) {
+                case "responses", "blocks" -> blocks.responses();
+                case "count", "size", "len" -> blocks.count();
+                case "isEmpty" -> blocks.isEmpty();
+                case "first" -> blocks.first();
+                case "last" -> blocks.last();
+                case "blockIndices" -> blocks.blockIndices();
+                case "data" -> blocks.data();
+                case "dataHex" -> blocks.dataHex();
+                case "dataLen" -> blocks.dataLen();
+                case "allBlocksHex" -> blocks.allBlocksHex();
+                default -> throw new IllegalArgumentException("Unknown ReadBlockSet property: " + property);
             };
         }
 

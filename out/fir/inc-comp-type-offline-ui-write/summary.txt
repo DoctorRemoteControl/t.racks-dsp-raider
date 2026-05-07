@@ -1,0 +1,11 @@
+tag=inc-comp-type-offline-ui-write
+ + frames= + 107 + 
+ + writes= + 107 + 
+ + responses= + 0 + 
+ + compAll= + len ( [sniff{dir=PC_TO_DSP, cmd=0x30, len=19, hex=00 01 10 30 02 05 00 7A 00 6B 03 07 00 9B 00 D2 00 01 01}, sniff{dir=PC_TO_DSP, cmd=0x30, len=19, hex=00 01 10 30 02 05 00 7A 00 6B 03 07 00 9B 00 D2 00 01 02}, sniff{dir=PC_TO_DSP, cmd=0x30, len=19, hex=00 01 10 30 02 05 00 7A 00 6B 03 07 00 9B 00 D2 00 01 03}, sniff{dir=PC_TO_DSP, cmd=0x30, len=19, hex=00 01 10 30 02 05 00 7A 00 6B 03 07 00 9B 00 D2 00 01 04}, sniff{dir=PC_TO_DSP, cmd=0x30, len=19, hex=00 01 10 30 02 05 00 7A 00 6B 03 07 00 9B 00 D2 00 01 07}, sniff{dir=PC_TO_DSP, cmd=0x30, len=19, hex=00 01 10 30 02 05 00 7A 00 6B 03 07 00 9B 00 D2 00 01 09}] ) + 
+ + compInA= + len ( [] ) + 
+ + compInB= + len ( [] ) + 
+ + compInC= + len ( [sniff{dir=PC_TO_DSP, cmd=0x30, len=19, hex=00 01 10 30 02 05 00 7A 00 6B 03 07 00 9B 00 D2 00 01 01}, sniff{dir=PC_TO_DSP, cmd=0x30, len=19, hex=00 01 10 30 02 05 00 7A 00 6B 03 07 00 9B 00 D2 00 01 02}, sniff{dir=PC_TO_DSP, cmd=0x30, len=19, hex=00 01 10 30 02 05 00 7A 00 6B 03 07 00 9B 00 D2 00 01 03}, sniff{dir=PC_TO_DSP, cmd=0x30, len=19, hex=00 01 10 30 02 05 00 7A 00 6B 03 07 00 9B 00 D2 00 01 04}, sniff{dir=PC_TO_DSP, cmd=0x30, len=19, hex=00 01 10 30 02 05 00 7A 00 6B 03 07 00 9B 00 D2 00 01 07}, sniff{dir=PC_TO_DSP, cmd=0x30, len=19, hex=00 01 10 30 02 05 00 7A 00 6B 03 07 00 9B 00 D2 00 01 09}] ) + 
+ + compInD= + len ( [] ) + 
+ + compOut5= + len ( [] ) + 
+ + lastInteresting= + sniff{dir=PC_TO_DSP, cmd=0x30, len=19, hex=00 01 10 30 02 05 00 7A 00 6B 03 07 00 9B 00 D2 00 01 09} + 

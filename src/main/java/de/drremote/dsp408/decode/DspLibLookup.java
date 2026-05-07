@@ -137,6 +137,12 @@ public final class DspLibLookup {
             Map.Entry<String, JsonNode> entry = it.next();
             if (entry.getValue().canConvertToInt()) {
                 out.put(entry.getValue().asInt(), entry.getKey());
+            } else if (entry.getValue().isTextual()) {
+                try {
+                    out.put(parseFlexibleInt(entry.getValue().asText()), entry.getKey());
+                } catch (NumberFormatException ignored) {
+                    // Some libraries may carry descriptive channel metadata here.
+                }
             }
         }
         return out;

@@ -1,0 +1,1329 @@
+{
+  "schema_version": "0.1",
+  "library_type": "dsp408_fir_field_library",
+  "project": "DSP408Decoder",
+  "scope": "FIR408-specific protocol and field decode seed",
+  "status": "sample_verified_fir_mode_generator_and_external_fir_decode",
+  "evidence_policy": "Only facts directly observed in listed proxy logs are marked observed. Inferences are marked predicted or hypothesis and must be verified by controlled captures.",
+  "evidence_sources": [
+    {
+      "path": "proxy_logs/proxy_session_20260506_111855_647.json",
+      "session_id": "20260506_111855_647",
+      "started_at_utc": "2026-05-06T11:18:55.648Z",
+      "frames_total": 189,
+      "bytes_pc_to_dsp": 942,
+      "bytes_dsp_to_pc": 4470,
+      "role": "first FIR408 startup and idle capture"
+    },
+    {
+      "path": "out/fir/fir-read-config-allblocks/",
+      "script": "script-example/195-fir-read-config-allblocks.dspd",
+      "created_at_local": "2026-05-06T13:40:02",
+      "role": "executed FIR408 config readback of blocks 0x00..0x1F",
+      "result": "32 block responses saved; assembled data length confirmed as 1556 bytes"
+    },
+    {
+      "path": "out/fir/fir-probe-cmd56-nonempty-file/",
+      "script": "script-example/197-fir-probe-cmd56-nonempty-file.dspd",
+      "created_at_local": "2026-05-06T13:40:09",
+      "role": "executed 0x56 FIR probe at the startup-observed positions",
+      "result": "12 responses saved; each response has 52 data bytes and all data bytes are 0xFF"
+    },
+    {
+      "path": "out/fir/fir-out1-mode-iir-to-fir-clean/",
+      "script": "script-example/200-fir-auto-capture-out1-mode-iir-to-fir-clean.dspd",
+      "created_at_local": "2026-05-06T13:47:01",
+      "role": "controlled GUI capture: Out1 processing mode IIR to FIR",
+      "result": "single non-meter GUI write captured: 00 01 03 4C 04 01"
+    },
+    {
+      "path": "out/fir/fir-read-config-after-out1-mode-fir/",
+      "script": "script-example/201-fir-read-config-after-out1-mode-fir-allblocks.dspd",
+      "created_at_local": "2026-05-06T13:49:39",
+      "role": "config readback after Out1 FIR mode",
+      "result": "32 block responses saved; no byte differences found against the initial FIR408 config readback"
+    },
+    {
+      "path": "out/fir/fir-out1-mode-fir-to-iir-clean/",
+      "script": "script-example/202-fir-auto-capture-out1-mode-fir-to-iir-clean.dspd",
+      "created_at_local": "2026-05-06T13:50:28",
+      "role": "controlled GUI capture: Out1 processing mode FIR to IIR",
+      "result": "single non-meter GUI write captured: 00 01 03 4C 04 00"
+    },
+    {
+      "path": "out/fir/fir-out1-type-clean/",
+      "script": "script-example/203-fir-auto-capture-out1-type-clean.dspd",
+      "created_at_local": "2026-05-06T14:04:34",
+      "role": "controlled GUI capture: Out1 FIR Type dropdown",
+      "result": "single non-meter GUI write captured: 00 01 0A 4B 04 01 06 6E 00 2C 01 08 00"
+    },
+    {
+      "path": "out/fir/fir-out1-window-clean/",
+      "script": "script-example/204-fir-auto-capture-out1-window-clean.dspd",
+      "created_at_local": "2026-05-06T14:05:56",
+      "role": "controlled GUI capture: Out1 FIR Win dropdown",
+      "result": "single non-meter GUI write captured: 00 01 0A 4B 04 01 05 6E 00 2C 01 08 00"
+    },
+    {
+      "path": "out/fir/fir-out1-taps-clean/",
+      "script": "script-example/205-fir-auto-capture-out1-taps-clean.dspd",
+      "created_at_local": "2026-05-06T14:06:19",
+      "role": "controlled GUI capture: Out1 FIR Taps dropdown",
+      "result": "single non-meter GUI write captured: 00 01 0A 4B 04 01 05 6E 00 2C 01 09 00"
+    },
+    {
+      "path": "out/fir/fir-out1-highpass-frequency-clean/",
+      "script": "script-example/206-fir-auto-capture-out1-highpass-frequency-clean.dspd",
+      "created_at_local": "2026-05-06T14:10:06",
+      "role": "controlled GUI capture: Out1 FIR HighPass fader",
+      "result": "one duplicated non-meter GUI write captured: 00 01 0A 4B 04 03 05 78 00 2C 01 09 00"
+    },
+    {
+      "path": "out/fir/fir-out1-lowpass-frequency-clean/",
+      "script": "script-example/207-fir-auto-capture-out1-lowpass-frequency-clean.dspd",
+      "created_at_local": "2026-05-06T14:10:35",
+      "role": "controlled GUI capture: Out1 FIR LowPass fader",
+      "result": "one duplicated non-meter GUI write captured: 00 01 0A 4B 04 03 05 78 00 F7 00 09 00"
+    },
+    {
+      "path": "out/fir/fir-out1-highpass-19700hz-ok-apply-clean/",
+      "script": "script-example/210-fir-auto-capture-out1-highpass-19700hz-ok-apply-clean.dspd",
+      "created_at_local": "2026-05-06T14:14:21",
+      "role": "controlled GUI capture: Out1 HighPass set to 19.70 kHz followed by OK",
+      "result": "one duplicated non-meter GUI write captured: 00 01 0A 4B 04 03 05 2B 01 2C 01 09 00; no separate OK command observed"
+    },
+    {
+      "path": "out/fir/fir-probe-cmd56-nonempty-file/",
+      "script": "script-example/197-fir-probe-cmd56-nonempty-file.dspd",
+      "created_at_local": "2026-05-06T14:14:29",
+      "role": "0x56 probe after Out1 FIR generator apply",
+      "result": "12 responses saved; each response still has 52 data bytes and all data bytes are 0xFF"
+    },
+    {
+      "path": "out/fir/fir-out1-external-fir-impulse-load-clean/",
+      "script": "script-example/211-fir-auto-capture-out1-external-fir-impulse-load-clean.dspd",
+      "created_at_local": "2026-05-06T14:44:41",
+      "role": "controlled GUI capture: load external 512-tap impulse FIR file; path/script name was created with an Out1 label before the user clarified import is available only for InA..InD",
+      "result": "45 non-meter writes captured: 0x4F transfer control, 43 x 0x4E coefficient chunks totaling 2048 data bytes, and 0x5B 8-byte file name; selector 0x00 should now be treated as input-channel selector candidate InA rather than Out1"
+    },
+    {
+      "path": "out/fir/fir-probe-cmd56-sequential-float32-chunks/",
+      "script": "script-example/212-fir-probe-cmd56-sequential-float32-chunks.dspd",
+      "created_at_local": "2026-05-06T14:48:00",
+      "role": "sequential 0x56 probes after external impulse FIR upload",
+      "result": "offset 0 returned little-endian float32 bytes 00 00 80 3F followed by zeros; offsets 13 and 26 returned zeros; offset 39 returned partial zeros then FF; offsets 52 and above returned FF"
+    },
+    {
+      "path": "out/fir/fir-inb-external-fir-impulse-load-clean/",
+      "script": "script-example/214-fir-auto-capture-inb-external-fir-impulse-load-clean.dspd",
+      "created_at_local": "2026-05-06T15:02:22",
+      "role": "prediction sample: load external 512-tap impulse FIR file on InB",
+      "result": "0x4F, all 43 x 0x4E chunks, and 0x5B used selector 0x01, confirming InB selector prediction"
+    },
+    {
+      "path": "out/fir/fir-ina-external-fir-two-tap-load-clean/",
+      "script": "script-example/217-fir-auto-capture-ina-external-fir-two-tap-load-clean.dspd",
+      "created_at_local": "2026-05-06T15:03:30",
+      "role": "prediction sample: load 512-tap two-tap FIR file on InA",
+      "result": "0x4E chunk 0 data prefix was 3F 80 00 00 3F 00 00 00; 0x56 offset 0 readback prefix was 00 00 80 3F 00 00 00 3F"
+    },
+    {
+      "path": "out/fir/fir-out1-type-high-pass-clean/",
+      "script": "script-example/218-fir-auto-capture-out1-type-high-pass-clean.dspd",
+      "created_at_local": "2026-05-06T15:04:23",
+      "role": "prediction sample: Out1 FIR Type HIGH PASS",
+      "result": "single 0x4B write captured with type byte 0x02"
+    },
+    {
+      "path": "out/fir/fir-out1-window-hamming-clean/",
+      "script": "script-example/219-fir-auto-capture-out1-window-hamming-clean.dspd",
+      "created_at_local": "2026-05-06T15:05:11",
+      "role": "prediction sample: Out1 FIR Win HAMMING",
+      "result": "single 0x4B write captured with window byte 0x03"
+    },
+    {
+      "path": "out/fir/fir-out8-mode-iir-to-fir-clean/",
+      "script": "script-example/209-fir-auto-capture-out8-mode-iir-to-fir-clean.dspd",
+      "created_at_local": "2026-05-06T15:05:26",
+      "role": "prediction sample: Out8 processing mode IIR to FIR",
+      "result": "single 0x4C write captured: 00 01 03 4C 0B 01"
+    }
+  ],
+  "workflow_references": [
+    "DSPINFO.md",
+    "DSPD-SYNTAX.md",
+    "README.md",
+    "script-example.md",
+    "FIR408-DECODE-STRATEGY.md"
+  ],
+  "external_fir_test_files": {
+    "directory": "fir-test-files/",
+    "format": "ASCII text, one decimal coefficient per line, dot decimal separator, 512 lines",
+    "purpose": "deterministic import files for External FIR upload and coefficient encoding reverse engineering",
+    "supported_import_channels_reported_by_user": ["InA", "InB", "InC", "InD"],
+    "manual_reference": {
+      "path": "../c_472928_v2_en_online.pdf",
+      "input_section_page": 24,
+      "output_section_page": 26,
+      "note": "The manual text extraction mentions FIR import in the input section and also mentions External FIR in the output section; the user's live GUI report is that txt/csv import is available only for InA..InD, so captures should target input channels first."
+    },
+    "files": [
+      {
+        "path": "fir-test-files/fir_512_impulse_first.txt",
+        "tap_count": 512,
+        "coefficients": "tap0=1.0, all other taps=0.0",
+        "preferred_first_test": true
+      },
+      {
+        "path": "fir-test-files/fir_512_impulse_center.txt",
+        "tap_count": 512,
+        "coefficients": "tap255=1.0, all other taps=0.0"
+      },
+      {
+        "path": "fir-test-files/fir_512_two_tap_1_05.txt",
+        "tap_count": 512,
+        "coefficients": "tap0=1.0, tap1=0.5, all other taps=0.0"
+      },
+      {
+        "path": "fir-test-files/fir_512_small_ramp.txt",
+        "tap_count": 512,
+        "coefficients": "tapN=(N+1)/1000000 for N=0..511"
+      }
+    ],
+    "capture_script": "script-example/213-fir-auto-capture-ina-external-fir-impulse-load-clean.dspd",
+    "legacy_misnamed_capture_script": "script-example/211-fir-auto-capture-out1-external-fir-impulse-load-clean.dspd",
+    "status": "created_and_used_for_impulse_and_two_tap_external_fir_captures"
+  },
+  "device": {
+    "vendor_label": "t.racks / Thomann",
+    "product_family": "DSP408",
+    "fir_variant_label": "FIR408",
+    "protocol_version_observed": "FIR408 V0113P",
+    "protocol_version_evidence": {
+      "command": "0x13",
+      "tx_payload_hex": "00 01 01 13",
+      "rx_payload_hex": "01 00 0E 13 46 49 52 34 30 38 20 56 30 31 31 33 50",
+      "ascii": "FIR408 V0113P",
+      "frames": [3, 4],
+      "status": "observed"
+    },
+    "channel_counts": {
+      "inputs": 4,
+      "outputs": 8,
+      "total": 12,
+      "status": "observed"
+    }
+  },
+  "channels": {
+    "index_map": {
+      "InA": "0x00",
+      "InB": "0x01",
+      "InC": "0x02",
+      "InD": "0x03",
+      "Out1": "0x04",
+      "Out2": "0x05",
+      "Out3": "0x06",
+      "Out4": "0x07",
+      "Out5": "0x08",
+      "Out6": "0x09",
+      "Out7": "0x0A",
+      "Out8": "0x0B"
+    },
+    "inputs": ["InA", "InB", "InC", "InD"],
+    "outputs": ["Out1", "Out2", "Out3", "Out4", "Out5", "Out6", "Out7", "Out8"],
+    "name_markers_in_config_dump": [
+      { "name": "InA", "absolute_offset": 16, "block": "0x00", "block_data_offset": 16 },
+      { "name": "InB", "absolute_offset": 154, "block": "0x03", "block_data_offset": 4 },
+      { "name": "InC", "absolute_offset": 292, "block": "0x05", "block_data_offset": 42 },
+      { "name": "InD", "absolute_offset": 430, "block": "0x08", "block_data_offset": 30 },
+      { "name": "Out1", "absolute_offset": 568, "block": "0x0B", "block_data_offset": 18 },
+      { "name": "Out2", "absolute_offset": 676, "block": "0x0D", "block_data_offset": 26 },
+      { "name": "Out3", "absolute_offset": 784, "block": "0x0F", "block_data_offset": 34 },
+      { "name": "Out4", "absolute_offset": 892, "block": "0x11", "block_data_offset": 42 },
+      { "name": "Out5", "absolute_offset": 1000, "block": "0x14", "block_data_offset": 0 },
+      { "name": "Out6", "absolute_offset": 1108, "block": "0x16", "block_data_offset": 8 },
+      { "name": "Out7", "absolute_offset": 1216, "block": "0x18", "block_data_offset": 16 },
+      { "name": "Out8", "absolute_offset": 1324, "block": "0x1A", "block_data_offset": 24 }
+    ],
+    "record_layout_in_config_dump": {
+      "source": "assembled 0x24 responses from first FIR408 startup log",
+      "name_field": {
+        "relative_offset": 0,
+        "size_bytes": 8,
+        "encoding": "ASCII, zero padded when shorter than 8 bytes",
+        "status": "observed"
+      },
+      "input_records": {
+        "count": 4,
+        "record_size_bytes": 138,
+        "start_offsets": {
+          "InA": 16,
+          "InB": 154,
+          "InC": 292,
+          "InD": 430
+        },
+        "terminal_u16le_candidate": {
+          "relative_offset": 136,
+          "observed_values": {
+            "InA": "0x0001",
+            "InB": "0x0002",
+            "InC": "0x0004",
+            "InD": "0x0008"
+          },
+          "meaning": "unknown, channel bit-like field",
+          "status": "observed_value_unknown_meaning"
+        }
+      },
+      "output_records": {
+        "count": 8,
+        "record_size_bytes": 108,
+        "start_offsets": {
+          "Out1": 568,
+          "Out2": 676,
+          "Out3": 784,
+          "Out4": 892,
+          "Out5": 1000,
+          "Out6": 1108,
+          "Out7": 1216,
+          "Out8": 1324
+        },
+        "terminal_u16le_candidate": {
+          "relative_offset": 106,
+          "observed_values": {
+            "Out1": "0x0001",
+            "Out2": "0x0002",
+            "Out3": "0x0004",
+            "Out4": "0x0008",
+            "Out5": "0x0010",
+            "Out6": "0x0020",
+            "Out7": "0x0040",
+            "Out8": "0x0080"
+          },
+          "meaning": "unknown, output bit-like field",
+          "status": "observed_value_unknown_meaning"
+        }
+      },
+      "status": "observed_static_layout",
+      "notes": [
+        "The record starts are inferred from repeated channel labels at exact fixed strides in a single startup dump.",
+        "Field semantics inside the records still require controlled GUI change plus readback diff."
+      ]
+    },
+    "notes": [
+      "Channel labels were found by assembling data bytes from the 0x24 read-block responses in block order.",
+      "Input label offsets are 138 bytes apart in this default dump. Output label offsets are 108 bytes apart from Out1 through Out8."
+    ],
+    "status": "observed"
+  },
+  "fir_specific_ui_controls": {
+    "source": "user screenshots from Track DSP FIR408 GUI, 2026-05-06",
+    "status": "ui_observed_not_protocol_decoded",
+    "controls": {
+      "mode": {
+        "label": "Mode",
+        "visible_values": ["IIR", "FIR"],
+        "protocol_status": "Out1 decoded as command 0x4C"
+      },
+      "highpass_frequency": {
+        "label": "HighPass",
+        "control": "vertical fader plus numeric display",
+        "visible_example": "250.0Hz",
+        "ui_behavior_reported": "fixed while Type is BYPASS; editable when an active FIR filter Type is selected",
+        "protocol_status": "decoded_as_cmd_0x4B_raw_u16le"
+      },
+      "lowpass_frequency": {
+        "label": "LowPass",
+        "control": "vertical fader plus numeric display",
+        "visible_example": "20.16KHz",
+        "protocol_status": "decoded_as_cmd_0x4B_raw_u16le"
+      },
+      "filter_type": {
+        "label": "Type",
+        "visible_values": ["BYPASS", "LOW PASS", "HIGH PASS", "BAND PASS", "External FIR"],
+        "protocol_status": "decoded_as_cmd_0x4B_raw_u8"
+      },
+      "window_function": {
+        "label": "Win",
+        "visible_values": ["HAMMING", "BLACKMAN", "SINE", "SINC", "NUTTALL", "KAISER"],
+        "partially_visible_values": ["BLACK-N..."],
+        "protocol_status": "partially_decoded_as_cmd_0x4B_raw_u8"
+      },
+      "tap_count": {
+        "label": "Taps",
+        "visible_or_inferred_range": {
+          "min": 256,
+          "max": 1024,
+          "step": 32,
+          "note": "Sequence inferred from visible dropdown screenshots; verify exact full list by capture or GUI inspection."
+        },
+        "visible_values": [256, 288, 320, 352, 384, 416, 448, 480, 512, 544, 576, 604, 640, 672, 704, 736, 800, 832, 864, 896, 928, 960, 992, 1024],
+        "protocol_status": "decoded_as_cmd_0x4B_taps_equals_256_plus_raw_times_32"
+      },
+      "ok_apply": {
+        "label": "OK",
+        "control": "button",
+        "protocol_status": "not_decoded"
+      }
+    },
+    "notes": [
+      "The screenshots show the complete visible FIR-specific control group: Mode, HighPass, LowPass, Type, Win, Taps, and OK.",
+      "Visible tap list includes 604 in the screenshot; this may be a GUI font rendering of 608. Treat exact tap enum values as open until captured."
+    ]
+  },
+  "enums": {
+    "crossover_slopes": [
+      "BW -6", "BS -6", "BW -12", "BS -12", "LR -12",
+      "BW -18", "BS -18", "BW -24", "BS -24", "LR -24",
+      "BW -30", "BS -30", "BW -36", "BS -36", "LR -36",
+      "BW -42", "BS -42", "BW -48", "BS -48", "LR -48"
+    ]
+  },
+  "value_models": {
+    "gain": {
+      "ui_unit": "dB",
+      "gui_range": [-60, 12],
+      "raw_to_gui": "db = raw <= 80 ? ((raw / 2.0) - 60.0) : ((raw / 10.0) - 28.0)",
+      "gui_to_raw": "raw = db <= -20.0 ? round((db + 60.0) * 2.0) : round((db + 28.0) * 10.0)",
+      "raw_range_for_gui": [0, 400],
+      "mapping_model": "piecewise_linear",
+      "note": "Inherited from DspLib-408.json for static config decode of common DSP408 gain fields.",
+      "status": "predicted_from_dsp408"
+    },
+    "peq_frequency": {
+      "ui_unit": "Hz",
+      "gui_range": [19.7, 20160.0],
+      "raw_range_for_gui": [0, 300],
+      "raw_to_gui": "hz = 19.7 * pow(20160.0 / 19.7, raw / 300.0)",
+      "gui_to_raw": "raw = round(300.0 * log(hz / 19.7) / log(20160.0 / 19.7))",
+      "mapping_model": "logarithmic",
+      "note": "Inherited from the decoded DSP408 PEQ/crossover frequency model and confirmed by FIR 0x4B HighPass/LowPass raw samples.",
+      "status": "observed_plus_inferred_strong"
+    },
+    "fir_tap_count": {
+      "ui_unit": "taps",
+      "raw_to_gui": "taps = 256 + raw * 32",
+      "gui_to_raw": "raw = (taps - 256) / 32",
+      "raw_range_observed_or_inferred": [0, 24],
+      "gui_range_observed_or_inferred": [256, 1024],
+      "mapping_model": "linear_32_tap_steps",
+      "note": "Observed raw 8 -> 512 and raw 9 -> 544 in FIR generator 0x4B writes.",
+      "status": "observed_plus_inferred_strong"
+    }
+  },
+  "protocol": {
+    "transport": {
+      "type": "tcp",
+      "default_target": {
+        "ip": "192.168.0.166",
+        "port": 9761
+      },
+      "proxy_defaults": {
+        "listen_host": "127.0.0.1",
+        "listen_port": 9761,
+        "stream_host": "127.0.0.1",
+        "stream_port": 19081,
+        "control_host": "127.0.0.1",
+        "control_port": 19082,
+        "log_dir": "proxy_logs"
+      },
+      "status": "observed"
+    },
+    "frame": {
+      "outer_start_hex": "10 02",
+      "outer_end_hex": "10 03",
+      "payload_offsets": {
+        "direction_marker": 0,
+        "fixed_zero_or_one": 1,
+        "length": 2,
+        "command": 3,
+        "first_argument": 4
+      },
+      "direction_marker": {
+        "pc_to_dsp": "0x00",
+        "dsp_to_pc": "0x01"
+      },
+      "observed_prefix_bytes": {
+        "pc_to_dsp": "00 01",
+        "dsp_to_pc": "01 00"
+      },
+      "length_semantics": "payload byte at offset 2 counts command byte plus argument bytes",
+      "checksum": {
+        "type": "xor",
+        "note": "Same framing/checksum model as the existing DSP408 proxy decoder; all frames in the first FIR408 log were valid."
+      },
+      "status": "observed"
+    },
+    "session": {
+      "startup_sequence_observed": [
+        { "order": 1, "command": "0x10", "name": "handshake_init", "frames": [1, 2] },
+        { "order": 2, "command": "0x13", "name": "device_info", "frames": [3, 4] },
+        { "order": 3, "command": "0x2C", "name": "system_info_or_capabilities", "frames": [5, 6] },
+        { "order": 4, "command": "0x22", "name": "startup_zero_block", "frames": [7, 8] },
+        { "order": 5, "command": "0x14", "name": "startup_status", "frames": [9, 10] },
+        { "order": 6, "command": "0x29", "name": "read_preset_names_0x00_to_0x12", "frames": [11, 48] },
+        { "order": 7, "command": "0x56", "name": "fir_empty_state_probe", "frames": [49, 72] },
+        { "order": 8, "command": "0x27", "name": "read_config_blocks_0x00_to_0x1F", "frames": [73, 136] },
+        { "order": 9, "command": "0x12", "name": "session_keepalive_or_ready", "frames": [137, 138] },
+        { "order": 10, "command": "0x40", "name": "realtime_meter_loop", "frames": [139, 188] },
+        { "order": 11, "command": "0x11", "name": "session_end_or_disconnect_notice", "frames": [189] }
+      ],
+      "status": "observed"
+    }
+  },
+  "commands": {
+    "0x10": {
+      "name": "handshake_init",
+      "tx_payload_hex": "00 01 01 10",
+      "rx_payload_hex": "01 00 02 10 33",
+      "frames": [1, 2],
+      "notes": [
+        "FIR408 startup ack byte observed as 0x33."
+      ],
+      "status": "observed"
+    },
+    "0x13": {
+      "name": "device_info",
+      "tx_payload_hex": "00 01 01 13",
+      "rx_ascii": "FIR408 V0113P",
+      "frames": [3, 4],
+      "status": "observed"
+    },
+    "0x2C": {
+      "name": "system_info_or_capabilities",
+      "tx_payload_hex": "00 01 01 2C",
+      "rx_payload_hex": "01 00 08 2C 00 27 0F 00 00 00 00",
+      "frames": [5, 6],
+      "status": "observed",
+      "decode_status": "unknown"
+    },
+    "0x22": {
+      "name": "startup_zero_block",
+      "tx_payload_hex": "00 01 01 22",
+      "rx_payload_hex": "01 00 14 22 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00",
+      "frames": [7, 8],
+      "status": "observed",
+      "decode_status": "unknown"
+    },
+    "0x14": {
+      "name": "startup_status",
+      "tx_payload_hex": "00 01 01 14",
+      "rx_payload_hex": "01 00 02 14 00",
+      "frames": [9, 10],
+      "status": "observed",
+      "decode_status": "unknown"
+    },
+    "0x29": {
+      "name": "read_preset_name",
+      "tx_layout": "00 01 02 29 <preset_slot>",
+      "rx_layout": "01 00 10 29 <preset_slot> <ascii_name_bytes>",
+      "observed_slots_hex": [
+        "0x00", "0x01", "0x02", "0x03", "0x04", "0x05", "0x06", "0x07",
+        "0x08", "0x09", "0x0A", "0x0B", "0x0C", "0x0D", "0x0E", "0x0F",
+        "0x10", "0x11", "0x12"
+      ],
+      "observed_name": "Default Preset",
+      "frames": [11, 48],
+      "status": "observed"
+    },
+    "0x4B": {
+      "name": "fir_generator_write",
+      "tx_layout": "00 01 0A 4B <channel> <type> <window> <highpass_lo> <highpass_hi> <lowpass_lo> <lowpass_hi> <taps_lo> <taps_hi>",
+      "direction": "PC_TO_DSP",
+      "field_layout": {
+        "channel_payload_offset": 4,
+        "type_payload_offset": 5,
+        "window_payload_offset": 6,
+        "highpass_u16le_payload_offsets": [7, 8],
+        "lowpass_u16le_payload_offsets": [9, 10],
+        "taps_raw_u16le_payload_offsets": [11, 12],
+        "payload_bytes": 13
+      },
+      "type_enum_observed_or_predicted": {
+        "0x00": { "name": "BYPASS", "status": "predicted_from_ui_order" },
+        "0x01": { "name": "LOW PASS", "status": "observed_if_capture_action_was_bypass_to_low_pass" },
+        "0x02": { "name": "HIGH PASS", "status": "observed" },
+        "0x03": { "name": "BAND PASS", "status": "observed_raw_during_highpass_lowpass_captures_predicted_name_from_ui_order" },
+        "0x04": { "name": "External FIR", "status": "predicted_from_ui_order" }
+      },
+      "window_enum_partial": {
+        "0x03": { "name": "HAMMING", "status": "observed" },
+        "0x04": { "name": "BLACKMAN", "status": "predicted_from_ui_order" },
+        "0x05": { "name": "SINE", "status": "predicted_from_user_window_change_and_ui_order" },
+        "0x06": { "name": "SINC", "status": "observed_raw_when_screenshot_showed_sinc_selected" },
+        "0x07": { "name": "NUTTALL", "status": "predicted_from_ui_order" },
+        "0x08": { "name": "KAISER", "status": "predicted_from_ui_order" }
+      },
+      "value_models": {
+        "highpass": "u16le raw using the same exponential 19.7Hz..20.16kHz / 0..300 mapping as DSP408 crossover/PEQ frequency",
+        "lowpass": "u16le raw using the same exponential 19.7Hz..20.16kHz / 0..300 mapping as DSP408 crossover/PEQ frequency",
+        "taps": "taps = 256 + raw * 32"
+      },
+      "observed_examples": [
+        {
+          "capture": "type",
+          "channel": "Out1",
+          "payload_hex": "00 01 0A 4B 04 01 06 6E 00 2C 01 08 00",
+          "decoded": { "type_raw": "0x01", "window_raw": "0x06", "highpass_raw": 110, "lowpass_raw": 300, "taps_raw": 8, "taps": 512 }
+        },
+        {
+          "capture": "window",
+          "channel": "Out1",
+          "payload_hex": "00 01 0A 4B 04 01 05 6E 00 2C 01 08 00",
+          "decoded": { "type_raw": "0x01", "window_raw": "0x05", "highpass_raw": 110, "lowpass_raw": 300, "taps_raw": 8, "taps": 512 }
+        },
+        {
+          "capture": "taps",
+          "channel": "Out1",
+          "payload_hex": "00 01 0A 4B 04 01 05 6E 00 2C 01 09 00",
+          "decoded": { "type_raw": "0x01", "window_raw": "0x05", "highpass_raw": 110, "lowpass_raw": 300, "taps_raw": 9, "taps": 544 }
+        },
+        {
+          "capture": "highpass",
+          "channel": "Out1",
+          "payload_hex": "00 01 0A 4B 04 03 05 78 00 2C 01 09 00",
+          "decoded": { "type_raw": "0x03", "window_raw": "0x05", "highpass_raw": 120, "lowpass_raw": 300, "taps_raw": 9, "taps": 544 }
+        },
+        {
+          "capture": "lowpass",
+          "channel": "Out1",
+          "payload_hex": "00 01 0A 4B 04 03 05 78 00 F7 00 09 00",
+          "decoded": { "type_raw": "0x03", "window_raw": "0x05", "highpass_raw": 120, "lowpass_raw": 247, "taps_raw": 9, "taps": 544 }
+        },
+        {
+          "capture": "highpass_19700hz_then_ok",
+          "channel": "Out1",
+          "payload_hex": "00 01 0A 4B 04 03 05 2B 01 2C 01 09 00",
+          "decoded": { "type_raw": "0x03", "window_raw": "0x05", "highpass_raw": 299, "lowpass_raw": 300, "taps_raw": 9, "taps": 544 },
+          "note": "OK did not produce a separate non-meter command in this capture; the only observed write was the duplicated 0x4B generator state."
+        },
+        {
+          "capture": "type_high_pass_prediction_sample",
+          "channel": "Out1",
+          "payload_hex": "00 01 0A 4B 04 02 05 2B 01 2C 01 09 00",
+          "decoded": { "type_raw": "0x02", "window_raw": "0x05", "highpass_raw": 299, "lowpass_raw": 300, "taps_raw": 9, "taps": 544 },
+          "script": "script-example/218-fir-auto-capture-out1-type-high-pass-clean.dspd",
+          "status": "observed"
+        },
+        {
+          "capture": "window_hamming_prediction_sample",
+          "channel": "Out1",
+          "payload_hex": "00 01 0A 4B 04 02 03 2B 01 2C 01 09 00",
+          "decoded": { "type_raw": "0x02", "window_raw": "0x03", "highpass_raw": 299, "lowpass_raw": 300, "taps_raw": 9, "taps": 544 },
+          "script": "script-example/219-fir-auto-capture-out1-window-hamming-clean.dspd",
+          "status": "observed_repeated"
+        }
+      ],
+      "post_apply_cmd56_probe": {
+        "script": "script-example/197-fir-probe-cmd56-nonempty-file.dspd",
+        "output_dir": "out/fir/fir-probe-cmd56-nonempty-file/",
+        "executed_at_local": "2026-05-06T14:14:29",
+        "result": "all 12 observed 0x56 chunks remained FF-filled after the 0x4B apply capture",
+        "status": "observed"
+      },
+      "status": "observed",
+      "decode_status": "decoded_for_out1_core_fields"
+    },
+    "0x4C": {
+      "name": "fir_processing_mode_write",
+      "tx_layout": "00 01 03 4C <channel> <mode>",
+      "direction": "PC_TO_DSP",
+      "field_layout": {
+        "channel_payload_offset": 4,
+        "mode_payload_offset": 5,
+        "payload_bytes": 6
+      },
+      "mode_enum": {
+        "0x00": "IIR",
+        "0x01": "FIR"
+      },
+      "observed_examples": [
+        {
+          "channel": "Out1",
+          "channel_byte": "0x04",
+          "mode": "FIR",
+          "mode_byte": "0x01",
+          "payload_hex": "00 01 03 4C 04 01",
+          "script": "script-example/200-fir-auto-capture-out1-mode-iir-to-fir-clean.dspd"
+        },
+        {
+          "channel": "Out1",
+          "channel_byte": "0x04",
+          "mode": "IIR",
+          "mode_byte": "0x00",
+          "payload_hex": "00 01 03 4C 04 00",
+          "script": "script-example/202-fir-auto-capture-out1-mode-fir-to-iir-clean.dspd"
+        },
+        {
+          "channel": "Out8",
+          "channel_byte": "0x0B",
+          "mode": "FIR",
+          "mode_byte": "0x01",
+          "payload_hex": "00 01 03 4C 0B 01",
+          "script": "script-example/209-fir-auto-capture-out8-mode-iir-to-fir-clean.dspd"
+        }
+      ],
+      "channel_mapping": {
+        "observed": {
+          "Out1": "0x04",
+          "Out8": "0x0B"
+        },
+        "predicted_outputs": "Out1..Out8 use channel bytes 0x04..0x0B; endpoints Out1 and Out8 are observed, intermediate outputs are predicted from the standard contiguous DSP408 channel map."
+      },
+      "readback_observation": "After setting Out1 to FIR, a full 0x27/0x24 config readback of blocks 0x00..0x1F matched the initial baseline byte-for-byte. This mode is therefore not proven to be stored in the normal config dump.",
+      "status": "observed",
+      "decode_status": "decoded_for_output_endpoint_samples"
+    },
+    "0x4E": {
+      "name": "external_fir_coefficient_chunk_write",
+      "tx_layout": "00 01 <len> 4E <selector> <chunk_index> <tap_count_lo> <tap_count_hi> <coefficient_bytes>",
+      "direction": "PC_TO_DSP",
+      "field_layout": {
+        "selector_payload_offset": 4,
+        "chunk_index_payload_offset": 5,
+        "tap_count_u16le_payload_offsets": [6, 7],
+        "data_payload_start_offset": 8,
+        "data_encoding": "IEEE-754 float32 big-endian coefficients",
+        "full_chunk_data_bytes": 48,
+        "short_chunk_data_bytes_observed": 32
+      },
+      "observed_external_impulse_upload": {
+        "source_file": "fir-test-files/fir_512_impulse_first.txt",
+        "selector_observed": "0x00",
+        "selector_current_best_meaning": "InA/input-slot-0 after user clarified txt/csv import is available only for InA..InD",
+        "selector_observations": {
+          "InA": { "selector": "0x00", "status": "observed" },
+          "InB": { "selector": "0x01", "status": "observed" },
+          "InC": { "selector": "0x02", "status": "predicted_from_contiguous_input_map" },
+          "InD": { "selector": "0x03", "status": "predicted_from_contiguous_input_map" }
+        },
+        "tap_count_observed": 512,
+        "chunks_observed": 43,
+        "chunk_index_range": "0x00..0x2A",
+        "send_order": "descending chunk index 0x2A down to 0x00",
+        "full_chunks": 42,
+        "short_chunks": 1,
+        "total_coefficient_data_bytes": 2048,
+        "coefficients": 512,
+        "non_zero_chunk": {
+          "chunk_index": "0x00",
+          "data_prefix_hex": "3F 80 00 00 00 00 00 00",
+          "meaning": "first coefficient 1.0 followed by zeros"
+        },
+        "two_tap_sample": {
+          "source_file": "fir-test-files/fir_512_two_tap_1_05.txt",
+          "selector_observed": "0x00",
+          "chunk_index": "0x00",
+          "data_prefix_hex": "3F 80 00 00 3F 00 00 00",
+          "meaning": "coefficient[0]=1.0, coefficient[1]=0.5; confirms float32 big-endian upload encoding"
+        }
+      },
+      "status": "observed",
+      "decode_status": "decoded_for_external_impulse_upload"
+    },
+    "0x4F": {
+      "name": "external_fir_transfer_control",
+      "tx_layout": "00 01 03 4F <selector> <value>",
+      "direction": "PC_TO_DSP",
+      "observed_payload_hex": "00 01 03 4F 00 00",
+      "observed_payloads": [
+        { "channel": "InA", "selector": "0x00", "value": "0x00", "payload_hex": "00 01 03 4F 00 00", "status": "observed" },
+        { "channel": "InB", "selector": "0x01", "value": "0x00", "payload_hex": "00 01 03 4F 01 00", "status": "observed" }
+      ],
+      "observed_context": "first non-meter command before the 0x4E external FIR coefficient chunk burst",
+      "status": "observed",
+      "decode_status": "partially_decoded"
+    },
+    "0x56": {
+      "name": "fir_file_or_coefficient_chunk_read",
+      "tx_layout": "00 01 04 56 <selector> <offset_lo> <offset_hi>",
+      "rx_layout": "01 00 38 56 <selector> <offset_hi> <offset_lo> <52_data_bytes>",
+      "observed_selector": "0x00",
+      "observed_offsets_dec": [0, 157, 315, 472, 630, 708, 787, 866, 945, 1024, 1102, 1181],
+      "observed_offset_deltas_dec": [157, 158, 157, 158, 78, 79, 79, 79, 79, 78, 79],
+      "observed_offsets_hex": [
+        "0x0000", "0x009D", "0x013B", "0x01D8", "0x0276", "0x02C4",
+        "0x0313", "0x0362", "0x03B1", "0x0400", "0x044E", "0x049D"
+      ],
+      "observed_response_data_bytes": 52,
+      "observed_response_data_content": "all 0xFF in first startup log; after external impulse upload, offset 0 returned little-endian float32 1.0 followed by zeros; after two-tap upload, offset 0 returned little-endian float32 1.0, 0.5, then zeros",
+      "readback_samples": [
+        { "source_file": "fir-test-files/fir_512_impulse_first.txt", "selector": "0x00", "offset": 0, "data_prefix_hex": "00 00 80 3F 00 00 00 00", "meaning": "coefficient/display values 1.0, 0.0" },
+        { "source_file": "fir-test-files/fir_512_two_tap_1_05.txt", "selector": "0x00", "offset": 0, "data_prefix_hex": "00 00 80 3F 00 00 00 3F", "meaning": "coefficient/display values 1.0, 0.5" }
+      ],
+      "frames": [49, 72],
+      "status": "observed",
+      "decode_status": "hypothesis",
+      "hypothesis": "Likely reads FIR file/coefficient or FIR display/state data for one selector or slot. The observed address/position sequence is not simple 52-byte paging, so the field may be a sample position, frequency bin, or FIR memory coordinate rather than a raw byte offset. The first log has no non-0xFF data bytes, so value encoding is not yet decoded."
+    },
+    "0x5B": {
+      "name": "external_fir_name_write",
+      "tx_layout": "00 01 0A 5B <selector> <8_ascii_name_bytes>",
+      "direction": "PC_TO_DSP",
+      "observed_payload_hex": "00 01 0A 5B 00 66 69 72 5F 35 31 32 5F",
+      "observed_payloads": [
+        { "channel": "InA", "selector": "0x00", "payload_hex": "00 01 0A 5B 00 66 69 72 5F 35 31 32 5F", "ascii_name": "fir_512_", "status": "observed" },
+        { "channel": "InB", "selector": "0x01", "payload_hex": "00 01 0A 5B 01 66 69 72 5F 35 31 32 5F", "ascii_name": "fir_512_", "status": "observed" }
+      ],
+      "observed_ascii_name": "fir_512_",
+      "observed_context": "last non-meter command after the 0x4E external FIR coefficient chunk burst",
+      "status": "observed",
+      "decode_status": "decoded_for_8_byte_name_prefix"
+    },
+    "0x27": {
+      "name": "read_config_block_request",
+      "tx_layout": "00 01 02 27 <block_index>",
+      "observed_block_range": "0x00..0x1F",
+      "response_command": "0x24",
+      "frames": [73, 135],
+      "status": "observed"
+    },
+    "0x24": {
+      "name": "read_config_block_response",
+      "rx_layout_full_block": "01 00 34 24 <block_index> <50_data_bytes>",
+      "rx_layout_last_block": "01 00 08 24 1F <6_data_bytes>",
+      "observed_blocks": 32,
+      "observed_full_blocks": 31,
+      "observed_last_block": "0x1F",
+      "assembled_data_bytes": 1556,
+      "frames": [74, 136],
+      "status": "observed"
+    },
+    "0x12": {
+      "name": "session_keepalive_or_ready",
+      "tx_payload_hex": "00 01 01 12",
+      "rx_payload_hex": "01 00 01 01",
+      "frames": [137, 138],
+      "status": "observed",
+      "decode_status": "unknown"
+    },
+    "0x40": {
+      "name": "realtime_meter_read",
+      "tx_payload_hex": "00 01 01 40",
+      "rx_layout": "01 00 2B 40 <meter_bytes>",
+      "observed_pairs": 25,
+      "frames": [139, 188],
+      "status": "observed",
+      "decode_status": "same_family_as_existing_dsp408_meter"
+    },
+    "0x11": {
+      "name": "session_end_or_disconnect_notice",
+      "tx_payload_hex": "00 01 01 11",
+      "frames": [189],
+      "status": "observed",
+      "decode_status": "unknown"
+    }
+  },
+  "parameters": {
+    "preset_names": {
+      "command": "0x29",
+      "slot_range_observed": "0x00..0x12",
+      "name_bytes_observed": "Default Preset",
+      "name_length_observed": 14,
+      "status": "observed"
+    },
+    "fir_processing_mode": {
+      "command": "0x4C",
+      "direction": "PC_TO_DSP",
+      "write": {
+        "payload_layout": "00 01 03 4C <channel> <mode>",
+        "fields": [
+          { "name": "channel", "payload_offset": 4, "observed_out1": "0x04" },
+          { "name": "mode", "payload_offset": 5, "enum": { "0x00": "IIR", "0x01": "FIR" } }
+        ],
+        "observed_mappings": [
+          { "channel": "Out1", "mode": "FIR", "payload_hex": "00 01 03 4C 04 01" },
+          { "channel": "Out1", "mode": "IIR", "payload_hex": "00 01 03 4C 04 00" },
+          { "channel": "Out8", "mode": "FIR", "payload_hex": "00 01 03 4C 0B 01" }
+        ],
+        "channel_map_status": "Out1 and Out8 endpoints observed; Out2..Out7 predicted as 0x05..0x0A from contiguous DSP408 output map",
+        "status": "decoded_for_output_endpoint_samples"
+      },
+      "read_storage": {
+        "config_readback_after_out1_fir": "out/fir/fir-read-config-after-out1-mode-fir/",
+        "comparison": "no differing bytes versus out/fir/fir-read-config-allblocks/",
+        "status": "not_observed_in_0x27_config_dump"
+      },
+      "status": "decoded_for_output_endpoint_samples"
+    },
+    "fir_generator": {
+      "command": "0x4B",
+      "direction": "PC_TO_DSP",
+      "write": {
+        "payload_layout": "00 01 0A 4B <channel> <type> <window> <highpass_u16le> <lowpass_u16le> <taps_raw_u16le>",
+        "fields": [
+          { "name": "channel", "payload_offset": 4, "observed_out1": "0x04" },
+          { "name": "type", "payload_offset": 5, "raw_type": "u8" },
+          { "name": "window", "payload_offset": 6, "raw_type": "u8" },
+          { "name": "highpass_frequency", "payload_offsets": [7, 8], "raw_type": "u16le" },
+          { "name": "lowpass_frequency", "payload_offsets": [9, 10], "raw_type": "u16le" },
+          { "name": "taps_raw", "payload_offsets": [11, 12], "raw_type": "u16le", "value_model": "fir_tap_count" }
+        ],
+        "status": "decoded_for_out1_core_fields"
+      },
+      "read_storage": {
+        "status": "not_yet_compared_after_each_0x4B_field"
+      },
+      "status": "decoded_for_out1_core_fields"
+    },
+    "fir_filter_type": {
+      "ui_label": "Type",
+      "ui_values_observed": ["BYPASS", "LOW PASS", "HIGH PASS", "BAND PASS", "External FIR"],
+      "likely_scope": "per FIR channel",
+      "write": {
+        "command": "0x4B",
+        "payload_offset": 5,
+        "raw_type": "u8",
+        "enum_partial": {
+          "0x00": { "name": "BYPASS", "status": "predicted_from_ui_order" },
+          "0x01": { "name": "LOW PASS", "status": "observed_if_capture_action_was_bypass_to_low_pass" },
+          "0x02": { "name": "HIGH PASS", "status": "observed" },
+          "0x03": { "name": "BAND PASS", "status": "observed_raw_predicted_name_from_ui_order" },
+          "0x04": { "name": "External FIR", "status": "predicted_from_ui_order" }
+        },
+        "status": "decoded_with_predicted_bypass_and_external_fir_endpoints"
+      },
+      "read_storage": {
+        "status": "not_decoded"
+      },
+      "capture_script": "script-example/203-fir-auto-capture-out1-type-clean.dspd",
+      "status": "decoded_with_predicted_bypass_and_external_fir_endpoints"
+    },
+    "fir_window_function": {
+      "ui_label": "Win",
+      "ui_values_observed": ["HAMMING", "BLACKMAN", "SINE", "SINC", "NUTTALL", "KAISER"],
+      "ui_values_partially_visible": ["BLACK-N..."],
+      "likely_scope": "per FIR channel or per generated FIR design",
+      "write": {
+        "command": "0x4B",
+        "payload_offset": 6,
+        "raw_type": "u8",
+        "enum_partial": {
+          "0x03": { "name": "HAMMING", "status": "observed_repeated" },
+          "0x04": { "name": "BLACKMAN", "status": "predicted_from_ui_order" },
+          "0x05": { "name": "SINE", "status": "predicted_from_capture_and_ui_order" },
+          "0x06": { "name": "SINC", "status": "observed_raw_when_screenshot_showed_sinc_selected" },
+          "0x07": { "name": "NUTTALL", "status": "predicted_from_ui_order" },
+          "0x08": { "name": "KAISER", "status": "predicted_from_ui_order" }
+        },
+        "status": "decoded_with_predicted_intermediate_window_values"
+      },
+      "read_storage": {
+        "status": "not_decoded"
+      },
+      "capture_script": "script-example/204-fir-auto-capture-out1-window-clean.dspd",
+      "status": "decoded_with_predicted_intermediate_window_values"
+    },
+    "fir_tap_count": {
+      "ui_label": "Taps",
+      "ui_range_observed_or_inferred": {
+        "min": 256,
+        "max": 1024,
+        "step": 32
+      },
+      "likely_scope": "per FIR channel or per generated FIR design",
+      "write": {
+        "command": "0x4B",
+        "payload_offsets": [11, 12],
+        "raw_type": "u16le",
+        "value_model": "fir_tap_count",
+        "observed": [
+          { "raw": 8, "taps": 512 },
+          { "raw": 9, "taps": 544 }
+        ],
+        "status": "decoded_for_out1"
+      },
+      "read_storage": {
+        "status": "not_decoded"
+      },
+      "capture_script": "script-example/205-fir-auto-capture-out1-taps-clean.dspd",
+      "status": "decoded_for_out1"
+    },
+    "fir_highpass_frequency": {
+      "ui_label": "HighPass",
+      "ui_control": "vertical fader with numeric display",
+      "visible_example": "250.0Hz",
+      "ui_behavior_reported": "fixed while Type is BYPASS; editable when an active FIR filter Type is selected",
+      "likely_scope": "per FIR channel or per generated FIR design",
+      "write": {
+        "command": "0x4B",
+        "payload_offsets": [7, 8],
+        "raw_type": "u16le",
+        "value_model": "peq_frequency",
+        "observed_raw_values": [110, 120, 299],
+        "status": "decoded_for_out1_raw_and_model"
+      },
+      "read_storage": {
+        "status": "not_decoded"
+      },
+      "capture_script": "script-example/206-fir-auto-capture-out1-highpass-frequency-clean.dspd",
+      "status": "decoded_for_out1_raw_and_model"
+    },
+    "fir_lowpass_frequency": {
+      "ui_label": "LowPass",
+      "ui_control": "vertical fader with numeric display",
+      "visible_example": "20.16KHz",
+      "likely_scope": "per FIR channel or per generated FIR design",
+      "write": {
+        "command": "0x4B",
+        "payload_offsets": [9, 10],
+        "raw_type": "u16le",
+        "value_model": "peq_frequency",
+        "observed_raw_values": [300, 247],
+        "status": "decoded_for_out1_raw_and_model"
+      },
+      "read_storage": {
+        "status": "not_decoded"
+      },
+      "capture_script": "script-example/207-fir-auto-capture-out1-lowpass-frequency-clean.dspd",
+      "status": "decoded_for_out1_raw_and_model"
+    },
+    "fir_ok_apply": {
+      "ui_label": "OK",
+      "likely_meaning": "apply generated FIR settings or selected external FIR settings",
+      "write": {
+        "command_observed": "none_observed",
+        "observation": "Clicking OK after changing Out1 HighPass to 19.70 kHz produced only the duplicated 0x4B generator-state write; no distinct OK/apply command was captured.",
+        "status": "no_separate_command_observed"
+      },
+      "read_storage": {
+        "cmd56_after_apply": "all observed chunks remained FF-filled",
+        "status": "not_observed_in_cmd56_selector_0_offsets"
+      },
+      "capture_script": "script-example/208-fir-auto-capture-out1-ok-apply-clean.dspd",
+      "capture_script_with_change": "script-example/210-fir-auto-capture-out1-highpass-19700hz-ok-apply-clean.dspd",
+      "status": "no_separate_command_observed"
+    },
+    "external_fir_upload": {
+      "ui_label": "Type = External FIR file import",
+      "source_file_tested": "fir-test-files/fir_512_impulse_first.txt",
+      "supported_import_channels_reported_by_user": ["InA", "InB", "InC", "InD"],
+      "manual_reference": {
+        "path": "../c_472928_v2_en_online.pdf",
+        "input_section_page": 24,
+        "output_section_page": 26,
+        "note": "PDF text extraction confirms an input-channel FIR import section. It also mentions External FIR in an output-channel section, but the current live GUI report says txt/csv import is only available on InA..InD."
+      },
+      "selector_interpretation": {
+        "selector_observed": "0x00",
+        "current_best_meaning": "InA/input FIR slot 0; InB/input FIR slot 1 is also observed",
+        "reason": "User clarified that txt/csv External FIR import is only available for InA..InD in the live software; command selector 0x00 also matches the standard InA channel byte.",
+        "observed_selector_map": {
+          "InA": "0x00",
+          "InB": "0x01"
+        },
+        "predicted_selector_map": {
+          "InC": "0x02",
+          "InD": "0x03"
+        },
+        "status": "partially_confirmed_input_selector_map"
+      },
+      "write": {
+        "commands": ["0x4F", "0x4E", "0x5B"],
+        "status": "decoded_for_512_tap_impulse_upload"
+      },
+      "write_sequence_observed": [
+        { "order": 1, "command": "0x4F", "meaning": "transfer control or clear/begin", "payload_hex": "00 01 03 4F 00 00" },
+        { "order": 2, "command": "0x4E", "meaning": "coefficient chunk upload", "count": 43 },
+        { "order": 3, "command": "0x5B", "meaning": "8-byte imported FIR name prefix", "payload_hex": "00 01 0A 5B 00 66 69 72 5F 35 31 32 5F" },
+        { "order": 4, "command": "0x4E", "meaning": "Selector sample: InB repeated the same sequence with selector 0x01 in 0x4F, all 0x4E chunks, and 0x5B" }
+      ],
+      "chunk_upload": {
+        "command": "0x4E",
+        "payload_layout": "00 01 <len> 4E <selector> <chunk_index> <tap_count_u16le> <float32be_data>",
+        "selector_observed": "0x00",
+        "selector_current_best_meaning": "InA/input-slot-0",
+        "tap_count_observed": 512,
+        "chunk_count": 43,
+        "chunk_index_order": "0x2A down to 0x00",
+        "full_chunk_data_bytes": 48,
+        "short_chunk_data_bytes": 32,
+        "total_data_bytes": 2048,
+        "coefficient_encoding": "IEEE-754 float32 big-endian during upload",
+        "impulse_first_evidence": {
+          "chunk_index": "0x00",
+          "data_prefix_hex": "3F 80 00 00 00 00 00 00",
+          "meaning": "coefficient[0]=1.0, coefficient[1]=0.0"
+        },
+        "two_tap_evidence": {
+          "source_file": "fir-test-files/fir_512_two_tap_1_05.txt",
+          "chunk_index": "0x00",
+          "data_prefix_hex": "3F 80 00 00 3F 00 00 00",
+          "meaning": "coefficient[0]=1.0, coefficient[1]=0.5"
+        },
+        "status": "decoded_for_512_tap_impulse_upload"
+      },
+      "readback_via_cmd56": {
+        "startup_offsets_script": "script-example/197-fir-probe-cmd56-nonempty-file.dspd",
+        "sequential_offsets_script": "script-example/212-fir-probe-cmd56-sequential-float32-chunks.dspd",
+        "selector": "0x00",
+        "offset_0_data_prefix_hex": "00 00 80 3F 00 00 00 00",
+        "offset_0_meaning": "coefficient/display value 1.0 little-endian float32 followed by zeros",
+        "two_tap_offset_0_data_prefix_hex": "00 00 80 3F 00 00 00 3F",
+        "two_tap_offset_0_meaning": "coefficient/display values 1.0 and 0.5 as little-endian float32",
+        "sequential_observation": "offsets 0, 13 and 26 returned valid zero-filled float32 data after the first impulse value; offset 39 returned partial zeros then FF; offsets 52 and above returned FF",
+        "readback_encoding": "IEEE-754 float32 little-endian where data is present",
+        "status": "partially_decoded"
+      },
+      "open_questions": [
+        "Confirm selector mapping endpoints by repeating the External FIR upload for InD; InA and InB are already observed.",
+        "Why sequential 0x56 reads after the impulse upload expose only the first approximately 47 float32 values before FF-filled responses.",
+        "Whether the output-section External FIR reference in the PDF is exposed in another software mode or hidden in the current GUI."
+      ],
+      "status": "decoded_for_512_tap_impulse_upload"
+    },
+    "config_dump": {
+      "request_command": "0x27",
+      "response_command": "0x24",
+      "block_count_observed": 32,
+      "full_block_data_bytes": 50,
+      "last_block_data_bytes": 6,
+      "assembled_data_bytes": 1556,
+      "script_verification": {
+        "script": "script-example/195-fir-read-config-allblocks.dspd",
+        "output_dir": "out/fir/fir-read-config-allblocks/",
+        "executed_at_local": "2026-05-06T13:40:02",
+        "result": "confirmed 31 full 50-byte data blocks plus short block 0x1F with 6 data bytes",
+        "status": "observed"
+      },
+      "block_index_byte": {
+        "request_payload_offset": 4,
+        "response_payload_offset": 4
+      },
+      "assembled_memory_map": [
+        {
+          "name": "header_and_preset_name",
+          "absolute_start": 0,
+          "absolute_end": 15,
+          "length_bytes": 16,
+          "ascii": "..Default Preset",
+          "status": "observed"
+        },
+        {
+          "name": "input_channel_records",
+          "absolute_start": 16,
+          "absolute_end": 567,
+          "length_bytes": 552,
+          "record_count": 4,
+          "record_size_bytes": 138,
+          "status": "observed_static_layout"
+        },
+        {
+          "name": "output_channel_records",
+          "absolute_start": 568,
+          "absolute_end": 1431,
+          "length_bytes": 864,
+          "record_count": 8,
+          "record_size_bytes": 108,
+          "status": "observed_static_layout"
+        },
+        {
+          "name": "zero_padding_before_fir_name_table",
+          "absolute_start": 1432,
+          "absolute_end": 1459,
+          "length_bytes": 28,
+          "non_zero_bytes": 0,
+          "status": "observed"
+        },
+        {
+          "name": "fir_file_name_table",
+          "absolute_start": 1460,
+          "absolute_end": 1555,
+          "length_bytes": 96,
+          "record_count": 12,
+          "record_size_bytes": 8,
+          "status": "observed"
+        }
+      ],
+      "ascii_markers": [
+        { "marker": "Default Preset", "absolute_offset": 2, "block": "0x00", "block_data_offset": 2 },
+        { "marker": "InA", "absolute_offset": 16, "block": "0x00", "block_data_offset": 16 },
+        { "marker": "InB", "absolute_offset": 154, "block": "0x03", "block_data_offset": 4 },
+        { "marker": "InC", "absolute_offset": 292, "block": "0x05", "block_data_offset": 42 },
+        { "marker": "InD", "absolute_offset": 430, "block": "0x08", "block_data_offset": 30 },
+        { "marker": "Out1", "absolute_offset": 568, "block": "0x0B", "block_data_offset": 18 },
+        { "marker": "Out2", "absolute_offset": 676, "block": "0x0D", "block_data_offset": 26 },
+        { "marker": "Out3", "absolute_offset": 784, "block": "0x0F", "block_data_offset": 34 },
+        { "marker": "Out4", "absolute_offset": 892, "block": "0x11", "block_data_offset": 42 },
+        { "marker": "Out5", "absolute_offset": 1000, "block": "0x14", "block_data_offset": 0 },
+        { "marker": "Out6", "absolute_offset": 1108, "block": "0x16", "block_data_offset": 8 },
+        { "marker": "Out7", "absolute_offset": 1216, "block": "0x18", "block_data_offset": 16 },
+        { "marker": "Out8", "absolute_offset": 1324, "block": "0x1A", "block_data_offset": 24 }
+      ],
+      "output_record_static_decode": {
+        "record_base_formula": "absolute_offset = 568 + output_index * 108",
+        "record_size_bytes": 108,
+        "fields": {
+          "name_ascii_8bytes": { "record_offset": 0, "length_bytes": 8, "status": "observed" },
+          "output_gain_u16le": { "record_offset": 10, "value_model": "gain", "status": "predicted_from_dsp408_static_layout_and_default_dump" },
+          "iir_highpass_frequency_u16le": { "record_offset": 22, "value_model": "peq_frequency", "status": "predicted_from_dsp408_static_layout" },
+          "iir_lowpass_frequency_u16le": { "record_offset": 24, "value_model": "peq_frequency", "status": "predicted_from_dsp408_static_layout" },
+          "iir_highpass_mode_u8": { "record_offset": 26, "enum_ref": "crossover_slopes", "status": "predicted_from_dsp408_static_layout" },
+          "iir_lowpass_mode_u8": { "record_offset": 27, "enum_ref": "crossover_slopes", "status": "predicted_from_dsp408_static_layout" },
+          "fir_type_u8": { "record_offset": 28, "enum": { "0x00": "BYPASS", "0x01": "LOW PASS", "0x02": "HIGH PASS", "0x03": "BAND PASS", "0x04": "External FIR" }, "status": "candidate_static_storage" },
+          "fir_window_u8": { "record_offset": 29, "enum": { "0x03": "HAMMING", "0x04": "BLACKMAN", "0x05": "SINE", "0x06": "SINC", "0x07": "NUTTALL", "0x08": "KAISER" }, "status": "candidate_static_storage" },
+          "fir_highpass_frequency_u16le": { "record_offset": 30, "value_model": "peq_frequency", "status": "candidate_static_storage" },
+          "fir_lowpass_frequency_u16le": { "record_offset": 32, "value_model": "peq_frequency", "status": "candidate_static_storage" },
+          "fir_taps_raw_u16le": { "record_offset": 34, "value_model": "fir_tap_count", "status": "candidate_static_storage" },
+          "output_peq_records": { "record_offset": 36, "record_count": 9, "record_size_bytes": 6, "layout": "gain_u16le + frequency_u16le + q_u8 + peq_type_u8", "status": "predicted_from_dsp408_static_layout_and_matches_default_frequencies" }
+        },
+        "automation_tool": "tools/decode-fir408-config.ps1",
+        "latest_output": "out/fir/fir408-auto-decode-summary.md",
+        "note": "The static layout decodes fields present in the 0x27/0x24 config dump. The live 0x4C IIR/FIR mode write was not observed to change this config dump.",
+        "status": "candidate_decode_implemented"
+      },
+      "status": "observed"
+    },
+    "fir_file_names": {
+      "source": "assembled 0x24 config dump",
+      "table_absolute_offset": 1460,
+      "entry_size_bytes": 8,
+      "entries": [
+        { "channel": "InA", "name": "InAFile", "absolute_offset": 1460, "block": "0x1D", "block_data_offset": 10 },
+        { "channel": "InB", "name": "InBFile", "absolute_offset": 1468, "block": "0x1D", "block_data_offset": 18 },
+        { "channel": "InC", "name": "InCFile", "absolute_offset": 1476, "block": "0x1D", "block_data_offset": 26 },
+        { "channel": "InD", "name": "InDFile", "absolute_offset": 1484, "block": "0x1D", "block_data_offset": 34 },
+        { "channel": "Out1", "name": "Out1File", "absolute_offset": 1492, "block": "0x1D", "block_data_offset": 42 },
+        { "channel": "Out2", "name": "Out2File", "absolute_offset": 1500, "block": "0x1E", "block_data_offset": 0 },
+        { "channel": "Out3", "name": "Out3File", "absolute_offset": 1508, "block": "0x1E", "block_data_offset": 8 },
+        { "channel": "Out4", "name": "Out4File", "absolute_offset": 1516, "block": "0x1E", "block_data_offset": 16 },
+        { "channel": "Out5", "name": "Out5File", "absolute_offset": 1524, "block": "0x1E", "block_data_offset": 24 },
+        { "channel": "Out6", "name": "Out6File", "absolute_offset": 1532, "block": "0x1E", "block_data_offset": 32 },
+        { "channel": "Out7", "name": "Out7File", "absolute_offset": 1540, "block": "0x1E", "block_data_offset": 40 },
+        { "channel": "Out8", "name": "Out8File", "absolute_offset": 1548, "block": "0x1E", "block_data_offset": 48 }
+      ],
+      "status": "observed",
+      "notes": [
+        "The 12 FIR file-name slots are contiguous 8-byte entries.",
+        "The final Out8File entry crosses from block 0x1E into the short block 0x1F."
+      ]
+    },
+    "fir_chunk_read": {
+      "command": "0x56",
+      "selector_field": {
+        "request_payload_offset": 4,
+        "observed_value": "0x00",
+        "meaning": "unknown"
+      },
+      "offset_field": {
+        "request_payload_offsets": [5, 6],
+        "request_byte_order": "little_endian",
+        "response_payload_offsets": [5, 6],
+        "response_byte_order": "big_endian_echo",
+        "status": "observed"
+      },
+      "data_field": {
+        "response_payload_start_offset": 7,
+        "response_bytes": 52,
+        "content_in_first_log": "FF-filled",
+        "content_in_executed_probe_20260506_134009": "FF-filled",
+        "content_after_external_impulse_upload": {
+          "offset_0000_prefix_hex": "00 00 80 3F 00 00 00 00",
+          "meaning": "little-endian float32 1.0 followed by little-endian float32 zeros",
+          "sequential_probe": "offsets 0, 13, 26 returned valid 52-byte data; offset 39 returned 32 zero bytes then FF; offsets 52 and above returned FF"
+        },
+        "content_after_external_two_tap_upload": {
+          "source_file": "fir-test-files/fir_512_two_tap_1_05.txt",
+          "offset_0000_prefix_hex": "00 00 80 3F 00 00 00 3F",
+          "meaning": "little-endian float32 1.0 followed by little-endian float32 0.5; confirms cmd56 readback follows coefficient order at low offsets"
+        },
+        "status": "partially_decoded"
+      },
+      "script_verification": {
+        "script": "script-example/197-fir-probe-cmd56-nonempty-file.dspd",
+        "output_dir": "out/fir/fir-probe-cmd56-nonempty-file/",
+        "executed_at_local": "2026-05-06T13:40:09 and rerun after external FIR upload at 2026-05-06T14:45:19",
+        "responses": 12,
+        "response_payload_bytes_each": 59,
+        "response_data_bytes_each": 52,
+        "non_ff_data_bytes_each_initial_empty_state": 0,
+        "post_external_impulse_offset_0000_non_ff_data_bytes": 52,
+        "status": "observed"
+      },
+      "sequential_script_verification": {
+        "script": "script-example/212-fir-probe-cmd56-sequential-float32-chunks.dspd",
+        "output_dir": "out/fir/fir-probe-cmd56-sequential-float32-chunks/",
+        "executed_at_local": "2026-05-06T14:48:00",
+        "offsets_tested_dec": [0, 13, 26, 39, 52, 65, 78, 91, 104, 117, 130, 143, 156, 169, 182, 195],
+        "result": "selector 0x00 returned little-endian float32 coefficient/display data at low offsets after external impulse upload, then FF-filled responses from offset 52 upward",
+        "status": "observed"
+      },
+      "status": "partially_decoded",
+      "next_evidence_needed": [
+        "Repeat External FIR upload with center impulse to identify how far cmd56 readback exposes the 512-tap array.",
+        "Capture 0x56 reads for selectors other than 0x00, if the GUI can trigger them."
+      ]
+    }
+  },
+  "open_questions": [
+    {
+      "id": "cmd56_selector",
+      "question": "Does the 0x56 selector byte address input channel InA..InD directly, or an input FIR slot/bank?",
+      "status": "partially_answered_selector_0_likely_ina"
+    },
+    {
+      "id": "cmd56_payload_encoding",
+      "question": "Are the 52 response bytes FIR coefficients, file content, transfer status, or a directory/chunk payload?",
+      "status": "partially_answered_low_offsets_are_little_endian_float32_coefficients_or_coefficient_preview"
+    },
+    {
+      "id": "fir_file_assignment_write",
+      "question": "Which write command changes one channel's FIR file assignment/name table entry?",
+      "status": "open"
+    },
+    {
+      "id": "fir_enable_bypass",
+      "question": "Where are FIR enable and bypass fields stored, separately from the now observed Out1 IIR/FIR mode write?",
+      "status": "partially_answered_mode_write_decoded_for_out1"
+    }
+  ],
+  "tooling_notes": [
+    {
+      "topic": "FIR408 block range",
+      "note": "The general readBlock() helper in the current Java toolchain is limited to 0x00..0x1C, but the first FIR408 startup log observed config reads through 0x1F. FIR scripts therefore use direct write(\"00 01 02 27 XX\", 0x24) requests for blocks 0x1D..0x1F until the toolchain is deliberately generalized."
+    },
+    {
+      "topic": "active read scripts",
+      "note": "Scripts that inject read/probe payloads should establish a fresh proxy-side session with connect(); resetSession(); ensureSession(); handshake(); before sending active reads. Attaching to a stale GUI-ended session can log PC_TO_DSP frames without receiving DSP_TO_PC responses."
+    }
+  ],
+  "recommended_next_captures": [
+    {
+      "name": "fir-file-name-change",
+      "script": "script-example/196-fir-auto-capture-file-assignment-clean.dspd",
+      "action": "Change exactly one FIR file name or assignment for one channel in the GUI.",
+      "goal": "Map write command and confirm the 8-byte file-name table offsets."
+    },
+    {
+      "name": "ind-external-fir-load-endpoint",
+      "capture_script": "script-example/216-fir-auto-capture-ind-external-fir-impulse-load-clean.dspd",
+      "probe_script": "script-example/197-fir-probe-cmd56-nonempty-file.dspd",
+      "action": "Load fir-test-files/fir_512_impulse_first.txt as External FIR for InD.",
+      "goal": "Confirm the far endpoint selector prediction InD=0x03; InA=0x00 and InB=0x01 are already observed."
+    },
+    {
+      "name": "ina-center-impulse-readback",
+      "capture_script": "script-example/213-fir-auto-capture-ina-external-fir-impulse-load-clean.dspd",
+      "probe_script": "script-example/197-fir-probe-cmd56-nonempty-file.dspd",
+      "action": "Load fir-test-files/fir_512_impulse_center.txt as External FIR for InA, then run 0x56 probes.",
+      "goal": "Determine whether cmd56 can expose coefficient 255 or only a short low-offset preview window."
+    },
+    {
+      "name": "fir-enable-toggle",
+      "script": "script-example/198-fir-auto-capture-enable-toggle-clean.dspd",
+      "action": "Toggle one FIR enable/bypass control while capturing GUI writes.",
+      "goal": "Find FIR enable/bypass command and read-storage offset. Out1 IIR/FIR mode itself is already observed as command 0x4C."
+    },
+    {
+      "name": "fir-mode-other-outputs",
+      "script": "script-example/200-fir-auto-capture-out1-mode-iir-to-fir-clean.dspd",
+      "action": "Optional: capture Out8 FIR->IIR or one intermediate output only if both directions or a middle point are needed.",
+      "goal": "Out1=0x04 and Out8=0x0B are already observed; intermediate outputs are predicted from the contiguous map."
+    },
+    {
+      "name": "fir-read-config-allblocks",
+      "script": "script-example/195-fir-read-config-allblocks.dspd",
+      "action": "Read FIR408 config blocks 0x00..0x1F from the current proxy session.",
+      "goal": "Create a baseline or after-action FIR config block set for diffing."
+    }
+  ]
+}

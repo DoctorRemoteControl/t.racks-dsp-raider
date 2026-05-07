@@ -132,21 +132,22 @@ final class RawSocketClient implements AutoCloseable {
                 break;
             }
 
-            int endMarker = findSequence(data, start + 2, (byte) 0x10, (byte) 0x03);
-            if (endMarker < 0) {
+            if (data.length < start + 5) {
                 pos = start;
                 break;
             }
 
-            int checksumIndex = endMarker + 2;
-            if (checksumIndex >= data.length) {
+            int payloadLogicalLength = data[start + 4] & 0xFF;
+            int frameLength = payloadLogicalLength + 8;
+            int frameEnd = start + frameLength;
+            if (frameEnd > data.length) {
                 pos = start;
                 break;
             }
 
-            byte[] frame = Arrays.copyOfRange(data, start, checksumIndex + 1);
+            byte[] frame = Arrays.copyOfRange(data, start, frameEnd);
             outFrames.add(frame);
-            pos = checksumIndex + 1;
+            pos = frameEnd;
         }
 
         pending.reset();

@@ -1,0 +1,23 @@
+let tag = "fir-out1-highpass-19700hz-ok-apply-clean";
+
+guiConnect();
+
+let cap = guiActionCapture(
+    "Set exactly Out1 FIR HighPass to 19.70 kHz, click OK once, then stop touching the GUI.",
+    90000,
+    3000,
+    30000
+);
+
+let last = lastWriteExcluding(cap, 0x40);
+let recent = recentWritesExcluding(cap, 300, 0x40);
+
+saveText("out/fir/${tag}/capture.txt", cap);
+saveText("out/fir/${tag}/last-write.txt", last);
+saveText("out/fir/${tag}/recent-interesting-writes.txt", recent);
+saveText("out/fir/${tag}/read-block-responses.txt", cap.readBlockResponses);
+saveCaptureReadBlocks(cap, "out/fir/${tag}/read-blocks");
+
+print("fir-out1-highpass-19700hz-ok-apply-capture-done");
+print(last);
+print(recent);

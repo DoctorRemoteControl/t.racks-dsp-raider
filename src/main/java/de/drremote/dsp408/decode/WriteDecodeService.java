@@ -52,8 +52,101 @@ public final class WriteDecodeService {
             case 0x3F -> decodeLimiter(payload, frame.commandHex());
             case 0x41 -> decodeMatrixGain(payload, frame.commandHex());
             case 0x48 -> decodeGeqInput(payload, frame.commandHex());
+            case 0x4B -> decodeFirGenerator(payload, frame.commandHex());
+            case 0x4C -> decodeFirProcessingMode(payload, frame.commandHex());
+            case 0x4E -> decodeExternalFirChunk(payload, frame.commandHex());
+            case 0x4F -> decodeExternalFirTransferControl(payload, frame.commandHex());
+            case 0x5B -> decodeExternalFirName(payload, frame.commandHex());
             default -> unknown(frame.commandHex(), "payload=" + frame.payloadHex());
         };
+    }
+
+    private WriteDecodeResult decodeFirGenerator(byte[] payload, String commandHex) {
+        requireLen(payload, 13, "FIR generator");
+        int channel = u8(payload, 4);
+        int typeRaw = u8(payload, 5);
+        int windowRaw = u8(payload, 6);
+        int highPassRaw = u16le(payload, 7);
+        int lowPassRaw = u16le(payload, 9);
+        int tapsRaw = u16le(payload, 11);
+        int taps = 256 + (tapsRaw * 32);
+
+        return match(commandHex, "$.parameters.fir_generator.write",
+                "FIR generator " + lib.channelName(channel),
+                List.of(
+                        "channel      = " + lib.channelName(channel),
+                        "type_raw     = 0x%02X -> %s".formatted(typeRaw, firTypeName(typeRaw)),
+                        "window_raw   = 0x%02X -> %s".formatted(windowRaw, firWindowName(windowRaw)),
+                        "highpass     = " + formatFrequency(filterFrequencyHz(highPassRaw)) + " (raw " + highPassRaw + ")",
+                        "lowpass      = " + formatFrequency(filterFrequencyHz(lowPassRaw)) + " (raw " + lowPassRaw + ")",
+                        "taps         = " + taps + " (raw " + tapsRaw + ")"
+                ));
+    }
+
+    private WriteDecodeResult decodeExternalFirChunk(byte[] payload, String commandHex) {
+        requireLen(payload, 8, "External FIR chunk");
+        int selector = u8(payload, 4);
+        int chunkIndex = u8(payload, 5);
+        int tapCount = u16le(payload, 6);
+        int dataBytes = Math.max(0, payload.length - 8);
+        String firstFloat = dataBytes >= 4 ? formatFloat(f32be(payload, 8)) : "n/a";
+
+        return match(commandHex, "$.parameters.external_fir_upload.write",
+                "External FIR chunk",
+                List.of(
+                        "selector    = " + selector,
+                        "chunk_index = " + chunkIndex,
+                        "tap_count   = " + tapCount,
+                        "data_bytes  = " + dataBytes,
+                        "first_f32be = " + firstFloat,
+                        "data_prefix = " + hexBytes(payload, 8, Math.min(16, dataBytes))
+                ));
+    }
+
+    private WriteDecodeResult decodeExternalFirTransferControl(byte[] payload, String commandHex) {
+        requireLen(payload, 6, "External FIR transfer control");
+        int selector = u8(payload, 4);
+        int value = u8(payload, 5);
+
+        return match(commandHex, "$.parameters.external_fir_upload.write",
+                "External FIR transfer control",
+                List.of(
+                        "selector = " + selector,
+                        "value    = " + value
+                ));
+    }
+
+    private WriteDecodeResult decodeExternalFirName(byte[] payload, String commandHex) {
+        requireLen(payload, 5, "External FIR name");
+        int selector = u8(payload, 4);
+        int len = Math.min(8, Math.max(0, payload.length - 5));
+        String name = asciiZeroTrim(payload, 5, len);
+
+        return match(commandHex, "$.parameters.external_fir_upload.write",
+                "External FIR name",
+                List.of(
+                        "selector = " + selector,
+                        "name     = " + name
+                ));
+    }
+
+    private WriteDecodeResult decodeFirProcessingMode(byte[] payload, String commandHex) {
+        requireLen(payload, 6, "FIR processing mode");
+        int channel = u8(payload, 4);
+        int mode = u8(payload, 5);
+        String modeName = switch (mode) {
+            case 0 -> "IIR";
+            case 1 -> "FIR";
+            default -> "unknown";
+        };
+
+        return match(commandHex, "$.parameters.fir_processing_mode.write",
+                "FIR mode " + lib.channelName(channel),
+                List.of(
+                        "channel = " + lib.channelName(channel),
+                        "mode    = " + modeName,
+                        "raw     = " + mode
+                ));
     }
 
     private WriteDecodeResult decodeMute(byte[] payload, String commandHex) {
@@ -184,17 +277,21 @@ public final class WriteDecodeService {
         int release = u16le(payload, 9);
         int knee = u16le(payload, 11);
         int threshold = u16le(payload, 13);
+        List<String> details = new ArrayList<>(List.of(
+                "channel       = " + lib.outputName(output),
+                "ratio_raw     = " + ratio + " -> " + lib.compressorRatio(ratio),
+                "attack_raw    = " + attack + " -> " + (attack + 1) + " ms",
+                "release_raw   = " + release + " -> " + (release + 1) + " ms",
+                "knee_raw      = " + knee + " -> " + knee + " dB",
+                "threshold_raw = " + threshold + " -> " + format1((threshold / 2.0) - 90.0) + " dB"
+        ));
+        if (payload.length > 15) {
+            details.add("extra_tail    = " + hexBytes(payload, 15, payload.length - 15));
+        }
 
         return match(commandHex, "$.parameters.compressor.write",
                 "Compressor " + lib.outputName(output),
-                List.of(
-                        "channel       = " + lib.outputName(output),
-                        "ratio_raw     = " + ratio + " -> " + lib.compressorRatio(ratio),
-                        "attack_raw    = " + attack + " -> " + (attack + 1) + " ms",
-                        "release_raw   = " + release + " -> " + (release + 1) + " ms",
-                        "knee_raw      = " + knee + " -> " + knee + " dB",
-                        "threshold_raw = " + threshold + " -> " + format1((threshold / 2.0) - 90.0) + " dB"
-                ));
+                details);
     }
 
     private WriteDecodeResult decodeLimiter(byte[] payload, String commandHex) {
@@ -204,16 +301,20 @@ public final class WriteDecodeService {
         int release = u16le(payload, 7);
         int unknown = u16le(payload, 9);
         int threshold = u16le(payload, 11);
+        List<String> details = new ArrayList<>(List.of(
+                "channel       = " + lib.outputName(output),
+                "attack_raw    = " + attack + " -> " + (attack + 1) + " ms",
+                "release_raw   = " + release + " -> " + (release + 1) + " ms",
+                "unknown_raw   = " + unknown,
+                "threshold_raw = " + threshold + " -> " + format1((threshold / 2.0) - 90.0) + " dB"
+        ));
+        if (payload.length > 13) {
+            details.add("extra_tail    = " + hexBytes(payload, 13, payload.length - 13));
+        }
 
         return match(commandHex, "$.parameters.limiter.write",
                 "Limiter " + lib.outputName(output),
-                List.of(
-                        "channel       = " + lib.outputName(output),
-                        "attack_raw    = " + attack + " -> " + (attack + 1) + " ms",
-                        "release_raw   = " + release + " -> " + (release + 1) + " ms",
-                        "unknown_raw   = " + unknown,
-                        "threshold_raw = " + threshold + " -> " + format1((threshold / 2.0) - 90.0) + " dB"
-                ));
+                details);
     }
 
     private WriteDecodeResult decodeGain(byte[] payload, String commandHex) {
@@ -338,6 +439,10 @@ public final class WriteDecodeService {
         return String.format(Locale.US, "%.1f", value);
     }
 
+    private static String formatFloat(float value) {
+        return String.format(Locale.US, "%.8f", value);
+    }
+
     private static double peqGainDb(int raw) {
         return (raw * PEQ_GAIN_STEP_DB) + PEQ_GAIN_MIN_DB;
     }
@@ -371,6 +476,47 @@ public final class WriteDecodeService {
             return String.format(Locale.US, "%.2f kHz", khz);
         }
         return String.format(Locale.US, "%.1f Hz", hz);
+    }
+
+    private static String firTypeName(int raw) {
+        return switch (raw) {
+            case 0 -> "BYPASS";
+            case 1 -> "LOW PASS";
+            case 2 -> "HIGH PASS";
+            case 3 -> "BAND PASS";
+            case 4 -> "External FIR";
+            default -> "type#" + raw;
+        };
+    }
+
+    private static String firWindowName(int raw) {
+        return switch (raw) {
+            case 3 -> "HAMMING";
+            case 4 -> "BLACKMAN";
+            case 5 -> "SINE";
+            case 6 -> "SINC";
+            case 7 -> "NUTTALL";
+            case 8 -> "KAISER";
+            default -> "window#" + raw;
+        };
+    }
+
+    private static float f32be(byte[] payload, int offset) {
+        int bits = (u8(payload, offset) << 24)
+                | (u8(payload, offset + 1) << 16)
+                | (u8(payload, offset + 2) << 8)
+                | u8(payload, offset + 3);
+        return Float.intBitsToFloat(bits);
+    }
+
+    private static String hexBytes(byte[] payload, int offset, int len) {
+        int safeOffset = Math.max(0, Math.min(offset, payload.length));
+        int safeEnd = Math.max(safeOffset, Math.min(payload.length, safeOffset + Math.max(0, len)));
+        List<String> out = new ArrayList<>();
+        for (int i = safeOffset; i < safeEnd; i++) {
+            out.add("%02X".formatted(u8(payload, i)));
+        }
+        return String.join(" ", out);
     }
 
     private List<String> decodeCrossoverMode(String which, boolean inputChannel, int channel, int modeRaw) {

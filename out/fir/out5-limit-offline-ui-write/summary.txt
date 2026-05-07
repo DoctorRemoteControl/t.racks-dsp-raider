@@ -1,0 +1,23 @@
+tag=out5-limit-offline-ui-write
+ + frames= + 44 + 
+ + writes= + 44 + 
+ + responses= + 0 + 
+ + limitAll= + len ( [sniff{dir=PC_TO_DSP, cmd=0x3F, len=15, hex=00 01 0C 3F 08 C7 00 ED 02 06 00 82 00 C8 00}] ) + 
+ + compAll= + len ( [] ) + 
+ + limitOut1= + len ( [] ) + 
+ + limitOut2= + len ( [] ) + 
+ + limitOut3= + len ( [] ) + 
+ + limitOut4= + len ( [] ) + 
+ + limitOut5= + len ( [sniff{dir=PC_TO_DSP, cmd=0x3F, len=15, hex=00 01 0C 3F 08 C7 00 ED 02 06 00 82 00 C8 00}] ) + 
+ + limitOut6= + len ( [] ) + 
+ + limitOut7= + len ( [] ) + 
+ + limitOut8= + len ( [] ) + 
+ + compOut1= + len ( [] ) + 
+ + compOut2= + len ( [] ) + 
+ + compOut3= + len ( [] ) + 
+ + compOut4= + len ( [] ) + 
+ + compOut5= + len ( [] ) + 
+ + compOut6= + len ( [] ) + 
+ + compOut7= + len ( [] ) + 
+ + compOut8= + len ( [] ) + 
+ + lastInteresting= + sniff{dir=PC_TO_DSP, cmd=0x3F, len=15, hex=00 01 0C 3F 08 C7 00 ED 02 06 00 82 00 C8 00} + 

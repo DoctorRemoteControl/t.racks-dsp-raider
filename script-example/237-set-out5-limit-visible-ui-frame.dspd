@@ -1,0 +1,31 @@
+let tag = "out5-limit-visible-ui-frame";
+let base = "out/fir/${tag}";
+
+connect();
+attachSession(120000, 250);
+
+print("Writing Out5 Limit with FIR408 GUI-observed 0x0C 3F frame");
+
+// Output Limit / Out5 channel byte 0x08.
+// FIR408 GUI-observed layout:
+// 00 01 0C 3F <out> <attack> <release> <unknown0_or_knee> <threshold> <unknown1>
+//
+// Expected Out5 screenshot:
+// Threshold -25.0dB, Attack 200ms, Release 750ms.
+// If unknown0 is Knee, Knee should become 6dB. Ratio may stay fixed at Limit.
+// unknown1 is kept at 0x00C8 from the offline Track DSP UI capture.
+write("00 01 0C 3F 08 C7 00 ED 02 06 00 82 00 C8 00");
+sleep(150);
+
+saveText("${base}/expected-ui.txt",
+    "Out5 Limit expected:\n"
+    + "  Threshold=-25.0dB\n"
+    + "  Attack=200ms\n"
+    + "  Release=750ms\n"
+    + "  Unknown0/Knee candidate raw=6\n"
+    + "  Unknown1 raw=200\n"
+    + "  Ratio may remain fixed at Limit\n"
+);
+
+print("out5-limit-visible-ui-frame-done");
+print("saved=${base}");

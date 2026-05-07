@@ -1,7 +1,9 @@
 @echo off
 setlocal
 
-set JAR=%~dp0dsp408-proxy-0.1.0-SNAPSHOT-all.jar
+set BASE_DIR=%~dp0
+set JAR=%BASE_DIR%dsp408-proxy-0.1.0-SNAPSHOT-all.jar
+set LOG_DIR=%BASE_DIR%proxy_logs
 set DSP_IP=192.168.0.166
 
 if not exist "%JAR%" (
@@ -11,9 +13,14 @@ if not exist "%JAR%" (
     exit /b 1
 )
 
+if not exist "%LOG_DIR%" (
+    mkdir "%LOG_DIR%"
+)
+
 echo Starting DSP408 Proxy...
 echo JAR      : %JAR%
 echo DSP-IP   : %DSP_IP%
+echo LOG-DIR  : %LOG_DIR%
 echo.
 
 java -jar "%JAR%" ^
@@ -21,7 +28,7 @@ java -jar "%JAR%" ^
   --listen-port 9761 ^
   --target-host %DSP_IP% ^
   --target-port 9761 ^
-  --log-dir proxy_logs ^
+  --log-dir "%LOG_DIR%" ^
   --stream-host 127.0.0.1 ^
   --stream-port 19081 ^
   --control-host 127.0.0.1 ^

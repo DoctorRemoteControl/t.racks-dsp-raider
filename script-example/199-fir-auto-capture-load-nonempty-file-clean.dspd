@@ -1,0 +1,23 @@
+let tag = "fir-load-nonempty-file-clean";
+
+guiConnect();
+
+let cap = guiActionCapture(
+    "Load or assign exactly one non-empty FIR file to exactly one channel in the FIR408 GUI. Do not change any other setting.",
+    90000,
+    2000,
+    20000
+);
+
+let last = lastWriteExcluding(cap, 0x40);
+let recent = recentWritesExcluding(cap, 120, 0x40);
+
+saveText("out/fir/${tag}/capture.txt", cap);
+saveText("out/fir/${tag}/last-write.txt", last);
+saveText("out/fir/${tag}/recent-interesting-writes.txt", recent);
+saveText("out/fir/${tag}/read-block-responses.txt", cap.readBlockResponses);
+saveCaptureReadBlocks(cap, "out/fir/${tag}/read-blocks");
+
+print("fir-load-nonempty-file-capture-done");
+print(last);
+print(recent);

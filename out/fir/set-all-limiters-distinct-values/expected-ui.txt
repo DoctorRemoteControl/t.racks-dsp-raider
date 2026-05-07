@@ -1,0 +1,9 @@
+Expected limiter UI values:
+ + Out1: Threshold +20.0dB, Attack 50ms,  Ratio Limit, Release 500ms,  Knee 0dB
+ + Out2: Threshold +15.0dB, Attack 100ms, Ratio 1:8.0, Release 600ms,  Knee 2dB
+ + Out3: Threshold +10.0dB, Attack 150ms, Ratio 1:5.0, Release 700ms,  Knee 4dB
+ + Out4: Threshold +5.0dB,  Attack 200ms, Ratio 1:3.5, Release 800ms,  Knee 6dB
+ + Out5: Threshold +0.0dB,  Attack 250ms, Ratio 1:2.5, Release 900ms,  Knee 8dB
+ + Out6: Threshold -5.0dB,  Attack 300ms, Ratio 1:1.7, Release 1000ms, Knee 10dB
+ + Out7: Threshold -10.0dB, Attack 350ms, Ratio 1:1.3, Release 1100ms, Knee 11dB
+ + Out8: Threshold -15.0dB, Attack 400ms, Ratio 1:1.0, Release 1200ms, Knee 12dB

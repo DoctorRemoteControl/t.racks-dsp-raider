@@ -1,0 +1,25 @@
+let tag = "fir-cmd56-selector0-fine-sweep";
+let base = "out/fir/${tag}";
+
+connect();
+resetSession();
+ensureSession();
+handshake();
+
+let before = readSaveConfig("${base}/before", 0x00, 0x1F);
+
+let summary = fir408Cmd56ReadonlySweep("${base}/cmd56", 0x00, 0x00, 150, 210, 1);
+saveText("${base}/cmd56-summary.md", summary);
+
+let after = readSaveConfig("${base}/after", 0x00, 0x1F);
+saveDiffReport("${base}/before-after-diff.md", assembledData(before), assembledData(after));
+
+if (assembledData(before) == assembledData(after)) {
+    print("fir-cmd56-selector0-fine-sweep-done");
+    print("Config compare: byte-for-byte match");
+} else {
+    print("fir-cmd56-selector0-fine-sweep-done");
+    print("Config compare: DIFFERENT - inspect ${base}/before-after-diff.md");
+}
+
+print("saved=${base}");

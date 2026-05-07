@@ -1,0 +1,28 @@
+let tag = "out5-comp-visible-ui-frame";
+let base = "out/fir/${tag}";
+
+connect();
+attachSession(120000, 250);
+
+print("Writing Out5 Comp with GUI-observed 0x0C 30 frame");
+
+// Output Comp / Out5 channel byte 0x08.
+// GUI-observed layout:
+// 00 01 0C 30 <out> <ratio> <attack> <release> <knee> <threshold>
+//
+// Expected Out5 screenshot:
+// Threshold -25.0dB, Attack 200ms, Ratio 1:4.0, Release 750ms, Knee 6dB.
+write("00 01 0C 30 08 09 00 C7 00 ED 02 06 00 82 00");
+sleep(150);
+
+saveText("${base}/expected-ui.txt",
+    "Out5 Comp expected:\n"
+    + "  Threshold=-25.0dB\n"
+    + "  Attack=200ms\n"
+    + "  Ratio=1:4.0\n"
+    + "  Release=750ms\n"
+    + "  Knee=6dB\n"
+);
+
+print("out5-comp-visible-ui-frame-done");
+print("saved=${base}");

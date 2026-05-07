@@ -5,11 +5,13 @@ import de.drremote.dsp408.dump.DumpByteReaders;
 import de.drremote.dsp408.dump.DumpDiffUtil;
 import de.drremote.dsp408.model.GuiCaptureResult;
 import de.drremote.dsp408.model.ProxyResponse;
+import de.drremote.dsp408.model.ReadBlockSet;
 import de.drremote.dsp408.model.SniffedFrame;
 import de.drremote.dsp408.proxy.ProxyClient;
 import de.drremote.dsp408.util.DspProtocol;
 import de.drremote.dsp408.util.HexUtil;
 
+import java.util.Arrays;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -66,6 +68,45 @@ final class ScriptFunctions {
                 requireArgs(tokens, 2, "read-block <block>");
                 int block = ScriptValueResolver.toInt(resolver.resolveValue(tokens.get(1)));
                 yield state.requireClient().readBlock(block);
+            }
+            case "read-blocks" -> {
+                if (tokens.size() != 3) {
+                    throw new IllegalArgumentException("Invalid read-blocks syntax. Expected: read-blocks <start> <end>");
+                }
+                int start = ScriptValueResolver.toInt(resolver.resolveValue(tokens.get(1)));
+                int end = ScriptValueResolver.toInt(resolver.resolveValue(tokens.get(2)));
+                yield readBlocks(start, end);
+            }
+            case "read-config-blocks" -> {
+                if (tokens.size() > 3) {
+                    throw new IllegalArgumentException("Invalid read-config-blocks syntax. Expected: read-config-blocks [end] or read-config-blocks <start> <end>");
+                }
+                int start = 0x00;
+                int end = 0x1F;
+                if (tokens.size() == 2) {
+                    end = ScriptValueResolver.toInt(resolver.resolveValue(tokens.get(1)));
+                } else if (tokens.size() == 3) {
+                    start = ScriptValueResolver.toInt(resolver.resolveValue(tokens.get(1)));
+                    end = ScriptValueResolver.toInt(resolver.resolveValue(tokens.get(2)));
+                }
+                yield readBlocks(start, end);
+            }
+            case "read-save-config" -> {
+                if (tokens.size() < 2 || tokens.size() > 4) {
+                    throw new IllegalArgumentException("Invalid read-save-config syntax. Expected: read-save-config <dir> [end] or read-save-config <dir> <start> <end>");
+                }
+                String dir = ScriptValueResolver.stringify(resolver.resolveValue(tokens.get(1)));
+                int start = 0x00;
+                int end = 0x1F;
+                if (tokens.size() == 3) {
+                    end = ScriptValueResolver.toInt(resolver.resolveValue(tokens.get(2)));
+                } else if (tokens.size() == 4) {
+                    start = ScriptValueResolver.toInt(resolver.resolveValue(tokens.get(2)));
+                    end = ScriptValueResolver.toInt(resolver.resolveValue(tokens.get(3)));
+                }
+                ReadBlockSet blocks = readBlocks(start, end);
+                saveReadBlocks(blocks, dir);
+                yield blocks;
             }
             case "read-block-index" -> {
                 requireArgs(tokens, 2, "read-block-index <value>");
@@ -128,6 +169,65 @@ final class ScriptFunctions {
                 byte[] before = ScriptValueResolver.toBytes(evaluateSingle(tokens.get(2)));
                 byte[] after = ScriptValueResolver.toBytes(evaluateSingle(tokens.get(3)));
                 yield saveDiffReport(pathText, before, after);
+            }
+            case "save-read-blocks" -> {
+                requireArgs(tokens, 3, "save-read-blocks <blocks> <dir>");
+                Object blocks = evaluateSingle(tokens.get(1));
+                String dir = ScriptValueResolver.stringify(resolver.resolveValue(tokens.get(2)));
+                yield saveReadBlocks(blocks, dir);
+            }
+            case "assembled-data" -> {
+                requireArgs(tokens, 2, "assembled-data <blocks>");
+                yield assembledData(evaluateSingle(tokens.get(1)));
+            }
+            case "decode-fir408-config" -> {
+                requireArgs(tokens, 2, "decode-fir408-config <blocks>");
+                yield decodeFir408Config(evaluateSingle(tokens.get(1)));
+            }
+            case "fir408-safe-pings" -> {
+                requireArgs(tokens, 2, "fir408-safe-pings <blocks>");
+                yield fir408SafePings(evaluateSingle(tokens.get(1)));
+            }
+            case "fir408-cmd56-readonly-sweep" -> {
+                if (tokens.size() != 2 && tokens.size() != 7) {
+                    throw new IllegalArgumentException(
+                            "Invalid fir408-cmd56-readonly-sweep syntax. Expected: "
+                                    + "fir408-cmd56-readonly-sweep <dir> [selectorStart selectorEnd offsetStart offsetEnd step]"
+                    );
+                }
+                String dir = ScriptValueResolver.stringify(resolver.resolveValue(tokens.get(1)));
+                int selectorStart = tokens.size() == 7 ? ScriptValueResolver.toInt(evaluateSingle(tokens.get(2))) : 0x00;
+                int selectorEnd = tokens.size() == 7 ? ScriptValueResolver.toInt(evaluateSingle(tokens.get(3))) : 0x03;
+                int offsetStart = tokens.size() == 7 ? ScriptValueResolver.toInt(evaluateSingle(tokens.get(4))) : 0;
+                int offsetEnd = tokens.size() == 7 ? ScriptValueResolver.toInt(evaluateSingle(tokens.get(5))) : 511;
+                int step = tokens.size() == 7 ? ScriptValueResolver.toInt(evaluateSingle(tokens.get(6))) : 13;
+                yield fir408Cmd56ReadonlySweep(dir, selectorStart, selectorEnd, offsetStart, offsetEnd, step);
+            }
+            case "fir408-cmd56-readonly-offsets" -> {
+                if (tokens.size() != 4 && tokens.size() != 5) {
+                    throw new IllegalArgumentException(
+                            "Invalid fir408-cmd56-readonly-offsets syntax. Expected: "
+                                    + "fir408-cmd56-readonly-offsets <dir> <selector> <offsets> [attempts]"
+                    );
+                }
+                String dir = ScriptValueResolver.stringify(resolver.resolveValue(tokens.get(1)));
+                int selector = ScriptValueResolver.toInt(evaluateSingle(tokens.get(2)));
+                String offsets = ScriptValueResolver.stringify(evaluateSingle(tokens.get(3)));
+                int attempts = tokens.size() == 5 ? ScriptValueResolver.toInt(evaluateSingle(tokens.get(4))) : 1;
+                yield fir408Cmd56ReadonlyOffsets(dir, selector, offsets, attempts);
+            }
+            case "fir408-upload-test-fir" -> {
+                if (tokens.size() < 3 || tokens.size() > 4) {
+                    throw new IllegalArgumentException(
+                            "Invalid fir408-upload-test-fir syntax. Expected: fir408-upload-test-fir <selector> <pattern> [name8]"
+                    );
+                }
+                int selector = ScriptValueResolver.toInt(evaluateSingle(tokens.get(1)));
+                String pattern = ScriptValueResolver.stringify(evaluateSingle(tokens.get(2)));
+                String name8 = tokens.size() >= 4
+                        ? ScriptValueResolver.stringify(evaluateSingle(tokens.get(3)))
+                        : defaultFirTestName(pattern);
+                yield fir408UploadTestFir(selector, pattern, name8);
             }
             case "pause" -> {
                 String note = tokens.size() >= 2
@@ -521,6 +621,66 @@ final class ScriptFunctions {
                 byte[] after = ScriptValueResolver.toBytes(evaluateExpression(args.get(2)));
                 yield saveDiffReport(pathText, before, after);
             }
+            case "save-read-blocks" -> {
+                requireCallArgCount(name, args, 2);
+                Object blocks = evaluateExpression(args.get(0));
+                String dir = ScriptValueResolver.stringify(evaluateExpression(args.get(1)));
+                yield saveReadBlocks(blocks, dir);
+            }
+            case "assembled-data" -> {
+                requireCallArgCount(name, args, 1);
+                yield assembledData(evaluateExpression(args.get(0)));
+            }
+            case "decode-fir408-config" -> {
+                requireCallArgCount(name, args, 1);
+                yield decodeFir408Config(evaluateExpression(args.get(0)));
+            }
+            case "fir408-safe-pings" -> {
+                requireCallArgCount(name, args, 1);
+                yield fir408SafePings(evaluateExpression(args.get(0)));
+            }
+            case "fir408-cmd56-readonly-sweep" -> {
+                if (args.size() != 1 && args.size() != 6) {
+                    throw new IllegalArgumentException(
+                            "Invalid fir408Cmd56ReadonlySweep syntax. Expected: "
+                                    + "fir408Cmd56ReadonlySweep(dir) or "
+                                    + "fir408Cmd56ReadonlySweep(dir, selectorStart, selectorEnd, offsetStart, offsetEnd, step)"
+                    );
+                }
+                String dir = ScriptValueResolver.stringify(evaluateExpression(args.get(0)));
+                int selectorStart = args.size() == 6 ? ScriptValueResolver.toInt(evaluateExpression(args.get(1))) : 0x00;
+                int selectorEnd = args.size() == 6 ? ScriptValueResolver.toInt(evaluateExpression(args.get(2))) : 0x03;
+                int offsetStart = args.size() == 6 ? ScriptValueResolver.toInt(evaluateExpression(args.get(3))) : 0;
+                int offsetEnd = args.size() == 6 ? ScriptValueResolver.toInt(evaluateExpression(args.get(4))) : 511;
+                int step = args.size() == 6 ? ScriptValueResolver.toInt(evaluateExpression(args.get(5))) : 13;
+                yield fir408Cmd56ReadonlySweep(dir, selectorStart, selectorEnd, offsetStart, offsetEnd, step);
+            }
+            case "fir408-cmd56-readonly-offsets" -> {
+                if (args.size() != 3 && args.size() != 4) {
+                    throw new IllegalArgumentException(
+                            "Invalid fir408Cmd56ReadonlyOffsets syntax. Expected: "
+                                    + "fir408Cmd56ReadonlyOffsets(dir, selector, offsets, [attempts])"
+                    );
+                }
+                String dir = ScriptValueResolver.stringify(evaluateExpression(args.get(0)));
+                int selector = ScriptValueResolver.toInt(evaluateExpression(args.get(1)));
+                String offsets = ScriptValueResolver.stringify(evaluateExpression(args.get(2)));
+                int attempts = args.size() == 4 ? ScriptValueResolver.toInt(evaluateExpression(args.get(3))) : 1;
+                yield fir408Cmd56ReadonlyOffsets(dir, selector, offsets, attempts);
+            }
+            case "fir408-upload-test-fir" -> {
+                if (args.size() < 2 || args.size() > 3) {
+                    throw new IllegalArgumentException(
+                            "Invalid fir408UploadTestFir syntax. Expected: fir408UploadTestFir(selector, pattern, [name8])"
+                    );
+                }
+                int selector = ScriptValueResolver.toInt(evaluateExpression(args.get(0)));
+                String pattern = ScriptValueResolver.stringify(evaluateExpression(args.get(1)));
+                String name8 = args.size() >= 3
+                        ? ScriptValueResolver.stringify(evaluateExpression(args.get(2)))
+                        : defaultFirTestName(pattern);
+                yield fir408UploadTestFir(selector, pattern, name8);
+            }
             case "attach-session" -> {
                 if (args.isEmpty()) {
                     state.requireClient().attachSession();
@@ -582,6 +742,43 @@ final class ScriptFunctions {
                 yield state.requireClient().readBlock(
                         ScriptValueResolver.toInt(evaluateExpression(args.get(0)))
                 );
+            }
+            case "read-blocks" -> {
+                requireCallArgCount(name, args, 2);
+                int start = ScriptValueResolver.toInt(evaluateExpression(args.get(0)));
+                int end = ScriptValueResolver.toInt(evaluateExpression(args.get(1)));
+                yield readBlocks(start, end);
+            }
+            case "read-config-blocks" -> {
+                if (args.size() > 2) {
+                    throw new IllegalArgumentException("Invalid readConfigBlocks syntax. Expected: readConfigBlocks([end]) or readConfigBlocks(start, end)");
+                }
+                int start = 0x00;
+                int end = 0x1F;
+                if (args.size() == 1) {
+                    end = ScriptValueResolver.toInt(evaluateExpression(args.get(0)));
+                } else if (args.size() == 2) {
+                    start = ScriptValueResolver.toInt(evaluateExpression(args.get(0)));
+                    end = ScriptValueResolver.toInt(evaluateExpression(args.get(1)));
+                }
+                yield readBlocks(start, end);
+            }
+            case "read-save-config" -> {
+                if (args.isEmpty() || args.size() > 3) {
+                    throw new IllegalArgumentException("Invalid readSaveConfig syntax. Expected: readSaveConfig(dir, [end]) or readSaveConfig(dir, start, end)");
+                }
+                String dir = ScriptValueResolver.stringify(evaluateExpression(args.get(0)));
+                int start = 0x00;
+                int end = 0x1F;
+                if (args.size() == 2) {
+                    end = ScriptValueResolver.toInt(evaluateExpression(args.get(1)));
+                } else if (args.size() == 3) {
+                    start = ScriptValueResolver.toInt(evaluateExpression(args.get(1)));
+                    end = ScriptValueResolver.toInt(evaluateExpression(args.get(2)));
+                }
+                ReadBlockSet blocks = readBlocks(start, end);
+                saveReadBlocks(blocks, dir);
+                yield blocks;
             }
             case "read-block-index" -> {
                 requireCallArgCount(name, args, 1);
@@ -1165,6 +1362,961 @@ final class ScriptFunctions {
         return path.toAbsolutePath().toString();
     }
 
+    private ReadBlockSet readBlocks(int start, int end) throws Exception {
+        if (start < 0 || start > 0xFF || end < 0 || end > 0xFF) {
+            throw new IllegalArgumentException("Block range must be inside 0x00..0xFF.");
+        }
+        if (end < start) {
+            throw new IllegalArgumentException("Block range end is smaller than start.");
+        }
+
+        ProxyClient client = state.requireClient();
+        List<ProxyResponse> responses = new ArrayList<>();
+        for (int block = start; block <= end; block++) {
+            ProxyResponse response = client.sendPayload(
+                    readBlockPayload(block),
+                    0x24,
+                    true,
+                    "read_config_block_" + String.format("%02X", block)
+            );
+            if (response == null) {
+                throw new IllegalStateException("No response for read block " + String.format("0x%02X", block));
+            }
+            Integer actual = response.readBlockIndex();
+            if (actual == null || actual != (block & 0xFF)) {
+                throw new IllegalStateException(
+                        "Unexpected read block response. Expected "
+                                + String.format("0x%02X", block)
+                                + ", got "
+                                + (actual == null ? "null" : String.format("0x%02X", actual))
+                );
+            }
+            responses.add(response);
+        }
+        return new ReadBlockSet(responses);
+    }
+
+    private static byte[] readBlockPayload(int block) {
+        return new byte[]{0x00, 0x01, 0x02, 0x27, (byte) (block & 0xFF)};
+    }
+
+    private static int saveReadBlocks(Object value, String dirText) throws Exception {
+        List<BlockPayload> blocks = blockPayloadsFrom(value);
+        Path dir = Path.of(dirText);
+        Files.createDirectories(dir.toAbsolutePath());
+
+        List<String> allLines = new ArrayList<>();
+        int saved = 0;
+        for (BlockPayload block : blocks) {
+            Path hexPath = dir.resolve(String.format("block-%02X.hex.txt", block.index()));
+            Path asciiPath = dir.resolve(String.format("block-%02X.ascii.txt", block.index()));
+            String payloadHex = HexUtil.toHex(block.payload());
+            Files.writeString(hexPath, payloadHex, StandardCharsets.UTF_8);
+            Files.writeString(asciiPath, HexUtil.payloadAscii(block.payload()), StandardCharsets.UTF_8);
+            allLines.add(String.format("block-%02X: %s", block.index(), payloadHex));
+            saved++;
+        }
+        Files.writeString(dir.resolve("all-blocks.hex.txt"), String.join(System.lineSeparator(), allLines), StandardCharsets.UTF_8);
+        Files.writeString(dir.resolve("assembled-data.hex.txt"), HexUtil.toHex(assembledDataFromBlocks(blocks)), StandardCharsets.UTF_8);
+        return saved;
+    }
+
+    private static byte[] assembledData(Object value) throws Exception {
+        if (value instanceof ReadBlockSet set) {
+            return set.data();
+        }
+        return assembledDataFromBlocks(blockPayloadsFrom(value));
+    }
+
+    private String fir408SafePings(Object value) throws Exception {
+        byte[] memory = assembledData(value);
+        ProxyClient client = state.requireClient();
+        List<PingSpec> pings = fir408SameValuePings(memory);
+        List<String> lines = new ArrayList<>();
+        lines.add("# FIR408 DSPD Safe Same-Value Pings");
+        lines.add("");
+        lines.add("- Source: current `readSaveConfig`/`ReadBlockSet` memory");
+        lines.add("- Writes: current values only");
+        lines.add("- Skipped deliberately: mute writes, crossover remembered-state writes, and extended dynamics");
+        lines.add("");
+        lines.add("| Test | Payload | Response |");
+        lines.add("| --- | --- | --- |");
+
+        for (PingSpec ping : pings) {
+            ProxyResponse response = client.sendPayload(ping.payload(), 0x01, true, ping.name());
+            lines.add("| " + ping.name() + " | `" + HexUtil.toHex(ping.payload()) + "` | `"
+                    + (response == null ? "null" : response.payloadHex()) + "` |");
+        }
+
+        lines.add("");
+        lines.add("- Total pings: " + pings.size());
+        return String.join(System.lineSeparator(), lines);
+    }
+
+    private static List<PingSpec> fir408SameValuePings(byte[] memory) {
+        requireMemory(memory, 1556);
+        List<PingSpec> out = new ArrayList<>();
+        String[] inputs = {"InA", "InB", "InC", "InD"};
+        String[] outputs = {"Out1", "Out2", "Out3", "Out4", "Out5", "Out6", "Out7", "Out8"};
+
+        for (int i = 0; i < inputs.length; i++) {
+            int base = inputBase(i);
+            int ch = i;
+            out.add(new PingSpec(inputs[i] + "-name-current", channelNamePayload(ch, memory, base)));
+            out.add(new PingSpec(inputs[i] + "-gain-current", payload(0x00, 0x01, 0x04, 0x34, ch, lo(u16(memory, base + 130)), hi(u16(memory, base + 130)))));
+            out.add(new PingSpec(inputs[i] + "-phase-current", payload(0x00, 0x01, 0x03, 0x36, ch, u8(memory, base + 132))));
+            out.add(new PingSpec(inputs[i] + "-delay-current", payload(0x00, 0x01, 0x04, 0x38, ch, lo(u16(memory, base + 134)), hi(u16(memory, base + 134)))));
+            out.add(new PingSpec(inputs[i] + "-gate-current", payload(
+                    0x00, 0x01, 0x0A, 0x3E, ch,
+                    u8(memory, base + 8), u8(memory, base + 9),
+                    u8(memory, base + 10), u8(memory, base + 11),
+                    u8(memory, base + 12), u8(memory, base + 13),
+                    u8(memory, base + 14), u8(memory, base + 15)
+            )));
+            out.add(new PingSpec(inputs[i] + "-peq1-current", inputPeqPayload(ch, memory, base + 64, 0)));
+        }
+
+        for (int i = 0; i < outputs.length; i++) {
+            int base = outputBase(i);
+            int ch = 0x04 + i;
+            out.add(new PingSpec(outputs[i] + "-name-current", channelNamePayload(ch, memory, base)));
+            out.add(new PingSpec(outputs[i] + "-gain-current", payload(0x00, 0x01, 0x04, 0x34, ch, lo(u16(memory, base + 100)), hi(u16(memory, base + 100)))));
+            out.add(new PingSpec(outputs[i] + "-phase-current", payload(0x00, 0x01, 0x03, 0x36, ch, u8(memory, base + 102))));
+            out.add(new PingSpec(outputs[i] + "-delay-current", payload(0x00, 0x01, 0x04, 0x38, ch, lo(u16(memory, base + 104)), hi(u16(memory, base + 104)))));
+            out.add(new PingSpec(outputs[i] + "-matrix-route-current", payload(0x00, 0x01, 0x03, 0x3A, ch, u8(memory, base + 8))));
+            for (int input = 0; input < 4; input++) {
+                int raw = u16(memory, base + 10 + (input * 2));
+                out.add(new PingSpec(outputs[i] + "-matrix-gain-in" + (input + 1) + "-current",
+                        payload(0x00, 0x01, 0x05, 0x41, ch, input, lo(raw), hi(raw))));
+            }
+            out.add(new PingSpec(outputs[i] + "-peq1-current", outputPeqPayload(ch, memory, base + 36, 0)));
+            out.add(new PingSpec(outputs[i] + "-fir-generator-current", payload(
+                    0x00, 0x01, 0x0A, 0x4B, ch,
+                    u8(memory, base + 28), u8(memory, base + 29),
+                    u8(memory, base + 30), u8(memory, base + 31),
+                    u8(memory, base + 32), u8(memory, base + 33),
+                    u8(memory, base + 34), u8(memory, base + 35)
+            )));
+        }
+
+        return List.copyOf(out);
+    }
+
+    private static String decodeFir408Config(Object value) throws Exception {
+        byte[] memory = assembledData(value);
+        requireMemory(memory, 1556);
+        List<String> lines = new ArrayList<>();
+        lines.add("# FIR408 DSPD Static Decode");
+        lines.add("");
+        lines.add("- Assembled data bytes: " + memory.length);
+        lines.add("- Method: DSPD `ReadBlockSet` static decode");
+        lines.add("- No GUI capture required");
+        lines.add("");
+        lines.add("## Inputs");
+        lines.add("");
+        lines.add("| Input | Label | Gain | Phase | Delay | Gate A/R/H/T | PEQ1 |");
+        lines.add("| --- | --- | ---: | ---: | ---: | --- | --- |");
+        for (int i = 0; i < 4; i++) {
+            int base = inputBase(i);
+            int peq = base + 64;
+            lines.add("| In" + (char) ('A' + i)
+                    + " | " + ascii(memory, base, 8)
+                    + " | " + formatDb(gainDb(u16(memory, base + 130)))
+                    + " | " + u16(memory, base + 132)
+                    + " | " + formatMs(u16(memory, base + 134) / 96.0)
+                    + " | " + u16(memory, base + 8) + "/" + u16(memory, base + 10) + "/" + u16(memory, base + 12) + "/" + u16(memory, base + 14)
+                    + " | " + peqSummary(memory, peq)
+                    + " |");
+        }
+
+        lines.add("");
+        lines.add("## Outputs");
+        lines.add("");
+        lines.add("| Output | Label | Gain | Phase | Delay | Matrix | FIR | PEQ1 |");
+        lines.add("| --- | --- | ---: | ---: | ---: | --- | --- | --- |");
+        for (int i = 0; i < 8; i++) {
+            int base = outputBase(i);
+            lines.add("| Out" + (i + 1)
+                    + " | " + ascii(memory, base, 8)
+                    + " | " + formatDb(gainDb(u16(memory, base + 100)))
+                    + " | " + u16(memory, base + 102)
+                    + " | " + formatMs(u16(memory, base + 104) / 96.0)
+                    + " | route=0x" + String.format("%02X", u8(memory, base + 8))
+                    + " gains=" + u16(memory, base + 10) + "/" + u16(memory, base + 12) + "/" + u16(memory, base + 14) + "/" + u16(memory, base + 16)
+                    + " | " + firSummary(memory, base)
+                    + " | " + peqSummary(memory, base + 36)
+                    + " |");
+        }
+
+        lines.add("");
+        lines.add("## Notes");
+        lines.add("");
+        lines.add("- Crossover active/remembered mode bytes are decoded statically but not written by the safe ping suite.");
+        lines.add("- Mute bytes are not decoded here yet; previous mask guesses were intentionally removed.");
+        lines.add("- Compressor/Limiter extended fields are intentionally excluded from the first DSPD safe ping pass.");
+        return String.join(System.lineSeparator(), lines);
+    }
+
+    private String fir408Cmd56ReadonlySweep(String dirText,
+                                            int selectorStart,
+                                            int selectorEnd,
+                                            int offsetStart,
+                                            int offsetEnd,
+                                            int step) throws Exception {
+        if (selectorStart < 0 || selectorStart > 0xFF || selectorEnd < 0 || selectorEnd > 0xFF) {
+            throw new IllegalArgumentException("Selector range must be inside 0x00..0xFF.");
+        }
+        if (offsetStart < 0 || offsetStart > 0xFFFF || offsetEnd < 0 || offsetEnd > 0xFFFF) {
+            throw new IllegalArgumentException("Offset range must be inside 0..65535.");
+        }
+        if (step <= 0) {
+            throw new IllegalArgumentException("Sweep step must be greater than zero.");
+        }
+
+        ProxyClient client = state.requireClient();
+        Path dir = Path.of(dirText);
+        Path responseDir = dir.resolve("responses");
+        Files.createDirectories(responseDir.toAbsolutePath());
+
+        List<Cmd56SweepRow> rows = new ArrayList<>();
+        List<String> csv = new ArrayList<>();
+        csv.add("selector,offset,request_hex,response_hex,payload_len,data_len,non_ff_bytes,non_ff_float_slots,first_float,second_float,class,prefix_hex");
+
+        int selectorStep = selectorStart <= selectorEnd ? 1 : -1;
+        int offsetStep = offsetStart <= offsetEnd ? step : -step;
+
+        for (int selector = selectorStart; ; selector += selectorStep) {
+            for (int offset = offsetStart; ; offset += offsetStep) {
+                byte[] request = payload(0x00, 0x01, 0x04, 0x56, selector, lo(offset), hi(offset));
+                String name = "cmd56_sel" + String.format("%02X", selector) + "_off" + String.format("%04d", offset);
+                ProxyResponse response = null;
+                Exception lastError = null;
+                for (int attempt = 1; attempt <= 3; attempt++) {
+                    try {
+                        response = client.sendPayload(request, 0x56, true, name + "_try" + attempt);
+                        lastError = null;
+                        break;
+                    } catch (Exception e) {
+                        lastError = e;
+                        Thread.sleep(150L * attempt);
+                    }
+                }
+                Cmd56SweepRow row = cmd56SweepRow(selector, offset, request, response);
+                rows.add(row);
+                csv.add(cmd56Csv(row));
+
+                String file = String.format("sel-%02X-off-%04d.hex.txt", selector, offset);
+                Files.writeString(
+                        responseDir.resolve(file),
+                        "request=" + HexUtil.toHex(request) + System.lineSeparator()
+                                + "response=" + row.responseHex() + System.lineSeparator()
+                                + "data_prefix=" + row.prefixHex() + System.lineSeparator()
+                                + "class=" + row.classification() + System.lineSeparator(),
+                        StandardCharsets.UTF_8
+                );
+
+                if (offset == offsetEnd) {
+                    break;
+                }
+                if ((offsetStep > 0 && offset + offsetStep > offsetEnd)
+                        || (offsetStep < 0 && offset + offsetStep < offsetEnd)) {
+                    break;
+                }
+            }
+
+            if (selector == selectorEnd) {
+                break;
+            }
+        }
+
+        String summary = cmd56SweepSummary(rows, selectorStart, selectorEnd, offsetStart, offsetEnd, step);
+        Files.writeString(dir.resolve("summary.md"), summary, StandardCharsets.UTF_8);
+        Files.writeString(dir.resolve("results.csv"), String.join(System.lineSeparator(), csv), StandardCharsets.UTF_8);
+        return summary;
+    }
+
+    private String fir408Cmd56ReadonlyOffsets(String dirText,
+                                              int selector,
+                                              String offsetsText,
+                                              int attempts) throws Exception {
+        if (selector < 0 || selector > 0xFF) {
+            throw new IllegalArgumentException("Selector must be inside 0x00..0xFF.");
+        }
+        if (attempts <= 0 || attempts > 5) {
+            throw new IllegalArgumentException("Attempts must be inside 1..5.");
+        }
+
+        List<Integer> offsets = parseOffsetList(offsetsText);
+        ProxyClient client = state.requireClient();
+        Path dir = Path.of(dirText);
+        Path responseDir = dir.resolve("responses");
+        Files.createDirectories(responseDir.toAbsolutePath());
+
+        List<Cmd56SweepRow> rows = new ArrayList<>();
+        List<String> csv = new ArrayList<>();
+        csv.add("selector,offset,request_hex,response_hex,payload_len,data_len,non_ff_bytes,non_ff_float_slots,first_float,second_float,class,prefix_hex");
+
+        for (int offset : offsets) {
+            byte[] request = payload(0x00, 0x01, 0x04, 0x56, selector, lo(offset), hi(offset));
+            String name = "cmd56_sel" + String.format("%02X", selector) + "_off" + String.format("%04d", offset);
+            ProxyResponse response = null;
+            for (int attempt = 1; attempt <= attempts; attempt++) {
+                try {
+                    response = client.sendPayload(request, 0x56, true, name + "_try" + attempt);
+                    break;
+                } catch (Exception e) {
+                    if (attempt < attempts) {
+                        Thread.sleep(150L * attempt);
+                    }
+                }
+            }
+
+            Cmd56SweepRow row = cmd56SweepRow(selector, offset, request, response);
+            rows.add(row);
+            csv.add(cmd56Csv(row));
+
+            String file = String.format("sel-%02X-off-%04d.hex.txt", selector, offset);
+            Files.writeString(
+                    responseDir.resolve(file),
+                    "request=" + HexUtil.toHex(request) + System.lineSeparator()
+                            + "response=" + row.responseHex() + System.lineSeparator()
+                            + "data_prefix=" + row.prefixHex() + System.lineSeparator()
+                            + "class=" + row.classification() + System.lineSeparator(),
+                    StandardCharsets.UTF_8
+            );
+        }
+
+        String summary = cmd56OffsetsSummary(rows, selector, offsetsText, attempts);
+        Files.writeString(dir.resolve("summary.md"), summary, StandardCharsets.UTF_8);
+        Files.writeString(dir.resolve("results.csv"), String.join(System.lineSeparator(), csv), StandardCharsets.UTF_8);
+        return summary;
+    }
+
+    private String fir408UploadTestFir(int selector, String pattern, String name8) throws Exception {
+        if (selector < 0 || selector > 0xFF) {
+            throw new IllegalArgumentException("Selector must be inside 0x00..0xFF.");
+        }
+        byte[] nameBytes = firNameBytes(name8);
+        float[] coeffs = firTestCoefficients(pattern);
+        ProxyClient client = state.requireClient();
+        List<String> lines = new ArrayList<>();
+        lines.add("# FIR408 External FIR Test Upload");
+        lines.add("");
+        lines.add("- Selector: " + String.format("0x%02X", selector));
+        lines.add("- Pattern: " + pattern);
+        lines.add("- Name: `" + new String(nameBytes, StandardCharsets.US_ASCII) + "`");
+        lines.add("- Taps: " + coeffs.length);
+        lines.add("- Upload encoding: float32 big-endian");
+        lines.add("- Chunk order: 0x2A down to 0x00");
+        lines.add("");
+        lines.add("| Step | Payload | Response |");
+        lines.add("| --- | --- | --- |");
+
+        ProxyResponse start = client.sendPayload(payload(0x00, 0x01, 0x03, 0x4F, selector, 0x00), 0x01, true, "fir408_upload_start");
+        lines.add(uploadRow("transfer-start", payload(0x00, 0x01, 0x03, 0x4F, selector, 0x00), start));
+
+        for (int chunk = 0x2A; chunk >= 0; chunk--) {
+            byte[] chunkPayload = firUploadChunkPayload(selector, chunk, coeffs);
+            ProxyResponse response = client.sendPayload(chunkPayload, 0x01, true, "fir408_upload_chunk_" + String.format("%02X", chunk));
+            lines.add(uploadRow("chunk-" + String.format("%02X", chunk), chunkPayload, response));
+        }
+
+        byte[] namePayload = new byte[13];
+        namePayload[0] = 0x00;
+        namePayload[1] = 0x01;
+        namePayload[2] = 0x0A;
+        namePayload[3] = 0x5B;
+        namePayload[4] = (byte) (selector & 0xFF);
+        System.arraycopy(nameBytes, 0, namePayload, 5, 8);
+        ProxyResponse nameResponse = client.sendPayload(namePayload, 0x01, true, "fir408_upload_name");
+        lines.add(uploadRow("name", namePayload, nameResponse));
+
+        lines.add("");
+        lines.add("- Writes: 45");
+        return String.join(System.lineSeparator(), lines);
+    }
+
+    private static String uploadRow(String name, byte[] request, ProxyResponse response) {
+        return "| " + name
+                + " | `" + HexUtil.toHex(request) + "`"
+                + " | `" + (response == null ? "null" : response.payloadHex()) + "` |";
+    }
+
+    private static byte[] firUploadChunkPayload(int selector, int chunk, float[] coeffs) {
+        int startCoeff = chunk * 12;
+        int remainingCoeffs = Math.max(0, coeffs.length - startCoeff);
+        int coeffCount = Math.min(12, remainingCoeffs);
+        int dataBytes = coeffCount * 4;
+        byte[] out = new byte[8 + dataBytes];
+        out[0] = 0x00;
+        out[1] = 0x01;
+        out[2] = (byte) ((out.length - 3) & 0xFF);
+        out[3] = 0x4E;
+        out[4] = (byte) (selector & 0xFF);
+        out[5] = (byte) (chunk & 0xFF);
+        out[6] = 0x00;
+        out[7] = 0x02;
+        for (int i = 0; i < coeffCount; i++) {
+            int bits = Float.floatToIntBits(coeffs[startCoeff + i]);
+            int offset = 8 + (i * 4);
+            out[offset] = (byte) ((bits >>> 24) & 0xFF);
+            out[offset + 1] = (byte) ((bits >>> 16) & 0xFF);
+            out[offset + 2] = (byte) ((bits >>> 8) & 0xFF);
+            out[offset + 3] = (byte) (bits & 0xFF);
+        }
+        return out;
+    }
+
+    private static float[] firTestCoefficients(String pattern) {
+        String key = pattern == null ? "" : pattern.trim().toLowerCase(Locale.ROOT);
+        float[] coeffs = new float[512];
+        switch (key) {
+            case "first", "impulse-first", "impulse_first" -> coeffs[0] = 1.0f;
+            case "center", "impulse-center", "impulse_center" -> coeffs[255] = 1.0f;
+            case "two-tap", "two_tap", "two-tap-1-05", "two_tap_1_05" -> {
+                coeffs[0] = 1.0f;
+                coeffs[1] = 0.5f;
+            }
+            case "small-ramp", "small_ramp" -> {
+                for (int i = 0; i < coeffs.length; i++) {
+                    coeffs[i] = (i + 1) / 1_000_000.0f;
+                }
+            }
+            case "strong-ramp", "strong_ramp" -> {
+                for (int i = 0; i < coeffs.length; i++) {
+                    coeffs[i] = (i + 1) / 100_000.0f;
+                }
+            }
+            default -> throw new IllegalArgumentException("Unknown FIR test pattern: " + pattern);
+        }
+        return coeffs;
+    }
+
+    private static byte[] firNameBytes(String name8) {
+        String text = name8 == null ? "" : name8;
+        if (text.length() > 8) {
+            text = text.substring(0, 8);
+        }
+        while (text.length() < 8) {
+            text += "_";
+        }
+        byte[] bytes = text.getBytes(StandardCharsets.US_ASCII);
+        if (bytes.length != 8) {
+            throw new IllegalArgumentException("FIR name must be exactly 8 ASCII bytes after padding/truncation.");
+        }
+        return bytes;
+    }
+
+    private static String defaultFirTestName(String pattern) {
+        String key = pattern == null ? "" : pattern.trim().toLowerCase(Locale.ROOT);
+        return switch (key) {
+            case "first", "impulse-first", "impulse_first" -> "imp1st__";
+            case "center", "impulse-center", "impulse_center" -> "ctr_255_";
+            case "two-tap", "two_tap", "two-tap-1-05", "two_tap_1_05" -> "two_tap_";
+            case "small-ramp", "small_ramp" -> "ramp____";
+            case "strong-ramp", "strong_ramp" -> "ramp10x_";
+            default -> "firtest_";
+        };
+    }
+
+    private static Cmd56SweepRow cmd56SweepRow(int selector, int offset, byte[] request, ProxyResponse response) {
+        byte[] responsePayload = response == null ? new byte[0] : response.payload();
+        String responseHex = response == null ? "NO RESPONSE" : response.payloadHex();
+        boolean valid = response != null
+                && responsePayload.length >= 7
+                && DspProtocol.command(responsePayload) != null
+                && DspProtocol.command(responsePayload) == 0x56;
+        byte[] data = valid ? Arrays.copyOfRange(responsePayload, 7, responsePayload.length) : new byte[0];
+
+        int nonFfBytes = countNonFfBytes(data);
+        int nonFfSlots = countNonFfFloatSlots(data);
+        String firstFloat = nonFfBytes == 0 ? "" : float32LeString(data, 0);
+        String secondFloat = nonFfBytes == 0 ? "" : float32LeString(data, 4);
+        String classification;
+        if (response == null) {
+            classification = "no_response";
+        } else if (!valid) {
+            classification = "unexpected_response";
+        } else if (data.length == 0) {
+            classification = "empty_data";
+        } else if (nonFfBytes == 0) {
+            classification = "ff_empty_or_unavailable";
+        } else if (isAllZero(data)) {
+            classification = "zero_filled_data";
+        } else if (nonFfBytes < data.length) {
+            classification = "partial_data";
+        } else {
+            classification = "data";
+        }
+
+        return new Cmd56SweepRow(
+                selector,
+                offset,
+                HexUtil.toHex(request),
+                responseHex,
+                responsePayload.length,
+                data.length,
+                nonFfBytes,
+                nonFfSlots,
+                firstFloat,
+                secondFloat,
+                classification,
+                HexUtil.toHexPreview(data, 20)
+        );
+    }
+
+    private static String cmd56SweepSummary(List<Cmd56SweepRow> rows,
+                                            int selectorStart,
+                                            int selectorEnd,
+                                            int offsetStart,
+                                            int offsetEnd,
+                                            int step) {
+        int dataRows = 0;
+        int zeroRows = 0;
+        int ffRows = 0;
+        int partialRows = 0;
+        int noResponseRows = 0;
+        for (Cmd56SweepRow row : rows) {
+            switch (row.classification()) {
+                case "data" -> dataRows++;
+                case "zero_filled_data" -> zeroRows++;
+                case "ff_empty_or_unavailable" -> ffRows++;
+                case "partial_data" -> partialRows++;
+                case "no_response" -> noResponseRows++;
+                default -> {
+                }
+            }
+        }
+
+        List<String> lines = new ArrayList<>();
+        lines.add("# FIR408 0x56 Read-only Sweep");
+        lines.add("");
+        lines.add("- Read-only probe. No DSP setting write commands are sent.");
+        lines.add("- Selectors: " + String.format("0x%02X..0x%02X", selectorStart, selectorEnd));
+        lines.add("- Offsets: " + offsetStart + ".." + offsetEnd + " step " + step);
+        lines.add("- Requests: " + rows.size());
+        lines.add("- Data rows: " + dataRows + ", zero rows: " + zeroRows
+                + ", partial rows: " + partialRows + ", FF rows: " + ffRows
+                + ", no response rows: " + noResponseRows);
+        lines.add("");
+        lines.add("| Selector | Offset | Bytes | Non-FF bytes | Non-FF slots | Prefix | Float[0] | Float[1] | Class |");
+        lines.add("| ---: | ---: | ---: | ---: | ---: | --- | ---: | ---: | --- |");
+        for (Cmd56SweepRow row : rows) {
+            lines.add("| " + String.format("0x%02X", row.selector())
+                    + " | " + row.offset()
+                    + " | " + row.dataLen()
+                    + " | " + row.nonFfBytes()
+                    + " | " + row.nonFfFloatSlots()
+                    + " | `" + row.prefixHex() + "`"
+                    + " | " + row.firstFloat()
+                    + " | " + row.secondFloat()
+                    + " | " + row.classification()
+                    + " |");
+        }
+        return String.join(System.lineSeparator(), lines);
+    }
+
+    private static String cmd56OffsetsSummary(List<Cmd56SweepRow> rows,
+                                              int selector,
+                                              String offsetsText,
+                                              int attempts) {
+        int dataRows = 0;
+        int zeroRows = 0;
+        int ffRows = 0;
+        int partialRows = 0;
+        int noResponseRows = 0;
+        for (Cmd56SweepRow row : rows) {
+            switch (row.classification()) {
+                case "data" -> dataRows++;
+                case "zero_filled_data" -> zeroRows++;
+                case "ff_empty_or_unavailable" -> ffRows++;
+                case "partial_data" -> partialRows++;
+                case "no_response" -> noResponseRows++;
+                default -> {
+                }
+            }
+        }
+
+        List<String> lines = new ArrayList<>();
+        lines.add("# FIR408 0x56 Read-only Offset Probe");
+        lines.add("");
+        lines.add("- Read-only probe. No DSP setting write commands are sent.");
+        lines.add("- Selector: " + String.format("0x%02X", selector));
+        lines.add("- Offsets: `" + offsetsText + "`");
+        lines.add("- Attempts per offset: " + attempts);
+        lines.add("- Requests: " + rows.size());
+        lines.add("- Data rows: " + dataRows + ", zero rows: " + zeroRows
+                + ", partial rows: " + partialRows + ", FF rows: " + ffRows
+                + ", no response rows: " + noResponseRows);
+        lines.add("");
+        lines.add("| Selector | Offset | Bytes | Non-FF bytes | Non-FF slots | Prefix | Float[0] | Float[1] | Class |");
+        lines.add("| ---: | ---: | ---: | ---: | ---: | --- | ---: | ---: | --- |");
+        for (Cmd56SweepRow row : rows) {
+            lines.add("| " + String.format("0x%02X", row.selector())
+                    + " | " + row.offset()
+                    + " | " + row.dataLen()
+                    + " | " + row.nonFfBytes()
+                    + " | " + row.nonFfFloatSlots()
+                    + " | `" + row.prefixHex() + "`"
+                    + " | " + row.firstFloat()
+                    + " | " + row.secondFloat()
+                    + " | " + row.classification()
+                    + " |");
+        }
+        return String.join(System.lineSeparator(), lines);
+    }
+
+    private static List<Integer> parseOffsetList(String offsetsText) {
+        if (offsetsText == null || offsetsText.trim().isEmpty()) {
+            throw new IllegalArgumentException("Offset list must not be empty.");
+        }
+        String[] parts = offsetsText.trim().split("[,;\\s]+");
+        List<Integer> offsets = new ArrayList<>();
+        for (String part : parts) {
+            if (part.isBlank()) {
+                continue;
+            }
+            int value = Integer.decode(part);
+            if (value < 0 || value > 0xFFFF) {
+                throw new IllegalArgumentException("Offset out of range 0..65535: " + value);
+            }
+            offsets.add(value);
+        }
+        if (offsets.isEmpty()) {
+            throw new IllegalArgumentException("Offset list must contain at least one offset.");
+        }
+        return offsets;
+    }
+
+    private static String cmd56Csv(Cmd56SweepRow row) {
+        return row.selector()
+                + "," + row.offset()
+                + ",\"" + row.requestHex() + "\""
+                + ",\"" + row.responseHex() + "\""
+                + "," + row.payloadLen()
+                + "," + row.dataLen()
+                + "," + row.nonFfBytes()
+                + "," + row.nonFfFloatSlots()
+                + "," + row.firstFloat()
+                + "," + row.secondFloat()
+                + "," + row.classification()
+                + ",\"" + row.prefixHex() + "\"";
+    }
+
+    private static int countNonFfBytes(byte[] data) {
+        int out = 0;
+        for (byte b : data) {
+            if ((b & 0xFF) != 0xFF) {
+                out++;
+            }
+        }
+        return out;
+    }
+
+    private static int countNonFfFloatSlots(byte[] data) {
+        int out = 0;
+        for (int offset = 0; offset <= data.length - 4; offset += 4) {
+            if (!isAllFf(data, offset, 4)) {
+                out++;
+            }
+        }
+        return out;
+    }
+
+    private static boolean isAllZero(byte[] data) {
+        if (data.length == 0) {
+            return false;
+        }
+        for (byte b : data) {
+            if (b != 0) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private static boolean isAllFf(byte[] data, int offset, int length) {
+        if (data.length < offset + length) {
+            return false;
+        }
+        for (int i = 0; i < length; i++) {
+            if ((data[offset + i] & 0xFF) != 0xFF) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private static String float32LeString(byte[] data, int offset) {
+        if (data.length < offset + 4 || isAllFf(data, offset, 4)) {
+            return "";
+        }
+        int bits = (data[offset] & 0xFF)
+                | ((data[offset + 1] & 0xFF) << 8)
+                | ((data[offset + 2] & 0xFF) << 16)
+                | ((data[offset + 3] & 0xFF) << 24);
+        float value = Float.intBitsToFloat(bits);
+        if (Float.isNaN(value) || Float.isInfinite(value)) {
+            return "";
+        }
+        return Float.toString(value);
+    }
+
+    private static byte[] inputPeqPayload(int channel, byte[] memory, int offset, int band) {
+        int gain = u16(memory, offset);
+        int freq = u16(memory, offset + 2);
+        return payload(
+                0x00, 0x01, 0x0A, 0x33,
+                channel, band,
+                lo(gain), hi(gain),
+                lo(freq), hi(freq),
+                u8(memory, offset + 4), u8(memory, offset + 5), 0x00
+        );
+    }
+
+    private static byte[] outputPeqPayload(int channel, byte[] memory, int offset, int band) {
+        int gain = u16(memory, offset);
+        int freq = u16(memory, offset + 2);
+        return payload(
+                0x00, 0x01, 0x0A, 0x33,
+                channel, band,
+                lo(gain), hi(gain),
+                lo(freq), hi(freq),
+                u8(memory, offset + 4), u8(memory, offset + 5), 0x00
+        );
+    }
+
+    private static byte[] channelNamePayload(int channel, byte[] memory, int offset) {
+        byte[] out = new byte[13];
+        out[0] = 0x00;
+        out[1] = 0x01;
+        out[2] = 0x0A;
+        out[3] = 0x3D;
+        out[4] = (byte) (channel & 0xFF);
+        for (int i = 0; i < 8; i++) {
+            out[5 + i] = (byte) u8(memory, offset + i);
+        }
+        return out;
+    }
+
+    private static String peqSummary(byte[] memory, int offset) {
+        return formatFrequency(rawToFrequencyHz(u16(memory, offset + 2)))
+                + " q=" + formatQ(rawToQ(u8(memory, offset + 4)))
+                + " g=" + formatDb(peqGainDb(u16(memory, offset)))
+                + " type=" + peqType(u8(memory, offset + 5));
+    }
+
+    private static String firSummary(byte[] memory, int base) {
+        int type = u8(memory, base + 28);
+        int window = u8(memory, base + 29);
+        int hp = u16(memory, base + 30);
+        int lp = u16(memory, base + 32);
+        int tapsRaw = u16(memory, base + 34);
+        return firType(type)
+                + "/" + firWindow(window)
+                + " hp=" + formatFrequency(rawToFrequencyHz(hp))
+                + " lp=" + formatFrequency(rawToFrequencyHz(lp))
+                + " taps=" + (256 + (tapsRaw * 32));
+    }
+
+    private static int inputBase(int index) {
+        return 16 + (index * 138);
+    }
+
+    private static int outputBase(int index) {
+        return 568 + (index * 108);
+    }
+
+    private static int blockOffset(int block, int payloadOffset) {
+        return (block * 50) + Math.max(0, payloadOffset - 5);
+    }
+
+    private static int u8(byte[] memory, int offset) {
+        if (offset < 0 || offset >= memory.length) {
+            throw new IllegalArgumentException("Offset out of range: " + offset);
+        }
+        return memory[offset] & 0xFF;
+    }
+
+    private static int u16(byte[] memory, int offset) {
+        return u8(memory, offset) | (u8(memory, offset + 1) << 8);
+    }
+
+    private static int lo(int value) {
+        return value & 0xFF;
+    }
+
+    private static int hi(int value) {
+        return (value >>> 8) & 0xFF;
+    }
+
+    private static byte[] payload(int... values) {
+        byte[] out = new byte[values.length];
+        for (int i = 0; i < values.length; i++) {
+            out[i] = (byte) (values[i] & 0xFF);
+        }
+        return out;
+    }
+
+    private static void requireMemory(byte[] memory, int minLength) {
+        if (memory == null || memory.length < minLength) {
+            throw new IllegalArgumentException("Config memory too short. Expected at least "
+                    + minLength + " bytes, got " + (memory == null ? 0 : memory.length));
+        }
+    }
+
+    private static String ascii(byte[] memory, int offset, int length) {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < length; i++) {
+            int b = u8(memory, offset + i);
+            if (b == 0) {
+                continue;
+            }
+            if (b >= 32 && b <= 126) {
+                sb.append((char) b);
+            }
+        }
+        return sb.toString();
+    }
+
+    private static double gainDb(int raw) {
+        if (raw <= 80) {
+            return (raw / 2.0d) - 60.0d;
+        }
+        return (raw / 10.0d) - 28.0d;
+    }
+
+    private static double peqGainDb(int raw) {
+        return (raw / 10.0d) - 12.0d;
+    }
+
+    private static double rawToFrequencyHz(int raw) {
+        return 19.7d * Math.pow(20160.0d / 19.7d, raw / 300.0d);
+    }
+
+    private static double rawToQ(int raw) {
+        return 0.4d * Math.pow(128.0d / 0.4d, raw / 100.0d);
+    }
+
+    private static String formatDb(double value) {
+        return String.format(Locale.ROOT, "%+.1fdB", value);
+    }
+
+    private static String formatMs(double value) {
+        return String.format(Locale.ROOT, "%.2fms", value);
+    }
+
+    private static String formatQ(double value) {
+        return String.format(Locale.ROOT, "%.2f", value);
+    }
+
+    private static String formatFrequency(double hz) {
+        if (hz >= 1000.0d) {
+            return String.format(Locale.ROOT, "%.2fKHz", hz / 1000.0d);
+        }
+        return String.format(Locale.ROOT, "%.1fHz", hz);
+    }
+
+    private static String peqType(int raw) {
+        return switch (raw) {
+            case 0 -> "Peak";
+            case 1 -> "Low Shelf";
+            case 2 -> "High Shelf";
+            case 3 -> "LP -6dB";
+            case 4 -> "LP -12dB";
+            case 5 -> "HP -6dB";
+            case 6 -> "HP -12dB";
+            case 7 -> "Allpass1";
+            case 8 -> "Allpass2";
+            default -> "type#" + raw;
+        };
+    }
+
+    private static String firType(int raw) {
+        return switch (raw) {
+            case 0 -> "BYPASS";
+            case 1 -> "LOW PASS";
+            case 2 -> "HIGH PASS";
+            case 3 -> "BAND PASS";
+            case 4 -> "External FIR";
+            default -> "type#" + raw;
+        };
+    }
+
+    private static String firWindow(int raw) {
+        return switch (raw) {
+            case 3 -> "HAMMING";
+            case 4 -> "BLACKMAN";
+            case 5 -> "SINE";
+            case 6 -> "SINC";
+            case 7 -> "NUTTALL";
+            case 8 -> "KAISER";
+            default -> "window#" + raw;
+        };
+    }
+
+    private static byte[] assembledDataFromBlocks(List<BlockPayload> blocks) {
+        java.io.ByteArrayOutputStream out = new java.io.ByteArrayOutputStream();
+        for (BlockPayload block : blocks) {
+            byte[] payload = block.payload();
+            if (payload.length <= 5) {
+                continue;
+            }
+            out.write(payload, 5, payload.length - 5);
+        }
+        return out.toByteArray();
+    }
+
+    private static List<BlockPayload> blockPayloadsFrom(Object value) throws Exception {
+        if (value instanceof ReadBlockSet set) {
+            return blockPayloadsFrom(set.responses());
+        }
+        if (value instanceof GuiCaptureResult capture) {
+            return blockPayloadsFrom(capture.readBlockResponses());
+        }
+        if (value instanceof List<?> list) {
+            List<BlockPayload> out = new ArrayList<>();
+            for (Object item : list) {
+                BlockPayload block = blockPayloadFrom(item);
+                if (block != null) {
+                    out.add(block);
+                }
+            }
+            return List.copyOf(out);
+        }
+
+        BlockPayload single = blockPayloadFrom(value);
+        if (single != null) {
+            return List.of(single);
+        }
+        throw new IllegalArgumentException("Value is not a read-block response/list/set: " + value);
+    }
+
+    private static BlockPayload blockPayloadFrom(Object value) throws Exception {
+        byte[] payload;
+        if (value instanceof ProxyResponse response) {
+            payload = response.payload();
+        } else if (value instanceof SniffedFrame frame) {
+            payload = frame.payload();
+        } else if (value instanceof byte[] bytes) {
+            payload = bytes;
+        } else if (value instanceof String s) {
+            payload = HexUtil.hexToBytes(s);
+        } else {
+            return null;
+        }
+
+        Integer index = DspProtocol.readBlockIndex(payload);
+        if (index == null) {
+            return null;
+        }
+        Integer command = DspProtocol.command(payload);
+        if (command == null || command != 0x24) {
+            return null;
+        }
+        return new BlockPayload(index, payload);
+    }
+
     private static Integer[] parseCommands(List<String> tokens, int startIndex) {
         List<Integer> out = new ArrayList<>();
         for (int i = startIndex; i < tokens.size(); i++) {
@@ -1525,10 +2677,14 @@ final class ScriptFunctions {
             case "status", "connect", "disconnect", "gui-connect", "gui-disconnect",
                  "reset-session", "ensure-session", "clear-frames", "handshake", "attach-session",
                  "reconnect-session", "pause", "sleep", "save-text", "save-capture-read-blocks", "save-diff-report",
+                 "save-read-blocks",
                  "handshake-init", "device-info", "system-info",
-                 "login", "read-block", "read-block-index", "read-block-payload",
+                 "login", "read-block", "read-blocks", "read-config-blocks", "read-save-config",
+                 "read-block-index", "read-block-payload",
                  "cmd", "payload", "raw", "payload-hex", "payload-ascii",
-                 "diff-bytes", "diff-u16le", "diff-report", "changed-offsets",
+                 "diff-bytes", "diff-u16le", "diff-report", "changed-offsets", "assembled-data",
+                 "decode-fir408-config", "fir408-safe-pings", "fir408-cmd56-readonly-sweep",
+                 "fir408-cmd56-readonly-offsets", "fir408-upload-test-fir",
                  "send-payload", "tx", "write",
                  "gui-capture", "gui-action-capture", "gui-begin-capture", "gui-end-capture",
                  "capture-count", "capture-write-count", "capture-response-count",
@@ -1556,6 +2712,14 @@ final class ScriptFunctions {
         String key = trimmed.toLowerCase(Locale.ROOT);
         return switch (key) {
             case "readblock" -> "read-block";
+            case "readblocks" -> "read-blocks";
+            case "readconfigblocks" -> "read-config-blocks";
+            case "readsaveconfig" -> "read-save-config";
+            case "decodefir408config" -> "decode-fir408-config";
+            case "fir408safepings" -> "fir408-safe-pings";
+            case "fir408cmd56readonlysweep" -> "fir408-cmd56-readonly-sweep";
+            case "fir408cmd56readonlyoffsets" -> "fir408-cmd56-readonly-offsets";
+            case "fir408uploadtestfir" -> "fir408-upload-test-fir";
             case "readblockindex" -> "read-block-index";
             case "readblockpayload" -> "read-block-payload";
             case "guiconnect" -> "gui-connect";
@@ -1579,6 +2743,8 @@ final class ScriptFunctions {
             case "savetext" -> "save-text";
             case "savediffreport" -> "save-diff-report";
             case "savecapturereadblocks" -> "save-capture-read-blocks";
+            case "savereadblocks" -> "save-read-blocks";
+            case "assembleddata" -> "assembled-data";
             case "guicapture" -> "gui-capture";
             case "guiactioncapture" -> "gui-action-capture";
             case "guibegincapture" -> "gui-begin-capture";
@@ -1753,6 +2919,9 @@ final class ScriptFunctions {
         if (value instanceof GuiCaptureResult capture) {
             return capture.toString();
         }
+        if (value instanceof ReadBlockSet blocks) {
+            return blocks.toString();
+        }
         if (value instanceof SniffedFrame frame) {
             return frame.toString();
         }
@@ -1779,5 +2948,41 @@ final class ScriptFunctions {
     }
 
     private record CaptureWindowOptions(String note, long actionWindowMs, long quietMs, long maxWaitMs) {
+    }
+
+    private record BlockPayload(int index, byte[] payload) {
+        private BlockPayload {
+            payload = payload == null ? new byte[0] : payload.clone();
+        }
+
+        @Override
+        public byte[] payload() {
+            return payload.clone();
+        }
+    }
+
+    private record PingSpec(String name, byte[] payload) {
+        private PingSpec {
+            payload = payload == null ? new byte[0] : payload.clone();
+        }
+
+        @Override
+        public byte[] payload() {
+            return payload.clone();
+        }
+    }
+
+    private record Cmd56SweepRow(int selector,
+                                 int offset,
+                                 String requestHex,
+                                 String responseHex,
+                                 int payloadLen,
+                                 int dataLen,
+                                 int nonFfBytes,
+                                 int nonFfFloatSlots,
+                                 String firstFloat,
+                                 String secondFloat,
+                                 String classification,
+                                 String prefixHex) {
     }
 }

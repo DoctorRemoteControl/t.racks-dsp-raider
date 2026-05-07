@@ -1,0 +1,51 @@
+let tag = "fir-probe-cmd56-nonempty-file";
+let base = "out/fir/${tag}";
+
+connect();
+resetSession();
+ensureSession();
+handshake();
+
+let r0000 = write("00 01 04 56 00 00 00", 0x56);
+let r009D = write("00 01 04 56 00 9D 00", 0x56);
+let r013B = write("00 01 04 56 00 3B 01", 0x56);
+let r01D8 = write("00 01 04 56 00 D8 01", 0x56);
+let r0276 = write("00 01 04 56 00 76 02", 0x56);
+let r02C4 = write("00 01 04 56 00 C4 02", 0x56);
+let r0313 = write("00 01 04 56 00 13 03", 0x56);
+let r0362 = write("00 01 04 56 00 62 03", 0x56);
+let r03B1 = write("00 01 04 56 00 B1 03", 0x56);
+let r0400 = write("00 01 04 56 00 00 04", 0x56);
+let r044E = write("00 01 04 56 00 4E 04", 0x56);
+let r049D = write("00 01 04 56 00 9D 04", 0x56);
+
+saveText("${base}/offset-0000.hex.txt", r0000.payloadHex);
+saveText("${base}/offset-009D.hex.txt", r009D.payloadHex);
+saveText("${base}/offset-013B.hex.txt", r013B.payloadHex);
+saveText("${base}/offset-01D8.hex.txt", r01D8.payloadHex);
+saveText("${base}/offset-0276.hex.txt", r0276.payloadHex);
+saveText("${base}/offset-02C4.hex.txt", r02C4.payloadHex);
+saveText("${base}/offset-0313.hex.txt", r0313.payloadHex);
+saveText("${base}/offset-0362.hex.txt", r0362.payloadHex);
+saveText("${base}/offset-03B1.hex.txt", r03B1.payloadHex);
+saveText("${base}/offset-0400.hex.txt", r0400.payloadHex);
+saveText("${base}/offset-044E.hex.txt", r044E.payloadHex);
+saveText("${base}/offset-049D.hex.txt", r049D.payloadHex);
+
+saveText("${base}/summary.txt",
+    "0000=" + r0000.payloadHex + "\n"
+    + "009D=" + r009D.payloadHex + "\n"
+    + "013B=" + r013B.payloadHex + "\n"
+    + "01D8=" + r01D8.payloadHex + "\n"
+    + "0276=" + r0276.payloadHex + "\n"
+    + "02C4=" + r02C4.payloadHex + "\n"
+    + "0313=" + r0313.payloadHex + "\n"
+    + "0362=" + r0362.payloadHex + "\n"
+    + "03B1=" + r03B1.payloadHex + "\n"
+    + "0400=" + r0400.payloadHex + "\n"
+    + "044E=" + r044E.payloadHex + "\n"
+    + "049D=" + r049D.payloadHex + "\n"
+);
+
+print("fir-probe-cmd56-nonempty-file-done");
+print("Saved 0x56 probe responses to ${base}");

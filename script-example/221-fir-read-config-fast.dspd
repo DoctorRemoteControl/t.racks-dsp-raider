@@ -1,0 +1,15 @@
+let tag = "fir-read-config-fast";
+let base = "out/fir/${tag}";
+
+connect();
+resetSession();
+ensureSession();
+handshake();
+
+let blocks = readSaveConfig(base, 0x00, 0x1F);
+
+print("fir-read-config-fast-done");
+print(blocks);
+print("count=${blocks.count}");
+print("dataLen=${blocks.dataLen}");
+print("saved=${base}");

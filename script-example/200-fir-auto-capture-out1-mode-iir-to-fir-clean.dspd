@@ -1,0 +1,23 @@
+let tag = "fir-out1-mode-iir-to-fir-clean";
+
+guiConnect();
+
+let cap = guiActionCapture(
+    "Switch exactly Out1 mode from IIR to FIR in the FIR408 GUI, then stop touching the GUI.",
+    60000,
+    1500,
+    12000
+);
+
+let last = lastWriteExcluding(cap, 0x40);
+let recent = recentWritesExcluding(cap, 120, 0x40);
+
+saveText("out/fir/${tag}/capture.txt", cap);
+saveText("out/fir/${tag}/last-write.txt", last);
+saveText("out/fir/${tag}/recent-interesting-writes.txt", recent);
+saveText("out/fir/${tag}/read-block-responses.txt", cap.readBlockResponses);
+saveCaptureReadBlocks(cap, "out/fir/${tag}/read-blocks");
+
+print("fir-out1-mode-iir-to-fir-capture-done");
+print(last);
+print(recent);

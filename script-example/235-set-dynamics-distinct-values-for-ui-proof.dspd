@@ -1,0 +1,38 @@
+let tag = "dynamics-distinct-values-for-ui-proof";
+let base = "out/fir/${tag}";
+
+connect();
+attachSession(120000, 250);
+
+print("Writing distinct dynamics values for UI screenshot proof");
+print("Targets: Out5 on output dynamics page, InC on input dynamics page");
+
+// Output dynamics / 0x30, Out5 channel byte 0x08.
+// Layout candidate:
+// 00 01 10 30 <channel> <ratio> <attack> <release> <knee> <threshold> <extra0> <extra1>
+//
+// Expected visible Out5 values if the model is correct:
+// threshold -25.0 dB, attack 200 ms, ratio 1:4.0, release 750 ms, knee 6 dB.
+// extra0/extra1 are kept at the observed baseline-ish 0x00AA/0x0023 because they are not visible
+// on the output dynamics screenshot.
+write("00 01 10 30 08 09 00 C7 00 ED 02 06 00 82 00 AA 00 23 00");
+sleep(120);
+
+// Input dynamics / 0x30, InC channel byte 0x02.
+// Same extended 0x30 layout candidate, but the input UI shows extra fields Freq and Type.
+//
+// Expected visible InC values if the model is correct:
+// threshold -12.5 dB, attack 123 ms, ratio 1:2.0, release 876 ms, knee 7 dB,
+// Freq near 2.5 kHz from raw 210, Type changes from Bypass if extra1 is the type selector.
+write("00 01 10 30 02 05 00 7A 00 6B 03 07 00 9B 00 D2 00 01 00");
+sleep(120);
+
+saveText("${base}/expected-ui.txt",
+    "Out5 expected if output 0x30 model is correct:\n"
+    + "  Threshold=-25.0dB, Attack=200ms, Ratio=1:4.0, Release=750ms, Knee=6dB\n"
+    + "InC expected if input 0x30 extended model is correct:\n"
+    + "  Threshold=-12.5dB, Attack=123ms, Ratio=1:2.0, Release=876ms, Knee=7dB, Freq≈2.5kHz, Type raw=1\n"
+);
+
+print("dynamics-distinct-values-for-ui-proof-done");
+print("saved=${base}");

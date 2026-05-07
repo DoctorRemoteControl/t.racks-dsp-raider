@@ -1,0 +1,5 @@
+connect();
+let s = status();
+print(s);
+print(s.sessionActive);
+print(s.injectReady);

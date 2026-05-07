@@ -1,0 +1,55 @@
+let tag = "inc-comp-type-offline-ui-write";
+let base = "out/fir/${tag}";
+
+guiConnect();
+
+let cap = guiActionCapture(
+    "OFFLINE TEST: On the Comp page, change only InC Type once, then release/close the dropdown.",
+    60000,
+    1500,
+    8000
+);
+
+let last = lastWriteExcluding(cap, 0x40);
+let recent = recentWritesExcluding(cap, 0x40, 60);
+
+let compAll = writesByCommand(cap, 0x30);
+let compInA = writesByCommandAndChannel(cap, 0x30, 0x00);
+let compInB = writesByCommandAndChannel(cap, 0x30, 0x01);
+let compInC = writesByCommandAndChannel(cap, 0x30, 0x02);
+let compInD = writesByCommandAndChannel(cap, 0x30, 0x03);
+let compOut5 = writesByCommandAndChannel(cap, 0x30, 0x08);
+
+saveText("${base}/summary.txt",
+    "tag=${tag}\n"
+    + "frames=" + cap.totalFrames + "\n"
+    + "writes=" + cap.writeCount + "\n"
+    + "responses=" + cap.responseCount + "\n"
+    + "compAll=" + len(compAll) + "\n"
+    + "compInA=" + len(compInA) + "\n"
+    + "compInB=" + len(compInB) + "\n"
+    + "compInC=" + len(compInC) + "\n"
+    + "compInD=" + len(compInD) + "\n"
+    + "compOut5=" + len(compOut5) + "\n"
+    + "lastInteresting=" + last + "\n"
+);
+
+saveText("${base}/last-write.txt", last);
+saveText("${base}/recent-interesting-writes.txt", recent);
+saveText("${base}/comp-all-payload-series.txt", payloadSeries(compAll));
+saveText("${base}/comp-all-changing-offsets.txt", changingOffsetsAcrossWrites(compAll));
+saveText("${base}/comp-inc-payload-series.txt", payloadSeries(compInC));
+saveText("${base}/comp-inc-changing-offsets.txt", changingOffsetsAcrossWrites(compInC));
+saveText("${base}/comp-inc-u16-at-5.txt", u16Series(compInC, 5));
+saveText("${base}/comp-inc-u16-at-7.txt", u16Series(compInC, 7));
+saveText("${base}/comp-inc-u16-at-9.txt", u16Series(compInC, 9));
+saveText("${base}/comp-inc-u16-at-11.txt", u16Series(compInC, 11));
+saveText("${base}/comp-inc-u16-at-13.txt", u16Series(compInC, 13));
+saveText("${base}/comp-inc-u16-at-15.txt", u16Series(compInC, 15));
+saveText("${base}/comp-inc-u16-at-17.txt", u16Series(compInC, 17));
+
+print("done");
+print("saved=${base}");
+print(last);
+print("compAll=" + len(compAll));
+print("compInC=" + len(compInC));

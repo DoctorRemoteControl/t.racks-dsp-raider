@@ -1,0 +1,92 @@
+let tag = "out5-limit-offline-ui-write";
+let base = "out/fir/${tag}";
+
+guiConnect();
+
+let cap = guiActionCapture(
+    "OFFLINE TEST: On the Limit page, move only Out5 Threshold once clearly, then release.",
+    60000,
+    1500,
+    8000
+);
+
+let last = lastWriteExcluding(cap, 0x40);
+let recent = recentWritesExcluding(cap, 0x40, 40);
+
+let limitAll = writesByCommand(cap, 0x3F);
+let compAll = writesByCommand(cap, 0x30);
+
+let limitOut1 = writesByCommandAndChannel(cap, 0x3F, 0x04);
+let limitOut2 = writesByCommandAndChannel(cap, 0x3F, 0x05);
+let limitOut3 = writesByCommandAndChannel(cap, 0x3F, 0x06);
+let limitOut4 = writesByCommandAndChannel(cap, 0x3F, 0x07);
+let limitOut5 = writesByCommandAndChannel(cap, 0x3F, 0x08);
+let limitOut6 = writesByCommandAndChannel(cap, 0x3F, 0x09);
+let limitOut7 = writesByCommandAndChannel(cap, 0x3F, 0x0A);
+let limitOut8 = writesByCommandAndChannel(cap, 0x3F, 0x0B);
+
+let compOut1 = writesByCommandAndChannel(cap, 0x30, 0x04);
+let compOut2 = writesByCommandAndChannel(cap, 0x30, 0x05);
+let compOut3 = writesByCommandAndChannel(cap, 0x30, 0x06);
+let compOut4 = writesByCommandAndChannel(cap, 0x30, 0x07);
+let compOut5 = writesByCommandAndChannel(cap, 0x30, 0x08);
+let compOut6 = writesByCommandAndChannel(cap, 0x30, 0x09);
+let compOut7 = writesByCommandAndChannel(cap, 0x30, 0x0A);
+let compOut8 = writesByCommandAndChannel(cap, 0x30, 0x0B);
+
+saveText("${base}/summary.txt",
+    "tag=${tag}\n"
+    + "frames=" + cap.totalFrames + "\n"
+    + "writes=" + cap.writeCount + "\n"
+    + "responses=" + cap.responseCount + "\n"
+    + "limitAll=" + len(limitAll) + "\n"
+    + "compAll=" + len(compAll) + "\n"
+    + "limitOut1=" + len(limitOut1) + "\n"
+    + "limitOut2=" + len(limitOut2) + "\n"
+    + "limitOut3=" + len(limitOut3) + "\n"
+    + "limitOut4=" + len(limitOut4) + "\n"
+    + "limitOut5=" + len(limitOut5) + "\n"
+    + "limitOut6=" + len(limitOut6) + "\n"
+    + "limitOut7=" + len(limitOut7) + "\n"
+    + "limitOut8=" + len(limitOut8) + "\n"
+    + "compOut1=" + len(compOut1) + "\n"
+    + "compOut2=" + len(compOut2) + "\n"
+    + "compOut3=" + len(compOut3) + "\n"
+    + "compOut4=" + len(compOut4) + "\n"
+    + "compOut5=" + len(compOut5) + "\n"
+    + "compOut6=" + len(compOut6) + "\n"
+    + "compOut7=" + len(compOut7) + "\n"
+    + "compOut8=" + len(compOut8) + "\n"
+    + "lastInteresting=" + last + "\n"
+);
+
+saveText("${base}/last-write.txt", last);
+saveText("${base}/recent-interesting-writes.txt", recent);
+
+saveText("${base}/limit-all-payload-series.txt", payloadSeries(limitAll));
+saveText("${base}/limit-all-changing-offsets.txt", changingOffsetsAcrossWrites(limitAll));
+saveText("${base}/comp-all-payload-series.txt", payloadSeries(compAll));
+saveText("${base}/comp-all-changing-offsets.txt", changingOffsetsAcrossWrites(compAll));
+
+saveText("${base}/limit-out5-payload-series.txt", payloadSeries(limitOut5));
+saveText("${base}/limit-out5-changing-offsets.txt", changingOffsetsAcrossWrites(limitOut5));
+saveText("${base}/limit-out5-u16-at-5.txt", u16Series(limitOut5, 5));
+saveText("${base}/limit-out5-u16-at-7.txt", u16Series(limitOut5, 7));
+saveText("${base}/limit-out5-u16-at-9.txt", u16Series(limitOut5, 9));
+saveText("${base}/limit-out5-u16-at-11.txt", u16Series(limitOut5, 11));
+
+saveText("${base}/comp-out5-payload-series.txt", payloadSeries(compOut5));
+saveText("${base}/comp-out5-changing-offsets.txt", changingOffsetsAcrossWrites(compOut5));
+saveText("${base}/comp-out5-u16-at-5.txt", u16Series(compOut5, 5));
+saveText("${base}/comp-out5-u16-at-7.txt", u16Series(compOut5, 7));
+saveText("${base}/comp-out5-u16-at-9.txt", u16Series(compOut5, 9));
+saveText("${base}/comp-out5-u16-at-11.txt", u16Series(compOut5, 11));
+saveText("${base}/comp-out5-u16-at-13.txt", u16Series(compOut5, 13));
+
+print("done");
+print("saved=${base}");
+print(last);
+print("limitAll=" + len(limitAll));
+print("compAll=" + len(compAll));
+print("limitOut5=" + len(limitOut5));
+print("compOut5=" + len(compOut5));

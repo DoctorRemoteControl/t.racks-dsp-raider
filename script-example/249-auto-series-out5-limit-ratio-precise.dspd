@@ -1,0 +1,41 @@
+let tag = "out5-limit-ratio-precise";
+
+guiConnect();
+
+let cap = guiActionCapture(
+    "On the Limit page, change only the Out5 limiter ratio control across several values now.",
+    60000,
+    3000,
+    15000
+);
+
+let series = writesByCommandAndChannel(cap, 0x3F, 0x08);
+let all30 = writesByCommandAndChannel(cap, 0x30, 0x08);
+let last = lastWriteExcluding(cap, 0x40);
+
+saveText("out/fader/${tag}/summary.txt",
+    "tag=${tag}\n"
+    + "frames=" + cap.totalFrames + "\n"
+    + "writes=" + cap.writeCount + "\n"
+    + "responses=" + cap.responseCount + "\n"
+    + "series3fCount=" + len(series) + "\n"
+    + "series30Count=" + len(all30) + "\n"
+    + "lastInteresting=" + last + "\n"
+);
+
+saveText("out/fader/${tag}/last-write.txt", last);
+saveText("out/fader/${tag}/payload-series-3f.txt", payloadSeries(series));
+saveText("out/fader/${tag}/payload-series-30.txt", payloadSeries(all30));
+saveText("out/fader/${tag}/changing-offsets-3f.txt", changingOffsetsAcrossWrites(series));
+saveText("out/fader/${tag}/changing-offsets-30.txt", changingOffsetsAcrossWrites(all30));
+saveText("out/fader/${tag}/u16-at-5.txt", u16Series(series, 5));
+saveText("out/fader/${tag}/u16-at-7.txt", u16Series(series, 7));
+saveText("out/fader/${tag}/u16-at-9.txt", u16Series(series, 9));
+saveText("out/fader/${tag}/u16-at-11.txt", u16Series(series, 11));
+saveText("out/fader/${tag}/u16-at-13.txt", u16Series(series, 13));
+
+print("done");
+print(last);
+print("series3fCount=" + len(series));
+print("series30Count=" + len(all30));
+print(changingOffsetsAcrossWrites(series));

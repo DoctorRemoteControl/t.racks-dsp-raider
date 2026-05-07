@@ -1,0 +1,33 @@
+let base = "out/fir/fir-restore-after-safe-ping-probe";
+
+connect();
+resetSession();
+ensureSession();
+handshake();
+
+write("00 01 04 34 00 18 01", 0x01);
+write("00 01 04 34 01 18 01", 0x01);
+write("00 01 04 34 02 18 01", 0x01);
+write("00 01 04 34 03 18 01", 0x01);
+
+write("00 01 04 38 00 00 00", 0x01);
+write("00 01 04 38 01 00 00", 0x01);
+write("00 01 04 38 02 00 00", 0x01);
+write("00 01 04 38 03 00 00", 0x01);
+
+write("00 01 03 35 00 00", 0x01);
+write("00 01 03 35 01 00", 0x01);
+write("00 01 03 35 02 00", 0x01);
+write("00 01 03 35 03 00", 0x01);
+write("00 01 03 35 04 00", 0x01);
+write("00 01 03 35 05 00", 0x01);
+write("00 01 03 35 06 00", 0x01);
+write("00 01 03 35 07 00", 0x01);
+write("00 01 03 35 08 00", 0x01);
+write("00 01 03 35 09 00", 0x01);
+write("00 01 03 35 0A 00", 0x01);
+write("00 01 03 35 0B 00", 0x01);
+
+let after = readSaveConfig("${base}/after-restore", 0x00, 0x1F);
+print("fir-restore-after-safe-ping-probe-done");
+print(after);

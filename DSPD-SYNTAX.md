@@ -89,6 +89,9 @@ end
 - `system-info`
 - `login`
 - `read-block`
+- `read-blocks`
+- `read-config-blocks`
+- `read-save-config`
 
 Examples:
 
@@ -101,6 +104,19 @@ handshake()
 ```txt
 let b = readBlock(0x00);
 print(b.payloadHex);
+```
+
+```txt
+let blocks = readConfigBlocks(0x00, 0x1F);
+print(blocks.count);
+print(blocks.dataLen);
+```
+
+For a full DSP408/FIR408 config dump plus files:
+
+```txt
+let blocks = readSaveConfig("out/fir/current", 0x00, 0x1F);
+print(blocks);
 ```
 
 ### Write
@@ -121,6 +137,7 @@ write("00 01 02 27 00", 0x24)
 - `save-text / saveText`
 - `save-diff-report / saveDiffReport`
 - `save-capture-read-blocks / saveCaptureReadBlocks`
+- `save-read-blocks / saveReadBlocks`
 
 Examples:
 
@@ -128,6 +145,7 @@ Examples:
 saveText("out/result.txt", "Hello World");
 saveDiffReport("out/diff.txt", before, after);
 saveCaptureReadBlocks(cap, "out/capture-blocks");
+saveReadBlocks(blocks, "out/config-blocks");
 ```
 
 ---
@@ -230,6 +248,43 @@ let cap = guiEndCapture(1500, 12000);
 - `diff-u16le / diffU16le`
 - `diff-report / diffReport`
 - `changed-offsets / changedOffsets`
+- `assembled-data / assembledData`
+
+### FIR408 helpers
+
+- `decode-fir408-config / decodeFir408Config`
+- `fir408-safe-pings / fir408SafePings`
+- `fir408-cmd56-readonly-sweep / fir408Cmd56ReadonlySweep`
+- `fir408-cmd56-readonly-offsets / fir408Cmd56ReadonlyOffsets`
+- `fir408-upload-test-fir / fir408UploadTestFir`
+
+Example:
+
+```txt
+let before = readSaveConfig("out/fir/before", 0x00, 0x1F);
+saveText("out/fir/static-decode.md", decodeFir408Config(before));
+saveText("out/fir/safe-pings.md", fir408SafePings(before));
+let after = readSaveConfig("out/fir/after", 0x00, 0x1F);
+saveDiffReport("out/fir/before-after-diff.md", assembledData(before), assembledData(after));
+```
+
+`fir408SafePings` sends current-value writes only. It intentionally skips mute,
+IIR crossover remembered-state writes, compressor, and limiter fields.
+
+`fir408Cmd56ReadonlySweep(dir)` probes FIR coefficient/readback command `0x56`
+for selectors `0x00..0x03` and offsets `0..511` in 13-float windows. It writes
+`summary.md`, `results.csv`, and per-response hex files under `dir`.
+
+`fir408Cmd56ReadonlyOffsets(dir, selector, offsets, [attempts])` probes only a
+comma/space separated list of offsets, for example
+`fir408Cmd56ReadonlyOffsets("out/fir/probe", 0x00, "0,13,38,39,177", 1)`.
+This is preferred after a broad sweep because missing offsets are recorded as
+`no_response` instead of making the decode run expand into a long scan.
+
+`fir408UploadTestFir(selector, pattern, [name8])` uploads a deterministic
+512-tap External FIR test pattern using the observed `0x4F`, `0x4E`, and `0x5B`
+sequence. Supported patterns: `first`, `center`, `two-tap`, `small-ramp`,
+`strong-ramp`. This changes the selected input FIR slot.
 
 ### Capture helpers
 
@@ -321,6 +376,23 @@ Properties:
 - `payloadAscii`
 - `rawLen`
 - `payloadLen`
+
+### `ReadBlockSet`
+
+Returned by `readBlocks`, `readConfigBlocks`, and `readSaveConfig`.
+
+Properties:
+
+- `responses` / `blocks`
+- `count` / `size` / `len`
+- `isEmpty`
+- `first`
+- `last`
+- `blockIndices`
+- `data`
+- `dataHex`
+- `dataLen`
+- `allBlocksHex`
 
 ### `GuiCaptureResult`
 
@@ -425,7 +497,11 @@ print(diffReport(before, after));
 - `save-text`
 - `save-diff-report`
 - `save-capture-read-blocks`
+- `save-read-blocks`
 - `read-block-payload`
+- `read-blocks`
+- `read-config-blocks`
+- `read-save-config`
 - `last-write-excluding`
 - `writes-by-command`
 - `writes-by-command-and-channel`
@@ -433,3 +509,8 @@ print(diffReport(before, after));
 - `u16-series`
 - `changing-offsets-across-writes`
 - `diff-report`
+- `assembled-data`
+- `decode-fir408-config`
+- `fir408-safe-pings`
+- `fir408-cmd56-readonly-sweep`
+- `fir408-upload-test-fir`

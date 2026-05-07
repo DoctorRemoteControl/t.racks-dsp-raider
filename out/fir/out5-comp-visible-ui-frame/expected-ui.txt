@@ -1,0 +1,6 @@
+Out5 Comp expected:
+ +   Threshold=-25.0dB
+ +   Attack=200ms
+ +   Ratio=1:4.0
+ +   Release=750ms
+ +   Knee=6dB

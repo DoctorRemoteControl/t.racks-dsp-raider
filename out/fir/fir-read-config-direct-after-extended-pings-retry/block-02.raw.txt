@@ -1,0 +1,29 @@
+﻿Verbunden mit 192.168.0.166:9761
+
+TX handshake_init payload: 00 01 01 10
+TX handshake_init frame:   10 02 00 01 01 10 10 03 11
+RX handshake_init frame[0]:    10 02 01 00 02 10 33 10 03 21
+RX handshake_init payload[0]:  01 00 02 10 33
+RX handshake_init ascii[0]:    ....3
+RX handshake_init checksum[0]: OK
+
+TX device_info payload: 00 01 01 13
+TX device_info frame:   10 02 00 01 01 13 10 03 12
+RX device_info frame[0]:    10 02 01 00 0E 13 46 49 52 34 30 38 20 56 30 31 31 33 50 10 03 59
+RX device_info payload[0]:  01 00 0E 13 46 49 52 34 30 38 20 56 30 31 31 33 50
+RX device_info ascii[0]:    ....FIR408 V0113P
+RX device_info checksum[0]: OK
+
+TX system_info payload: 00 01 01 2C
+TX system_info frame:   10 02 00 01 01 2C 10 03 2D
+RX system_info frame[0]:    10 02 01 00 08 2C 00 27 0F 00 00 00 00 10 03 0C
+RX system_info payload[0]:  01 00 08 2C 00 27 0F 00 00 00 00
+RX system_info ascii[0]:    ...,.'.....
+RX system_info checksum[0]: OK
+
+TX custom_payload payload: 00 01 02 27 02
+TX custom_payload frame:   10 02 00 01 02 27 02 10 03 27
+RX custom_payload frame[0]:    10 02 01 00 34 24 02 83 00 23 00 78 00 AA 00 23 00 78 00 D1 00 23 00 78 00 F8 00 23 00 78 00 22 01 23 00 0F 00 31 00 F3 01 00 00 DC 00 10 03 28
+RX custom_payload payload[0]:  01 00 34 24 02 83 00 23 00 78 00 AA 00 23 00 78 00 D1 00 23 00 78 00 F8 00 23 00 78 00 22 01 23 00 0F 00 31 00 F3 01 00 00 DC 00
+RX custom_payload ascii[0]:    ..4$...#.x...#.x...#.x...#.x.".#...1.......
+RX custom_payload checksum[0]: INVALID

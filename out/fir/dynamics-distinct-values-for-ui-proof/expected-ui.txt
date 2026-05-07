@@ -1,0 +1,4 @@
+Out5 expected if output 0x30 model is correct:
+ +   Threshold=-25.0dB, Attack=200ms, Ratio=1:4.0, Release=750ms, Knee=6dB
+ + InC expected if input 0x30 extended model is correct:
+ +   Threshold=-12.5dB, Attack=123ms, Ratio=1:2.0, Release=876ms, Knee=7dB, Freq≈2.5kHz, Type raw=1

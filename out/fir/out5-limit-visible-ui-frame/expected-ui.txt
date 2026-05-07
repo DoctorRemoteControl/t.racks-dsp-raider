@@ -1,0 +1,6 @@
+Out5 Limit expected:
+ +   Threshold=-25.0dB
+ +   Attack=200ms
+ +   Release=750ms
+ +   Unknown/Knee candidate raw=6
+ +   Ratio may remain fixed at Limit

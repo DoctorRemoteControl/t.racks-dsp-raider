@@ -1,0 +1,6 @@
+tag=out5-limit-threshold-precise
+ + frames= + 29 + 
+ + writes= + 29 + 
+ + responses= + 0 + 
+ + seriesCount= + len ( [sniff{dir=PC_TO_DSP, cmd=0x3F, len=15, hex=00 01 0C 3F 08 0F 00 E6 03 B7 0B 00 00 08 00}, sniff{dir=PC_TO_DSP, cmd=0x3F, len=15, hex=00 01 0C 3F 08 0F 00 E6 03 B7 0B 00 00 2E 00}, sniff{dir=PC_TO_DSP, cmd=0x3F, len=15, hex=00 01 0C 3F 08 0F 00 E6 03 B7 0B 00 00 44 00}, sniff{dir=PC_TO_DSP, cmd=0x3F, len=15, hex=00 01 0C 3F 08 0F 00 E6 03 B7 0B 00 00 81 00}, sniff{dir=PC_TO_DSP, cmd=0x3F, len=15, hex=00 01 0C 3F 08 0F 00 E6 03 B7 0B 00 00 AE 00}, sniff{dir=PC_TO_DSP, cmd=0x3F, len=15, hex=00 01 0C 3F 08 0F 00 E6 03 B7 0B 00 00 C5 00}, sniff{dir=PC_TO_DSP, cmd=0x3F, len=15, hex=00 01 0C 3F 08 0F 00 E6 03 B7 0B 00 00 CD 00}, sniff{dir=PC_TO_DSP, cmd=0x3F, len=15, hex=00 01 0C 3F 08 0F 00 E6 03 B7 0B 00 00 DC 00}] ) + 
+ + lastInteresting= + sniff{dir=PC_TO_DSP, cmd=0x3F, len=15, hex=00 01 0C 3F 08 0F 00 E6 03 B7 0B 00 00 DC 00} + 

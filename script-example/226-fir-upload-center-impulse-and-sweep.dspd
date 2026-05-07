@@ -1,0 +1,31 @@
+let tag = "fir-upload-center-impulse-and-sweep";
+let base = "out/fir/${tag}";
+
+connect();
+resetSession();
+ensureSession();
+handshake();
+
+let before = readSaveConfig("${base}/before", 0x00, 0x1F);
+
+let upload = fir408UploadTestFir(0x00, "center", "ctr_255_");
+saveText("${base}/upload-center.md", upload);
+
+let low = fir408Cmd56ReadonlySweep("${base}/cmd56-low", 0x00, 0x00, 0, 60, 1);
+saveText("${base}/cmd56-low-summary.md", low);
+
+let fine = fir408Cmd56ReadonlySweep("${base}/cmd56-fine", 0x00, 0x00, 150, 210, 1);
+saveText("${base}/cmd56-fine-summary.md", fine);
+
+let after = readSaveConfig("${base}/after", 0x00, 0x1F);
+saveDiffReport("${base}/before-after-config-diff.md", assembledData(before), assembledData(after));
+
+if (assembledData(before) == assembledData(after)) {
+    print("fir-upload-center-impulse-and-sweep-done");
+    print("Config compare: byte-for-byte match");
+} else {
+    print("fir-upload-center-impulse-and-sweep-done");
+    print("Config compare: DIFFERENT - inspect ${base}/before-after-config-diff.md");
+}
+
+print("saved=${base}");

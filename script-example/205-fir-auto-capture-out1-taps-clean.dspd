@@ -1,0 +1,23 @@
+let tag = "fir-out1-taps-clean";
+
+guiConnect();
+
+let cap = guiActionCapture(
+    "Change exactly the Out1 FIR Taps dropdown to one different value, then stop touching the GUI.",
+    60000,
+    1500,
+    12000
+);
+
+let last = lastWriteExcluding(cap, 0x40);
+let recent = recentWritesExcluding(cap, 120, 0x40);
+
+saveText("out/fir/${tag}/capture.txt", cap);
+saveText("out/fir/${tag}/last-write.txt", last);
+saveText("out/fir/${tag}/recent-interesting-writes.txt", recent);
+saveText("out/fir/${tag}/read-block-responses.txt", cap.readBlockResponses);
+saveCaptureReadBlocks(cap, "out/fir/${tag}/read-blocks");
+
+print("fir-out1-taps-capture-done");
+print(last);
+print(recent);

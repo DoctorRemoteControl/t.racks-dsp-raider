@@ -1,0 +1,6 @@
+tag=out5-comp-attack-precise
+ + frames= + 190 + 
+ + writes= + 190 + 
+ + responses= + 0 + 
+ + seriesCount= + len ( [] ) + 
+ + lastInteresting= + null + 

@@ -1,0 +1,26 @@
+let tag = "fir-auto-static-decode-and-safe-pings";
+let base = "out/fir/${tag}";
+
+connect();
+resetSession();
+ensureSession();
+handshake();
+
+let before = readSaveConfig("${base}/before", 0x00, 0x1F);
+saveText("${base}/static-decode.md", decodeFir408Config(before));
+
+let pingSummary = fir408SafePings(before);
+saveText("${base}/safe-pings.md", pingSummary);
+
+let after = readSaveConfig("${base}/after", 0x00, 0x1F);
+saveDiffReport("${base}/before-after-diff.md", assembledData(before), assembledData(after));
+
+if (assembledData(before) == assembledData(after)) {
+    print("fir-auto-static-decode-and-safe-pings-done");
+    print("Config compare: byte-for-byte match");
+} else {
+    print("fir-auto-static-decode-and-safe-pings-done");
+    print("Config compare: DIFFERENT - inspect ${base}/before-after-diff.md");
+}
+
+print("saved=${base}");

@@ -1,0 +1,53 @@
+let tag = "out5-distinct-values-for-screenshot";
+let base = "out/fir/${tag}";
+
+connect();
+resetSession();
+ensureSession();
+handshake();
+
+let before = readSaveConfig("${base}/before", 0x00, 0x1F);
+
+print("Writing distinct visible values to Out5 only");
+print("Out5 channel byte = 0x08");
+
+// Out5 output gain: +4.0 dB, do not touch mute.
+write("00 01 04 34 08 40 01");
+sleep(80);
+
+// Out5 PEQ1..PEQ9.
+// Payload: 00 01 0A 33 <ch=08> <band> <gain_u16le> <freq_u16le> <q_raw> 00 <type>
+// Gain raw = dB*10 + 120. Type raw 0..8 follows the GUI type list.
+write("00 01 0A 33 08 00 5A 00 0A 00 0A 00 00"); // PEQ1  -3.0dB, raw freq 10, q raw 10, Peak
+sleep(80);
+write("00 01 0A 33 08 01 69 00 2D 00 14 00 01"); // PEQ2  -1.5dB, raw freq 45, q raw 20, Low Shelf
+sleep(80);
+write("00 01 0A 33 08 02 78 00 50 00 1E 00 02"); // PEQ3  +0.0dB, raw freq 80, q raw 30, High Shelf
+sleep(80);
+write("00 01 0A 33 08 03 87 00 73 00 28 00 03"); // PEQ4  +1.5dB, raw freq 115, q raw 40, LP -6dB
+sleep(80);
+write("00 01 0A 33 08 04 96 00 96 00 32 00 04"); // PEQ5  +3.0dB, raw freq 150, q raw 50, LP -12dB
+sleep(80);
+write("00 01 0A 33 08 05 A5 00 B9 00 3C 00 05"); // PEQ6  +4.5dB, raw freq 185, q raw 60, HP -6dB
+sleep(80);
+write("00 01 0A 33 08 06 B4 00 DC 00 46 00 06"); // PEQ7  +6.0dB, raw freq 220, q raw 70, HP -12dB
+sleep(80);
+write("00 01 0A 33 08 07 C3 00 FF 00 50 00 07"); // PEQ8  +7.5dB, raw freq 255, q raw 80, Allpass1
+sleep(80);
+write("00 01 0A 33 08 08 D2 00 22 01 5A 00 08"); // PEQ9  +9.0dB, raw freq 290, q raw 90, Allpass2
+sleep(80);
+
+// Out5 IIR crossover: make both sides active and visually distinct.
+// HighPass command 0x32, LowPass command 0x31. Mode 0x00 means bypass ON;
+// non-zero values select the visible slope/family enum.
+write("00 01 05 32 08 50 00 05"); // HP raw freq 80, LR -12
+sleep(80);
+write("00 01 05 31 08 F0 00 0F"); // LP raw freq 240, LR -36
+sleep(80);
+
+let after = readSaveConfig("${base}/after", 0x00, 0x1F);
+saveText("${base}/after-static-decode.md", decodeFir408Config(after));
+saveDiffReport("${base}/before-after-config-diff.md", assembledData(before), assembledData(after));
+
+print("out5-distinct-values-for-screenshot-done");
+print("saved=${base}");

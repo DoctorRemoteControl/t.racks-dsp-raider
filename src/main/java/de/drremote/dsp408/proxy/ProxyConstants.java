@@ -17,7 +17,7 @@ public final class ProxyConstants {
     public static final int CONTROL_TX_LEASE_MS = 7000;
 
     public static final int BLOCK_START = 0x00;
-    public static final int BLOCK_END = 0x1C;
+    public static final int BLOCK_END = 0x1F;
 
     private ProxyConstants() {
     }

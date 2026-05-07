@@ -1,0 +1,9 @@
+tag=out5-limit-attack-fixed-window
+ + frames= + 112 + 
+ + writes= + 112 + 
+ + responses= + 0 + 
+ + limitAll= + len ( [] ) + 
+ + limitOut5= + len ( [] ) + 
+ + compAll= + len ( [] ) + 
+ + compOut5= + len ( [] ) + 
+ + lastInteresting= + null + 

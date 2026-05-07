@@ -1,0 +1,4 @@
+request=00 01 04 56 00 C5 00
+response=NO RESPONSE
+data_prefix=
+class=no_response

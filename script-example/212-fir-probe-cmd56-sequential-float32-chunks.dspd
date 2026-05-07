@@ -1,0 +1,63 @@
+let tag = "fir-probe-cmd56-sequential-float32-chunks";
+let base = "out/fir/${tag}";
+
+connect();
+resetSession();
+ensureSession();
+handshake();
+
+let r000 = write("00 01 04 56 00 00 00", 0x56);
+let r013 = write("00 01 04 56 00 0D 00", 0x56);
+let r026 = write("00 01 04 56 00 1A 00", 0x56);
+let r039 = write("00 01 04 56 00 27 00", 0x56);
+let r052 = write("00 01 04 56 00 34 00", 0x56);
+let r065 = write("00 01 04 56 00 41 00", 0x56);
+let r078 = write("00 01 04 56 00 4E 00", 0x56);
+let r091 = write("00 01 04 56 00 5B 00", 0x56);
+let r104 = write("00 01 04 56 00 68 00", 0x56);
+let r117 = write("00 01 04 56 00 75 00", 0x56);
+let r130 = write("00 01 04 56 00 82 00", 0x56);
+let r143 = write("00 01 04 56 00 8F 00", 0x56);
+let r156 = write("00 01 04 56 00 9C 00", 0x56);
+let r169 = write("00 01 04 56 00 A9 00", 0x56);
+let r182 = write("00 01 04 56 00 B6 00", 0x56);
+let r195 = write("00 01 04 56 00 C3 00", 0x56);
+
+saveText("${base}/offset-000.hex.txt", r000.payloadHex);
+saveText("${base}/offset-013.hex.txt", r013.payloadHex);
+saveText("${base}/offset-026.hex.txt", r026.payloadHex);
+saveText("${base}/offset-039.hex.txt", r039.payloadHex);
+saveText("${base}/offset-052.hex.txt", r052.payloadHex);
+saveText("${base}/offset-065.hex.txt", r065.payloadHex);
+saveText("${base}/offset-078.hex.txt", r078.payloadHex);
+saveText("${base}/offset-091.hex.txt", r091.payloadHex);
+saveText("${base}/offset-104.hex.txt", r104.payloadHex);
+saveText("${base}/offset-117.hex.txt", r117.payloadHex);
+saveText("${base}/offset-130.hex.txt", r130.payloadHex);
+saveText("${base}/offset-143.hex.txt", r143.payloadHex);
+saveText("${base}/offset-156.hex.txt", r156.payloadHex);
+saveText("${base}/offset-169.hex.txt", r169.payloadHex);
+saveText("${base}/offset-182.hex.txt", r182.payloadHex);
+saveText("${base}/offset-195.hex.txt", r195.payloadHex);
+
+saveText("${base}/summary.txt",
+    "000=" + r000.payloadHex + "\n"
+    + "013=" + r013.payloadHex + "\n"
+    + "026=" + r026.payloadHex + "\n"
+    + "039=" + r039.payloadHex + "\n"
+    + "052=" + r052.payloadHex + "\n"
+    + "065=" + r065.payloadHex + "\n"
+    + "078=" + r078.payloadHex + "\n"
+    + "091=" + r091.payloadHex + "\n"
+    + "104=" + r104.payloadHex + "\n"
+    + "117=" + r117.payloadHex + "\n"
+    + "130=" + r130.payloadHex + "\n"
+    + "143=" + r143.payloadHex + "\n"
+    + "156=" + r156.payloadHex + "\n"
+    + "169=" + r169.payloadHex + "\n"
+    + "182=" + r182.payloadHex + "\n"
+    + "195=" + r195.payloadHex + "\n"
+);
+
+print("fir-probe-cmd56-sequential-float32-chunks-done");
+print("Saved sequential 0x56 offset probes to ${base}");

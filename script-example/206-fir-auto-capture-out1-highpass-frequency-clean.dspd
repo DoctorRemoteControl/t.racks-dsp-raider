@@ -1,0 +1,23 @@
+let tag = "fir-out1-highpass-frequency-clean";
+
+guiConnect();
+
+let cap = guiActionCapture(
+    "Move exactly the Out1 FIR HighPass fader one small step, then stop touching the GUI.",
+    60000,
+    1500,
+    12000
+);
+
+let last = lastWriteExcluding(cap, 0x40);
+let recent = recentWritesExcluding(cap, 120, 0x40);
+
+saveText("out/fir/${tag}/capture.txt", cap);
+saveText("out/fir/${tag}/last-write.txt", last);
+saveText("out/fir/${tag}/recent-interesting-writes.txt", recent);
+saveText("out/fir/${tag}/read-block-responses.txt", cap.readBlockResponses);
+saveCaptureReadBlocks(cap, "out/fir/${tag}/read-blocks");
+
+print("fir-out1-highpass-frequency-capture-done");
+print(last);
+print(recent);
